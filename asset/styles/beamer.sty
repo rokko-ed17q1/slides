@@ -1,0 +1,46 @@
+\usetheme{Boadilla}
+
+\renewcommand{\familydefault}{\sfdefault}  
+\usefonttheme{structurebold} 
+\setbeamerfont{alerted text}{series=\bfseries} 
+\setbeamerfont{section in toc}{series=\mdseries} 
+\setbeamerfont{frametitle}{size=\Large} 
+\setbeamerfont{title}{size=\LARGE} 
+\setbeamerfont{date}{size=\small}  
+
+\definecolor{UniBlue}{RGB}{0,150,200} 
+\definecolor{AlertOrange}{RGB}{255,76,0}
+\definecolor{AlmostBlack}{RGB}{38,38,38}
+\setbeamercolor{normal text}{fg=AlmostBlack}  
+\setbeamercolor{structure}{fg=UniBlue} 
+\setbeamercolor{block title}{fg=UniBlue!50!black} 
+\setbeamercolor{alerted text}{fg=AlertOrange} 
+\mode<beamer>{
+    \definecolor{BackGroundGray}{RGB}{254,254,254}
+    \setbeamercolor{background canvas}{bg=BackGroundGray} 
+}
+
+\setbeamertemplate{blocks}[rounded] 
+\useinnertheme{circles} 
+\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{footline}[frame number] 
+
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+
+\usepackage{bbm}
+\newcommand{\1}{\mathbbm{1}}
+
+\setbeamercovered{transparent=10} 
+
+\setlength{\parskip}{\baselineskip}
