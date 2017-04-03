@@ -1,37 +1,50 @@
 ---
-title: ガイダンス資料
-subtitle: 経済動学 (2017Q1)
+title: "ガイダンス資料"
 author: "佐藤 健治"
-date: "2017-04-10"
+date: '2017-04-10'
 output:
+  xaringan::moon_reader:
+    css: ../asset/remark-css/style.css
+    lib_dir: libs
+    nature:
+      countIncrementalSlides: no
+      highlightLines: yes
+      highlightStyle: github
   beamer_presentation:
-    template: null
     includes:
       in_header:
-        - ../asset/styles/luatexja.sty
-        - ../asset/styles/beamer.sty
+      - ../asset/styles/luatexja.sty
+      - ../asset/styles/beamer.sty
+    keep_tex: yes
     latex_engine: lualatex
-  slidy_presentation: default
+    template: null
+subtitle: 経済動学 (2017Q1)
 ---
 
 ```{r setup, include=FALSE}
+source("../R/utils.R")
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Mechanics
+`r section("Mechanics")`
+
+---
 
 ## 講義概要
 
 - 担当教員
     - 佐藤健治 Kenji Sato
     - Email: mail@kenjisato.jp
-    - GitHub: kenjisato
+    - GitHub: [kenjisato](https://github.com/kenjisato)
 - 時間・教室
     - 月曜 4限 (15:10 -- 16:40) @I332
     - 木曜 4限 (15:10 -- 16:40) @I332
 - 講義計画
     - 講義 15回
     - 期末試験なし
+
+
+---
 
 ## テーマと目標
 
@@ -42,63 +55,83 @@ knitr::opts_chunk$set(echo = FALSE)
 この講義は，DSGEモデル，マクロ実証，非線形経済動学等の学習に進む上で基礎的な知識と技術を獲得するのに役立ちます。
 
 
-## FAQ (その1)
+---
 
-- この講義ではどのようなモデルを扱いますか？
-    - 線形合理的期待モデルと呼ばれるクラスのモデルを扱います。
-      ただし，具体的な経済現象を説明するためにそのようなモデルを使いません。
-      多くのモデルに共通する一般構造のみを仮定して数値手法の理論と実装を学びます。
-- Dynareを使えばマクロモデルのシミュレーションはできるのだから，
-  基礎を詳しく知る必要はないのでは？
-    - 研究というのは誰かが作った道具を使う以上のことが要求されるもの
-      ではないでしょうか。深く学びましょう。
+## Q&A
+
+**この講義ではどのようなモデルを扱いますか？**
+
+線形合理的期待モデルと呼ばれるクラスのモデルを扱います。
+ただし，具体的な経済現象を説明するためにそのようなモデルを使いません。     多くのモデルに共通する一般構造のみを仮定して数値手法の理論と実装を学びます。
       
-## FAQ (その2)
+---
 
-- ほとんどの経済モデルは非線形なので，線形より非線形を学びたいのですが？
-    - 線形モデルが分からないまま非線形が理解できるというのは考えにくいです。
-      何故かと言うと，非線形モデルの主な分析ツールは関数解析学であり，
-      それは無限次元の線形空間上の写像に関する性質を調べる学問だからです。
-      有限次元の線形空間を舞台にした線形モデルをきちんと理解していないと，
-      非線形モデルの理解は難しいのです。
+## Q&A
 
+**Dynareを使えばマクロモデルのシミュレーションはできるのだから，基礎を詳しく知る必要はないのでは？**
+
+研究というのは誰かが作った道具を使う以上のことが要求されるものではないでしょうか。深く学びましょう。
+
+
+---
+
+## Q&A
+
+**ほんどの経済モデルは非線形なので，線形より非線形を学びたいのですが？**
+
+線形モデルが分からないまま非線形が理解できるというのは考えにくいです。
+
+非線形モデルの主な分析ツールは関数解析学や微分幾何学であり，高度な数学が要求されます。
+有限次元の線形空間を舞台にした線形モデルをきちんと理解していないと，
+非線形モデルの理解は難しいのです。
+
+
+---
 
 ## 講義ノート（lecture notes）
 
-講義は講義ノートに沿って進めます https://kenjisato.github.io/led/  
+講義は講義ノート http://led.kenjisato.jp に沿って進めます。
 特定の教科書を購入する必要はありません。
 
 この講義ノートは完成品（仮にそういうものがあればという話ですが）ではないので，
 コメントを歓迎します。後で述べるように，講義ノートへのコメントは評価の対象になります。
 
+---
 
 ## 評価（assessment）
 
-- 宿題と授業への積極的な参加を評価します。
 - 宿題
-    - 10〜15回
-    - 講義で扱う内容を簡略化したもので，1〜2時間で解けるはずのものを出題
-    - 短いレポートおよびコーディング問題
-    - すべて R, RStudio, RMarkdown (+ LaTeX) で書いて GitHub 経由で提出する
+    - 講義で扱う内容を簡略化したもので，1〜2時間で解ける短いレポートおよびコーディング問題（7回程度）
+    - 最終レポート（Rパッケージ作成）
+    - R, RStudio, RMarkdown (+ LaTeX) で書いて GitHub 経由で提出
 - 積極的な参加
-    - 講義中やチャットルームでの質問や
+    - 講義中やチャットルームでの質問や議論への参加
     - 講義ノートの誤りや記述の不明瞭な点を指摘するなどの建設的なコメントを評価します
 
-## サポート（support）
+---
 
-- Slack チーム
-    - https://rokkoecon-slack-invite.herokuapp.com/
-    - **GitHub** アカウントと同じアカウント名を設定してください！
-    - 学習サポートのための Slack チームを開設しています。
-      プライバシーに関わる質問でないかぎりこちらでお願いします。
-    - 質問は日本語か英語で
-- TA
-    - 松井 暉 Akira Matsui
-    - GitHub: akira55
+## サポート体制（support）
 
 数学やコンピュータに自信のない人もぜひ続けて参加してください。
-練習問題を通して，一揃いの技術を伝授します。
+練習問題と議論を通して，一揃いの技術を伝授します。議論の場として Slack チームを作っています。
 
+
+Join our Slack team here: https://rokkoecon-slack-invite.herokuapp.com/  
+Use the same account id as GitHub! 
+
+質問は日本語か英語で（**We welcome discussions in English**）
+
+---
+
+## サポート体制（support）
+
+TA: 松井 暉 Akira Matsui ([akira55](https://github.com/akira55))
+
+- Skills: Python, C/C++, Fortran, R; MPI
+
+R 以外の言語で相談がある場合にも対応できます（たぶん）
+
+---
 
 ## Special Supports for International Students
 
@@ -106,41 +139,591 @@ knitr::opts_chunk$set(echo = FALSE)
   translated into Japanese) and you can write solutions in English. 
 - You can ask questions in English on Slack.
 - I haven't translated my lecture notes into English, but if some of you 
-  can help, I will do that.
+  could help me, I will do that with you.
   
 
-# Computer Skills
+---
+
+`r section("Computer Skills")`
+
+---
 
 ## R
 
 すでに述べた通り，この講義では主なプログラミング言語として R を用います。
 
-経済動学のシミュレーションにとって R が特別優れているという訳ではありません。むしろ性能面では望ましくないかもしれません。しかし，R は今や Python と並んで人気のある言語であり，統計分析を専門とする人が大きなコミュニティを形成しているので，今後実証研究を行う可能性がある学生にとって学んで損のない技術でしょう。
+経済動学のシミュレーションにとって R が特別優れているという訳ではありません。むしろ性能面では望ましくないかもしれません。しかし，R は Python と並んで人気のある言語であり，統計分析を専門とする人が大きなコミュニティを形成しているので，今後実証研究に進む可能性がある学生にとって学んで損のない技術でしょう。（今は純粋な理論研究者には行きづらい世の中です）
 
 この講義では統計分析を行いませんが，それでもなお R が役に立つということをお見せしたいと思います。
 
+---
+
+## Resources on R
+
+For all: 
+
+- [_R for Data Science_ by G. Grolemund and H. Wickham](http://r4ds.had.co.nz)
+- [_Efficient R programming_ by C. Gillespie and R. Lovelace](https://csgillespie.github.io/efficientR/)
+- [_R Packages_ by H. Wickham](http://r-pkgs.had.co.nz)
+
+For advanced users: 
+
+- [_Advanced R_ by H. Wickham](http://adv-r.had.co.nz)
+
+For whom can read Chinese (I wish I could read this):
+
+- [_R语言忍者秘笈_ by 谢益辉, 肖楠, 坑主三 and 坑主四](https://bookdown.org/yihui/r-ninja/)
+
+
+---
 
 ## Rmarkdown
 
-この講義では，宿題として簡単な（2ページ程度の）ノートを書いてもらう課題をいくつか出しますが，すべて Rmarkdown という形式で書いていただきます。文書の中に R コードを書けば，その出力が文書中に埋め込まれます。数値計算とレポート作成を一箇所で実行できるので，コピー＆ペーストに起因する更新し忘れの問題を減らすことができます。
+この講義では，宿題として簡単な（2ページ程度の）ノートを書いてもらう課題をいくつか出します。それらをすべて Rmarkdown という形式で書いていただきます。
 
-Rmarkdown は非常に簡潔な書式で書くことができ，pandoc という外部アプリケーションを通して HTML，MS Word，LaTeX，そして（LaTeX を介して）PDF 形式の文書として出力することができます。この講義で配布する資料，スライドはすべて Rmarkdown 形式で書かれ， pandoc と LaTeX で変換されたものです。
+文書の中に R コードを書けば，その出力が文書中に埋め込まれるので，数値計算とレポート作成を一箇所で実行できます。コピー＆ペーストに起因する**「図を更新し忘れた！」**といったよくある問題を減らすことができます。
 
-課題を通して，美しい文章・スライドを作る方法を身につけてください。
+"Reproducible research" を 実現するツールとして，Rmarkdown は Jupyter Notebook と並んで人気があります。
+
+---
+
+## Rmarkdown (cont'd)
+
+Rmarkdown は非常に簡潔な書式で書くことができ pandoc という外部アプリケーションを通して HTML，MS Word，LaTeX，そして（LaTeX を介して）PDF 形式の文書として出力することができます。この講義で配布する資料，スライドはすべて Rmarkdown 形式で書かれています。
+
+（このスライドは `knitr` で生成した Markdown ファイルを remark.js でスライドとして表示しています。面倒なことは `xaringan` という R パッケージがやってくれます）
+
+
+---
+
+class: middle, center
+
+```{r}
+knitr::include_graphics("images/rmarkdown.png")
+```
+
+---
+
+## Resources on Rmarkdown
+
+- [R Markdown](http://rmarkdown.rstudio.com)
+- [_bookdown_ by Yihui Xie](https://bookdown.org/yihui/bookdown/)
+
+---
 
 ## Git + GitHub
 
-Git というソースコードの履歴を記録するアプリケーションがあります。大規模な開発を複数人で行うときに非常に役に立つ（らしい）のですが，これは1人あるいは数人で論文を書くときにも役に立ちます。この講義では，GitHub という Git をベースにしたオンラインのソースコード共有サービスを利用して，課題の配布と提出を行います。
+Git というソースコードの履歴を記録するアプリケーションがあります。大規模な開発を複数人で行うときに非常に役に立つのですが，これは1人あるいは数人で論文を書くときにも役に立ちます。
 
-GitHub や類似のサービスを通して論文のコードやデータを配布する経済学者も増えていますので，使い方を今のうちに身につけておくと良いでしょう。
+この講義では，GitHub という Git をベースにしたオンラインのソースコード共有サービスを利用して，課題の配布と提出を行います。
 
-GitHub アカウントを持っていない人は必ず作成してください。今後何年間か使い続けるつもりでアカウント名を付けることを推奨します。
+---
+
+## Git + GitHub (cont'd)
+
+GitHub や類似のサービスを通して論文で使われたコードやデータを配布する経済学者も増えています。使い方を今のうちに身につけておくと良いでしょう。
+
+**GitHub アカウントを持っていない人は必ず作成してください**。今後何年間か使い続けるつもりで（本名に関連した）アカウント名を付けることを推奨します。
+
+---
+
+class: middle, center
+
+```{r}
+knitr::include_graphics("images/github.png")
+```
+
+---
+
+## Resources on Git and GitHub
+
+- [GitHub Guides](https://guides.github.com)
+- [_Happy Git and GitHub for the useR_ by Jenny Bryan and the STAT 545 TAs](http://happygitwithr.com) 
+- [Git Tutorials and Training](https://www.atlassian.com/git/tutorials)
+
+---
 
 ## Slack 
 
-学習サポートには Slack を使います。Slack はプログラマの間で人気のあるチャットツールです。メールに比べてコードの共有が容易ですし，質問や回答を受講生全員が見ることができるので，デリケートな質問以外はすべてこちらでお願いします。
+学習サポートには Slack を使います。Slack はプログラマの間で人気のあるチャットツールです。メールに比べてコードの共有が容易ですし，質問や回答を受講生全員が見ることができるので，同じ質問に何度も答えるという利点があります。
 
-登録には https://rokkoecon-slack-invite.herokuapp.com/ から招待リンクを受け取ってください。なお，質問や他の受講生の質問に対する回答を活発に行っている学生にはよい評点を付けますので，**GitHub と同じアカウント名で登録してください**。
+デリケートな質問以外はすべてこちらでお願いします。
+
+登録には https://rokkoecon-slack-invite.herokuapp.com/ から招待リンクを受け取ってください。なお，質問や他の受講生の質問に対する回答を活発に行っている学生にはよい評点を付けますので，**GitHub と同じアカウント名で登録してください**
+
+---
+
+class: middle, center
+
+```{r}
+knitr::include_graphics("images/slack.png")
+```
+
+---
+
+`r section("考察の対象")`
+
+---
+
+## 経済動学
+
+「経済動学」（economic dynamics）では経済の状態を表す変数（経済指標）の時間を通じた変化， あるいは変化の不在，を研究する。特に次のような性質に関心がある。
+
+- 成長 (growth)
+- 収束 (convergence)
+- 景気循環 (business cycle)
+
+---
+
+## マクロ経済学と経済動学
+
+マクロ経済学の基本モデル（Ramsey モデル）
+
+$$%
+\max \sum_{t = 0}^\infty \beta^t U(c_t) 
+  \quad 
+  \text{s.t.} 
+  \quad 
+  c_t + k_{t + 1} 
+  = f(k_t) + (1 - \delta) k_t
+%$$
+
+最適解は Euler 条件
+$$%
+\frac{U'(c_{t-1})}{U'(c_{t})}=f'(k_{t})+1-\delta 
+%$$
+を満たす。
+
+
+---
+
+## マクロ経済学と経済動学 (cont'd)
+
+Ramsey モデルの動学は次の方程式を満たさなければならない
+
+$$\begin{aligned}
+c_t + k_{t + 1} &= f(k_t) + (1 - \delta) k_t \\
+\frac{U'(c_{t-1})}{U'(c_{t})} &= f'(k_{t})+1-\delta
+\end{aligned}$$
+
+経済変数の時系列 $(k_t)_{t \ge 0}$ と $(c_t)_{t \ge 0}$ はどのように決まるだろうか？
+
+---
+
+## 基本モデルの時間発展
+
+次のように時間発展する。
+
+```{r}
+DiagrammeR::grViz("
+digraph {
+
+  node [shape = circle, fixedsize = true, width = 0.8] 
+  { rank=same; 
+    'k(0)'; 
+    'k(1)'; 
+    'k(2)'; 
+    'k(3)'; 
+    'k(4)';}
+
+  node [shape = box, margin=0, fontname = Palatino]
+  { rank=same; 
+    'c(0)'; 
+    'c(1)'; 
+    'c(2)'; 
+    'c(3)'; 
+    'c(4)' [style = invis]}
+
+  'k(0)' -> 'k(1)'; 'k(1)' -> 'k(2)'; 'k(2)' -> 'k(3)';
+  'k(3)' -> 'k(4)';
+
+  'k(0)' -> 'c(0)'; 'k(1)' -> 'c(1)';
+  'k(2)' -> 'c(2)'; 'k(3)' -> 'c(3)';
+  'k(4)' -> 'c(4)' [style=invis];
+
+  'c(0)' -> 'k(1)' [style=dotted]; 
+  'c(1)' -> 'k(2)' [style=dotted];
+  'c(2)' -> 'k(3)' [style=dotted];
+  'c(3)' -> 'k(4)' [style=dotted];
+}", height = "200px")
+```
+
+
+k(0) は初期値として与えられていて，c(0) はモデルの中で決めなければいけない変数（内生変数）であることに注意する。
+
+---
+
+## 初期条件の集合
+
+```{r, fig.align='center', out.width='80%'}
+knitr::include_graphics("fig/fig.001.jpeg")
+```
+
+---
+
+## 資本蓄積方程式
+
+$$\begin{aligned}
+c_t + k_{t + 1} &= f(k_t) + (1 - \delta) k_t 
+\end{aligned}$$
+
+```{r}
+DiagrammeR::grViz("
+digraph {
+  
+  node [shape = circle, fixedsize = true, width = 0.8] 
+  { rank=same; 
+    'k(0)'; 
+    'k(1)'; 
+    'k(2)' [style=filled, fillcolor=yellow]; 
+    'k(3)' [style=filled, fillcolor=yellow]; 
+    'k(4)';}
+
+  node [shape = box, fontname = Palatino]
+  { rank=same; 
+    'c(0)'; 
+    'c(1)'; 
+    'c(2)' [style=filled, fillcolor=yellow]; 
+    'c(3)'; 
+    'c(4)' [style = invis]}
+
+  'k(0)' -> 'k(1)'; 'k(1)' -> 'k(2)'; 'k(2)' -> 'k(3)';
+  'k(3)' -> 'k(4)';
+
+  'k(0)' -> 'c(0)'; 'k(1)' -> 'c(1)';
+  'k(2)' -> 'c(2)'; 'k(3)' -> 'c(3)';
+  'k(4)' -> 'c(4)' [style=invis];
+
+  'c(0)' -> 'k(1)' [style=dotted]; 
+  'c(1)' -> 'k(2)' [style=dotted];
+  'c(2)' -> 'k(3)' [style=dotted];
+  'c(3)' -> 'k(4)' [style=dotted];
+}", height = "200px")
+```
+
+
+現在の経済活動が未来の資本を決める方程式。通常， $c(0)$ は与えられていない（内生変数）なので，この方程式だけではシステムの時間発展を決定できない。
+
+---
+
+## Euler 方程式
+
+$$\begin{aligned}
+\frac{U'(c_{t-1})}{U'(c_{t})} &= f'(k_{t})+1-\delta
+\end{aligned}$$
+
+```{r}
+DiagrammeR::grViz("
+digraph {
+
+  node [shape = circle, fixedsize = true, width = 0.8] 
+  { rank=same; 
+    'k(0)'; 
+    'k(1)'; 
+    'k(2)' [style=filled, fillcolor=yellow]; 
+    'k(3)'; 
+    'k(4)';}
+
+  node [shape = box, fontname = Palatino]
+  { rank=same; 
+    'c(0)'; 
+    'c(1)' [style=filled, fillcolor=yellow]; 
+    'c(2)' [style=filled, fillcolor=yellow]; 
+    'c(3)'; 
+    'c(4)' [style = invis]}
+
+  'k(0)' -> 'k(1)'; 'k(1)' -> 'k(2)'; 'k(2)' -> 'k(3)';
+  'k(3)' -> 'k(4)';
+
+  'k(0)' -> 'c(0)'; 'k(1)' -> 'c(1)';
+  'k(2)' -> 'c(2)'; 'k(3)' -> 'c(3)';
+  'k(4)' -> 'c(4)' [style=invis];
+
+  'c(0)' -> 'k(1)' [style=dotted]; 
+  'c(1)' -> 'k(2)' [style=dotted];
+  'c(2)' -> 'k(3)' [style=dotted];
+  'c(3)' -> 'k(4)' [style=dotted];
+}", height = "200px")
+```
+
+
+未来の経済活動が現在の消費を決める。終端条件に何らかの条件がないと消費量を決定できない。
+
+
+---
+
+## 経済モデルの動学
+
+経済動学モデルは
+
+- 現時点の経済活動が未来の経済活動を定める (backward-looking) 
+- 将来の経済活動が現時点の経済活動を定める (forward-looking)
+
+という2つの成分をもつことが多い。
+
+一般には無数に解を持つが，終端条件 $t \to \infty$ に対する適当な制約によって解を制限する必要がある。
+
+---
+
+## 1次条件を満たす経路
+
+```{r, fig.align='center', out.width='80%'}
+knitr::include_graphics("fig/fig.002.jpeg")
+```
+
+---
+
+## Saddle
+
+Ramsey モデルの解を1つに定めることのできる重要なケースは，定常状態が**鞍点（saddle）**となるケース。最適化の1次条件を満たす無数の経路から，ただ1つの経路を選び取ることができる。結果的に，定常状態へ収束する均衡経路が最適解となる。
+
+いわゆる**「決定性（determinacy）」**と呼ばれる性質。
+
+
+---
+
+
+## 最適経路
+
+```{r, fig.align='center', out.width='80%'}
+knitr::include_graphics("fig/fig.003.jpeg")
+```
+
+---
+
+## 線形合理的期待モデル（RE）
+
+この講義では，特に次のような動的システムを考察する。
+
+$$A \mathbb{E}_t x_{t+1} = B x_t + C z_t$$
+
+$A, B, C$ は適当なサイズの行列。
+$x$ は内生変数， $z$ はランダムな外生変数。 
+
+- Ramsey モデルにショック項を入れて
+- 最適条件を条件付き期待値付きで書き直して
+- モデルをリッチにする諸々の制約条件などを追加して
+- 線形化 or 対数線形化したもの
+
+---
+
+## 決定論バージョン
+
+しばらくの間は確率項を忘れて決定論版のREモデルを考察する。
+
+$$A x_{t+1} = B x_t + C u_t$$
+
+変数 $x$ は先ほどの $k$ と $c$ とその他もろもろの変数を要素にもつベクトル。
+$u$ は将来の経路が分かっている外生変数。「決定論（deterministic）」の代わりに「完全予見（perfect foresight）」という場合もある。
+
+
+---
+
+## 講義の目標
+
+- ** $x_0$ と $u$ の系列から $x_t$ を決定する公式を見つける**
+- **REモデルのシミュレーションをする**
+
+---
+
+`r section("講義の流れ")`
+
+
+---
+
+## 講義の参考文献（関係図）
+
+黄色は講義で特に重点的に扱う論文
+
+```{r}
+DiagrammeR::grViz("
+digraph G {
+  {
+    node [shape=box fontsize='40px'];
+    bk [label='Blanchard and Kahn (1980)' style=filled fillcolor=yellow];
+
+   {
+    rank=same;
+    kw [label='King and Watson (1998)'];
+    klein [label='Klein (2000)' style=filled fillcolor=yellow];
+   }   
+   sims [label='Sims (2002)'];
+    ls [label='Lubik and Schorfheide (2003)'];
+    sgu [label='Schimidt-Grohé and Uribe (2004)'];
+    fwz [label='Farmer, Waggoner and Zha (2009)'];
+    ho [label='Nonlinear models' color='white'];
+    dsge [label='DSGE Simulation' color='white'];
+    est [label='Statistical Estimation' color='white'];
+    msre [label='Markov Switching' color='white'];
+  }
+  {
+    bk -> klein;
+    bk -> kw;
+    kw -> klein;
+    kw -> sims;
+    klein -> sims;
+    klein -> sgu;
+    sims -> ls;
+    sims -> dsge;
+    ls -> {est, fwz};
+    sgu -> {ho, dsge};
+    fwz -> msre;
+  }
+}", height = "300px", width = "800px")
+```
+
+
+---
+
+## Blanchard-Kahn (1980) のケース
+
+$\det A \neq 0$ の場合には，
+
+$$
+x_{t+1} = A^{-1} B x_t + A^{-1} C u_t
+$$
+理論を完全に理解する必要がある最重要ケース。ただし，
+**Blanchard and Kahn (1980) の結果を使って数値計算をしてはいけない**
+
+- 仮に $\det A \neq 0$ であっても $\det A = 0$ でも使える方法を
+  使うことができる。逆行列の計算は不要である
+- 彼らの方法は Jordan 標準形を使っている。**Jordan 標準形は数値計算では見つけられない**
+
+
+---
+
+## Shur 分解による数値計算
+
+$\det A = I$ （単位行列）の場合には，
+
+$$
+x_{t+1} = B x_t + C u_t
+$$
+これは，Blanchard-Kahn のケースに含まれる。逆行列を計算する必要はもはやないので，第1の懸念は該当しない。
+
+第2の懸念は，Jordan 標準形を Schur 分解に置き換えることで解決できる。
+
+---
+
+## King-Watson (1998, IER) のケース
+
+$\det A = 0$ となる可能性がある場合は，Jordan 標準形の代わりに Wierstrass 標準形という行列理論を使う。 $\det A \neq 0$ のときには $A^{-1} B$ の Jordan 標準形と一致する結果が得られる。
+
+もちろん，この方法も数値計算では使えない。
+
+---
+
+## Klein (2000) のケース
+
+$\det A = 0$ となる可能性がある場合には，Shur 分解の代わりに一般化Shur分解（あるいは QZ分解と呼ばれる）変換を用いる。
+
+同様の方法が Sims (2002) でも用いられているが，Sims はさらに一捻り加えていて，数値的には便利だが理論的には理解しにくい。
+
+---
+
+## その後の展開
+
+時間があれば
+
+- 高次近似
+    - Schmidt-Grohé and Uribe (2004)
+    - Gomme and Klein (2011)
+- Markov スイッチング REモデル
+    - Davig and Leeper (2007)
+    - Farmer, Waggoner and Zha (2009)
+    
+のいずれかを扱う。
+
+---
+
+`r section("数値計算")`
+
+---
+
+## R
+
+線形システムのシミュレーションに必要な計算は行列演算が中心。Fortran/C で書かれたライブラリが利用できれば，言語を選ばない。
+
+この講義では，レポート作成や実証研究の用途でも利用もしやすい R を使う。**[devtools](https://github.com/hadley/devtools)** を GitHub と利用すれば，独自パッケージ
+の作成や配布は簡単にできる。
+
+**この講義の数値計算上の目標は， Klein (2000) の手法を実装する R パッケージを作成して配布することである**
+
+---
+
+## Jordan 標準形にまつわる問題
+
+この講義の中で詳しく学ぶことになるが，Jordan 標準形と呼ばれる行列表現を求めるためには，ある多項式が重根をもつかどうかを正しく判定できなければならない。
+
+具体例で言えば，2次多項式 $p(x) = x ^ 2 - (\alpha + \beta) + \alpha \beta$ が 
+
+- $\alpha = \beta$ であり $p(x) = (x - \alpha)^2$ となる場合と，
+- $\alpha \neq \beta$ であって $p(x) = (x - \alpha)(x - \beta)$ となる場合
+
+では異なる取り扱いが必要になる。
+
+---
+
+## Jordan 標準形にまつわる問題 (cont'd)
+
+**「 $\alpha = \beta$ の判定くらい簡単にできるじゃないか！」**と思った人は多分次のようなコードを思い浮かべたんじゃないかと思う
+
+```{r, echo=TRUE}
+alpha <- 3
+beta <- 5 - 2 
+
+{{ alpha == beta }}
+```
+
+多くのプログラミング言語で `==` によって値が等しいことを判定する。
+`TRUE` が表示されたということは等式が成り立つということだ。
+・・・・・・本当にそうだろうか？
+
+---
+
+## Jordan 標準形にまつわる問題 (cont'd)
+
+次のコードの結果を予想してほしい。
+
+```{r, echo=TRUE, eval=FALSE}
+alpha <- 0.3
+beta <- 0.1 + 0.1 + 0.1 
+
+alpha == beta
+```
+
+---
+
+## Jordan 標準形にまつわる問題 (cont'd)
+
+結果は次の通りである。
+
+```{r, echo=TRUE}
+alpha <- 0.3
+beta <- 0.1 + 0.1 + 0.1 
+
+alpha == beta
+```
+
+有限のメモリしかもたない計算機が表現できる数は実数のうちのごく一部であり，丸め誤差は避けられない。等号の評価はできないのである。
+
+---
+
+## 適切な標準形を求めた後の話
+
+適切な標準形（QZ分解）を求めた後は行列の掛け算と足し算の繰り返しである。それはk次のコードと同じくらい簡単である。
+
+```{r, include=FALSE}
+set.seed(3030)
+```
+
+```{r, echo=TRUE}
+A = matrix(rnorm(4), nrow = 2)
+x = matrix(rnorm(2))
+u = matrix(rnorm(2))
+
+A %*% x + u
+```
 
 
 
