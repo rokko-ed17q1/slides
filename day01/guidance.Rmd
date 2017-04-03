@@ -729,7 +729,7 @@ A %*% x + u
 
 ## 宿題 / Homework Assignment
 
-HW01 or HW01 or both  
+HW01 or HW01j or both  
 Visit https://github.com/rokko-ed17q1/hw-portal
 
 > Due 2017-04-12 18:00.  
