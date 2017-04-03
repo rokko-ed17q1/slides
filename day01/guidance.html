@@ -316,8 +316,8 @@ c_t + k_{t + 1} &amp;= f(k_t) + (1 - \delta) k_t \\
 
 次のように時間発展する。
 
-<div id="htmlwidget-acab96c1a1d4835fe6a2" style="width:504px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-acab96c1a1d4835fe6a2">{"x":{"diagram":"\ndigraph {\n\n  node [shape = circle, fixedsize = true, width = 0.8] \n  { rank=same; \n    \"k(0)\"; \n    \"k(1)\"; \n    \"k(2)\"; \n    \"k(3)\"; \n    \"k(4)\";}\n\n  node [shape = box, margin=0, fontname = Palatino]\n  { rank=same; \n    \"c(0)\"; \n    \"c(1)\"; \n    \"c(2)\"; \n    \"c(3)\"; \n    \"c(4)\" [style = invis]}\n\n  \"k(0)\" -> \"k(1)\"; \"k(1)\" -> \"k(2)\"; \"k(2)\" -> \"k(3)\";\n  \"k(3)\" -> \"k(4)\";\n\n  \"k(0)\" -> \"c(0)\"; \"k(1)\" -> \"c(1)\";\n  \"k(2)\" -> \"c(2)\"; \"k(3)\" -> \"c(3)\";\n  \"k(4)\" -> \"c(4)\" [style=invis];\n\n  \"c(0)\" -> \"k(1)\" [style=dotted]; \n  \"c(1)\" -> \"k(2)\" [style=dotted];\n  \"c(2)\" -> \"k(3)\" [style=dotted];\n  \"c(3)\" -> \"k(4)\" [style=dotted];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-d005dc9485cb8efdee4b" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d005dc9485cb8efdee4b">{"x":{"diagram":"\ndigraph {\n\n  node [shape = circle, fixedsize = true, width = 0.8] \n  { rank=same; \n    \"k(0)\"; \n    \"k(1)\"; \n    \"k(2)\"; \n    \"k(3)\"; \n    \"k(4)\";}\n\n  node [shape = box, margin=0, fontname = Palatino]\n  { rank=same; \n    \"c(0)\"; \n    \"c(1)\"; \n    \"c(2)\"; \n    \"c(3)\"; \n    \"c(4)\" [style = invis]}\n\n  \"k(0)\" -> \"k(1)\"; \"k(1)\" -> \"k(2)\"; \"k(2)\" -> \"k(3)\";\n  \"k(3)\" -> \"k(4)\";\n\n  \"k(0)\" -> \"c(0)\"; \"k(1)\" -> \"c(1)\";\n  \"k(2)\" -> \"c(2)\"; \"k(3)\" -> \"c(3)\";\n  \"k(4)\" -> \"c(4)\" [style=invis];\n\n  \"c(0)\" -> \"k(1)\" [style=dotted]; \n  \"c(1)\" -> \"k(2)\" [style=dotted];\n  \"c(2)\" -> \"k(3)\" [style=dotted];\n  \"c(3)\" -> \"k(4)\" [style=dotted];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 
 k(0) は初期値として与えられていて，c(0) はモデルの中で決めなければいけない変数（内生変数）であることに注意する。
@@ -336,8 +336,8 @@ k(0) は初期値として与えられていて，c(0) はモデルの中で決�
 c_t + k_{t + 1} &amp;= f(k_t) + (1 - \delta) k_t 
 \end{aligned}$$`
 
-<div id="htmlwidget-ebb35d2049095f7db22b" style="width:504px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ebb35d2049095f7db22b">{"x":{"diagram":"\ndigraph {\n  \n  node [shape = circle, fixedsize = true, width = 0.8] \n  { rank=same; \n    \"k(0)\"; \n    \"k(1)\"; \n    \"k(2)\" [style=filled, fillcolor=yellow]; \n    \"k(3)\" [style=filled, fillcolor=yellow]; \n    \"k(4)\";}\n\n  node [shape = box, fontname = Palatino]\n  { rank=same; \n    \"c(0)\"; \n    \"c(1)\"; \n    \"c(2)\" [style=filled, fillcolor=yellow]; \n    \"c(3)\"; \n    \"c(4)\" [style = invis]}\n\n  \"k(0)\" -> \"k(1)\"; \"k(1)\" -> \"k(2)\"; \"k(2)\" -> \"k(3)\";\n  \"k(3)\" -> \"k(4)\";\n\n  \"k(0)\" -> \"c(0)\"; \"k(1)\" -> \"c(1)\";\n  \"k(2)\" -> \"c(2)\"; \"k(3)\" -> \"c(3)\";\n  \"k(4)\" -> \"c(4)\" [style=invis];\n\n  \"c(0)\" -> \"k(1)\" [style=dotted]; \n  \"c(1)\" -> \"k(2)\" [style=dotted];\n  \"c(2)\" -> \"k(3)\" [style=dotted];\n  \"c(3)\" -> \"k(4)\" [style=dotted];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ce3cda8599820f39e393" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ce3cda8599820f39e393">{"x":{"diagram":"\ndigraph {\n  \n  node [shape = circle, fixedsize = true, width = 0.8] \n  { rank=same; \n    \"k(0)\"; \n    \"k(1)\"; \n    \"k(2)\" [style=filled, fillcolor=yellow]; \n    \"k(3)\" [style=filled, fillcolor=yellow]; \n    \"k(4)\";}\n\n  node [shape = box, fontname = Palatino]\n  { rank=same; \n    \"c(0)\"; \n    \"c(1)\"; \n    \"c(2)\" [style=filled, fillcolor=yellow]; \n    \"c(3)\"; \n    \"c(4)\" [style = invis]}\n\n  \"k(0)\" -> \"k(1)\"; \"k(1)\" -> \"k(2)\"; \"k(2)\" -> \"k(3)\";\n  \"k(3)\" -> \"k(4)\";\n\n  \"k(0)\" -> \"c(0)\"; \"k(1)\" -> \"c(1)\";\n  \"k(2)\" -> \"c(2)\"; \"k(3)\" -> \"c(3)\";\n  \"k(4)\" -> \"c(4)\" [style=invis];\n\n  \"c(0)\" -> \"k(1)\" [style=dotted]; \n  \"c(1)\" -> \"k(2)\" [style=dotted];\n  \"c(2)\" -> \"k(3)\" [style=dotted];\n  \"c(3)\" -> \"k(4)\" [style=dotted];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 
 現在の経済活動が未来の資本を決める方程式。通常， `\(c(0)\)` は与えられていない（内生変数）なので，この方程式だけではシステムの時間発展を決定できない。
@@ -350,8 +350,8 @@ c_t + k_{t + 1} &amp;= f(k_t) + (1 - \delta) k_t
 \frac{U'(c_{t-1})}{U'(c_{t})} &amp;= f'(k_{t})+1-\delta
 \end{aligned}$$`
 
-<div id="htmlwidget-f10f0c9bbcb70ae4cb05" style="width:504px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f10f0c9bbcb70ae4cb05">{"x":{"diagram":"\ndigraph {\n\n  node [shape = circle, fixedsize = true, width = 0.8] \n  { rank=same; \n    \"k(0)\"; \n    \"k(1)\"; \n    \"k(2)\" [style=filled, fillcolor=yellow]; \n    \"k(3)\"; \n    \"k(4)\";}\n\n  node [shape = box, fontname = Palatino]\n  { rank=same; \n    \"c(0)\"; \n    \"c(1)\" [style=filled, fillcolor=yellow]; \n    \"c(2)\" [style=filled, fillcolor=yellow]; \n    \"c(3)\"; \n    \"c(4)\" [style = invis]}\n\n  \"k(0)\" -> \"k(1)\"; \"k(1)\" -> \"k(2)\"; \"k(2)\" -> \"k(3)\";\n  \"k(3)\" -> \"k(4)\";\n\n  \"k(0)\" -> \"c(0)\"; \"k(1)\" -> \"c(1)\";\n  \"k(2)\" -> \"c(2)\"; \"k(3)\" -> \"c(3)\";\n  \"k(4)\" -> \"c(4)\" [style=invis];\n\n  \"c(0)\" -> \"k(1)\" [style=dotted]; \n  \"c(1)\" -> \"k(2)\" [style=dotted];\n  \"c(2)\" -> \"k(3)\" [style=dotted];\n  \"c(3)\" -> \"k(4)\" [style=dotted];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-547a95c22fc68b1f3445" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-547a95c22fc68b1f3445">{"x":{"diagram":"\ndigraph {\n\n  node [shape = circle, fixedsize = true, width = 0.8] \n  { rank=same; \n    \"k(0)\"; \n    \"k(1)\"; \n    \"k(2)\" [style=filled, fillcolor=yellow]; \n    \"k(3)\"; \n    \"k(4)\";}\n\n  node [shape = box, fontname = Palatino]\n  { rank=same; \n    \"c(0)\"; \n    \"c(1)\" [style=filled, fillcolor=yellow]; \n    \"c(2)\" [style=filled, fillcolor=yellow]; \n    \"c(3)\"; \n    \"c(4)\" [style = invis]}\n\n  \"k(0)\" -> \"k(1)\"; \"k(1)\" -> \"k(2)\"; \"k(2)\" -> \"k(3)\";\n  \"k(3)\" -> \"k(4)\";\n\n  \"k(0)\" -> \"c(0)\"; \"k(1)\" -> \"c(1)\";\n  \"k(2)\" -> \"c(2)\"; \"k(3)\" -> \"c(3)\";\n  \"k(4)\" -> \"c(4)\" [style=invis];\n\n  \"c(0)\" -> \"k(1)\" [style=dotted]; \n  \"c(1)\" -> \"k(2)\" [style=dotted];\n  \"c(2)\" -> \"k(3)\" [style=dotted];\n  \"c(3)\" -> \"k(4)\" [style=dotted];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 
 未来の経済活動が現在の消費を決める。終端条件に何らかの条件がないと消費量を決定できない。
@@ -441,8 +441,8 @@ class: center, middle
 
 黄色は講義で特に重点的に扱う論文
 
-<div id="htmlwidget-97635ef3e29394efb60e" style="width:800px;height:300px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-97635ef3e29394efb60e">{"x":{"diagram":"\ndigraph G {\n  {\n    node [shape=box fontsize=\"40px\"];\n    bk [label=\"Blanchard and Kahn (1980)\" style=filled fillcolor=yellow];\n\n   {\n    rank=same;\n    kw [label=\"King and Watson (1998)\"];\n    klein [label=\"Klein (2000)\" style=filled fillcolor=yellow];\n   }   \n   sims [label=\"Sims (2002)\"];\n    ls [label=\"Lubik and Schorfheide (2003)\"];\n    sgu [label=\"Schimidt-Grohé and Uribe (2004)\"];\n    fwz [label=\"Farmer, Waggoner and Zha (2009)\"];\n    ho [label=\"Nonlinear models\" color=\"white\"];\n    dsge [label=\"DSGE Simulation\" color=\"white\"];\n    est [label=\"Statistical Estimation\" color=\"white\"];\n    msre [label=\"Markov Switching\" color=\"white\"];\n  }\n  {\n    bk -> klein;\n    bk -> kw;\n    kw -> klein;\n    kw -> sims;\n    klein -> sims;\n    klein -> sgu;\n    sims -> ls;\n    sims -> dsge;\n    ls -> {est, fwz};\n    sgu -> {ho, dsge};\n    fwz -> msre;\n  }\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-5d585641c1c88b6056aa" style="width:800px;height:300px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5d585641c1c88b6056aa">{"x":{"diagram":"\ndigraph G {\n  {\n    node [shape=box fontsize=\"40px\"];\n    bk [label=\"Blanchard and Kahn (1980)\" style=filled fillcolor=yellow];\n\n   {\n    rank=same;\n    kw [label=\"King and Watson (1998)\"];\n    klein [label=\"Klein (2000)\" style=filled fillcolor=yellow];\n   }   \n   sims [label=\"Sims (2002)\"];\n    ls [label=\"Lubik and Schorfheide (2003)\"];\n    sgu [label=\"Schimidt-Grohé and Uribe (2004)\"];\n    fwz [label=\"Farmer, Waggoner and Zha (2009)\"];\n    ho [label=\"Nonlinear models\" color=\"white\"];\n    dsge [label=\"DSGE Simulation\" color=\"white\"];\n    est [label=\"Statistical Estimation\" color=\"white\"];\n    msre [label=\"Markov Switching\" color=\"white\"];\n  }\n  {\n    bk -> klein;\n    bk -> kw;\n    kw -> klein;\n    kw -> sims;\n    klein -> sims;\n    klein -> sgu;\n    sims -> ls;\n    sims -> dsge;\n    ls -> {est, fwz};\n    sgu -> {ho, dsge};\n    fwz -> msre;\n  }\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 
 ---
@@ -615,6 +615,23 @@ A %*% x + u
 ## [1,] 0.2741007
 ## [2,] 1.5540371
 ```
+
+---
+
+## 宿題 / Homework Assignment
+
+HW01 or HW01 or both  
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+&gt; Due 2017-04-12 18:00.  
+&gt; Hand in by Pull Request.  
+&gt; Read the handout for details!
+
+The installation process may require considerable efforts!  
+Don't put it off; start ASAP!
+
+If you have any problems start discussions on Slack.  
+https://rokkoecon-slack-invite.herokuapp.com/
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({

@@ -725,5 +725,20 @@ u = matrix(rnorm(2))
 A %*% x + u
 ```
 
+---
 
+## 宿題 / Homework Assignment
+
+HW01 or HW01 or both  
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+> Due 2017-04-12 18:00.  
+> Hand in by Pull Request.  
+> Read the handout for details!
+
+The installation process may require considerable efforts!  
+Don't put it off; start ASAP!
+
+If you have any problems start discussions on Slack.  
+https://rokkoecon-slack-invite.herokuapp.com/ 
 
