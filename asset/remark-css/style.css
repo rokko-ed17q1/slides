@@ -91,3 +91,22 @@ strong {
 .remark-slide-content .grViz {
   margin: auto;
 }
+
+.lemma, .theorem {
+    border: 2px solid #da4033;
+    border-radius: 4px;
+    margin: 2em 0;
+    padding: 0 2em;
+    position: relative;
+}
+.lemma:before, .theorem:before {
+    background-color: #fff;
+    color: #da4033;
+    font-weight: bold;
+    left: 1em;
+    padding: 0 .5em;
+    position: absolute;
+    top: -1em;
+}
+.lemma:before { content: "Lemma"; }
+.theorem:before { content: "Theorem"; }
