@@ -1,0 +1,163 @@
+---
+title: 'Ramsey Model'
+author: 'Kenji Sato^[Kobe University, mail@kenjisato.jp]'
+date: '`r format(Sys.time(), "%Y/%m/%d")`'
+output:
+  bookdown::pdf_document2:
+    fig_caption: yes
+    includes:
+      in_header: 
+        - ../asset/latex/custom.sty
+        - ../asset/latex/luatexj.sty
+    keep_tex: no
+    latex_engine: lualatex
+    number_sections: yes
+    template: null
+    toc: no
+  bookdown::html_document2: default
+documentclass: scrartcl
+biblio-style: apalike
+link-citations: yes
+---
+
+# Summary
+
+マクロ経済学のモデルの多くは，Ramsey モデルあるいは最適成長モデルと呼ばれる基礎モデルの上に組み立てられている。このノートでは1セクター最適成長モデルと呼ばれる最も簡単なケースについて，その解法を解説する。
+
+Modern macroeconomic modeling is based on a baseline model called the Ramsey model or optimal growth model. In this note, we will review the solution method of that model in the simplest form, which we will refer to as the one-sector optimal growth model.
+
+# Model 
+
+Time is discrete and extends from 0 to infinity. In the economy there is only one agent who we call the representative agent. At the beginning of period 0, he owns capital $k_0 > 0$. He determines his consumption plan by solving the following maximization problem:
+$$
+\max_{(c_t)_{t\ge 0}} \sum_{t=0}^\infty \beta^t U(c_t),
+$$
+where $c_t$ is the amount of consumption in period $t$, $\beta \in (0,1)$ a discount factor, $U$ a utility function. $U$ is twice differentiable and satisfies $U' > 0$ and $U'' < 0$. $U' > 0$ means that the more he consumes the happier he gets, while $U'' < 0$ the marginal increment of happiness decreases as consumptions increases ($(U')' < 0$). The latter property is usually called diminishing marginal utility. We also assume that $U'(0+) = + \infty$.
+
+His consumption and saving decision is subject to the following resource constraint. 
+$$
+k_{t+1} = f(k_t) + (1 - \delta)k_t - c_t, \qquad t = 0,1,\dots
+$$
+Here, we assume that the economy has technology $f$ and the representative consumer has access to it. All he owns at the beginning of a period, $k_t$, is put into the production line to get $f(k_t)$ amount of goods. The output, $f(k_t)$, plus, the capital "carried forward," $(1-\delta)k_t$, are devided into consumption and saving. A fixed fraction, $\delta \in (0,1)$ of old capital becomes useless. 
+
+The resource constraint is often cast in the following form.   
+$$
+k_{t+1} - k_t = f(k_t) - c_t - \delta k_t, \qquad t = 0,1,\dots 
+$$
+The left-hand side represents the net investment. The right-hand side is production $f(k_t)$ minus consumption $c_t$ minus maintenance cost $\delta k_t$. $\delta k_t$ is the minimal amount of investment required to keep the current amount of capital $k_t$ (Notice that when $k_{t+1} = k_t$, $f(k_t) - c_t = \delta k_t$).
+
+The function $f$ is called the production function. We assume that $f$ is twice  differentiable, $f' > 0$ and $f'' < 0$. We also assume $f'(0+) = +\infty$ and $f'(+\infty) = 0$ for simplicity. 
+
+# First-order condition
+
+To solve the model, construct the Lagrangian function
+$$
+L = 
+\sum_{t = 0}^\infty \beta^t 
+\left\{
+  U(c_t) + \lambda_t \left[
+    f(k_t) + (1 - \delta)k_t - c_t - k_{t+1}
+  \right]
+\right\}.
+$$
+At the beginning of period $t$, the amount $k_t$ is known but $c_t$ and $k_{t+1}$ are yet to be determined. Thus, we must find first-order conditions on $c_t$ and $k_{t+1}$, $t = 0, 1, \dots$. 
+$$
+\frac{\partial L}{\partial c_t} 
+=
+\beta^t U'(c_t) - \beta^t \lambda_t = 0
+\Longleftrightarrow 
+\lambda_t = U'(c_t).
+$$
+Similarly,
+$$
+\frac{\partial L}{\partial k_{t+1}} 
+=
+\beta^{t+1}\lambda_{t+1} \left[
+  f'(k_{t+1}) + 1 - \delta
+\right]
+-
+\beta^t \lambda_t
+=
+0
+\Longleftrightarrow
+\frac{\lambda_t}{\lambda_{t+1}} = \beta \left[
+  f'(k_{t+1}) + 1 - \delta
+\right]
+$$
+We therefore have 
+$$
+  \frac{U'(c_t)}{U'(c_{t+1})} 
+  = \beta \left[
+    f'(k_{t+1}) + 1 - \delta
+  \right]
+$$
+which is called the Euler condition. If the factor market is competitive, it holds that $r_{t+1} = f'(k_{t+1}) - \delta$. The Euler condition simplifies to
+$$
+  \frac{U'(c_t)}{U'(c_{t+1})} 
+  = \beta (
+    1 + r_{t+1}
+  ).
+$$
+
+# Reduced Form
+
+Optimization promlems in the following form is also called as the Ramsey model.
+$$
+\sum_{t=0}^\infty
+\beta^t u(k_t, k_{t+1})
+$$
+subject to
+$$
+0 \le k_{t+1} \le f(k_t) + (1 - \delta)k_t.
+$$
+This model has a reduced set of variables since the consumption is eliminated and thus it is called the reduced-form model. This model contains the baseline Ramsey model as a subset with the following definition of $u$:
+$$
+  u(k_t, k_{t+1}) = U\left(
+    f(k_t) - k_{t+1}
+  \right)
+$$
+Proving the following fact should be an easy exercise: the optimal sequence of capital $(k_t)$ must satisfy
+$$
+  u_2(k_t, k_{t+1}) + \beta u_1(k_{t+1}, k_{t+2}) = 0,
+$$
+where $u_1$ denotes the partial derivative of $u$ with respect to the first argument and $u_2$ with respect to the second. Hint: Under our assumptions, any solution lies in the interior of the feasible set.
+
+# Linearization
+
+When $\beta$ is sufficiently close to $1$, the Euler condition
+$$
+  u_2(k_t, k_{t+1}) + \beta u_1(k_{t+1}, k_{t+2}) = 0,
+$$
+is known to have a unique steady state $k^*$, which satisfies
+$$
+u_2(k^*, k^*) + \beta u_1(k^*, k^*) = 0.
+$$
+We can linearize the former around $k^*$ to get
+$$
+u_{21}^* (k_t - k^*) + (u_{22}^* + \beta u_{11}^*)(k_{t+1} - k^*)
++ \beta u_{12}^* (k_{t+2} - k^*) =0,
+$$
+where $u_{ij}^* = u_{ij}(k^*, k^*)$, $i,j=1,2$. 
+
+We get the simplest linear model.
+$$
+\begin{bmatrix}
+  1 & 0\\
+  0 & \beta u_{12}^*
+\end{bmatrix}
+\begin{bmatrix}
+  k_{t+1} - k^* \\
+  k_{t+2} - k^*
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0 & 1 \\
+  -u_{21}^* & u_{22}^* + \beta u_{11}^*
+\end{bmatrix}
+\begin{bmatrix}
+  k_t - k^* \\
+  k_{t+1} - k^*
+\end{bmatrix}
+$$
+
+
