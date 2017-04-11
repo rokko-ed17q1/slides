@@ -290,7 +290,7 @@ $$%
 
 最適解は Euler 条件
 $$%
-\frac{U'(c_{t-1})}{U'(c_{t})}=f'(k_{t})+1-\delta 
+\frac{U'(c_t)}{U'(c_{t+1})}=\beta (f'(k_{t+1})+1-\delta) 
 %$$
 を満たす。
 
@@ -303,7 +303,7 @@ Ramsey モデルの動学は次の方程式を満たさなければならない
 
 $$\begin{aligned}
 c_t + k_{t + 1} &= f(k_t) + (1 - \delta) k_t \\
-\frac{U'(c_{t-1})}{U'(c_{t})} &= f'(k_{t})+1-\delta
+\frac{U'(c_t)}{U'(c_{t+1})} &= \beta (f'(k_{t+1})+1-\delta)
 \end{aligned}$$
 
 経済変数の時系列 $(k_t)_{t \ge 0}$ と $(c_t)_{t \ge 0}$ はどのように決まるだろうか？
@@ -409,7 +409,7 @@ digraph {
 ## Euler 方程式
 
 $$\begin{aligned}
-\frac{U'(c_{t-1})}{U'(c_{t})} &= f'(k_{t})+1-\delta
+\frac{U'(c_t)}{U'(c_{t+1})}&=\beta (f'(k_{t+1})+1-\delta)
 \end{aligned}$$
 
 ```{r}
