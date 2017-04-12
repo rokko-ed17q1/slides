@@ -493,8 +493,8 @@ Ramsey モデルは次のモデルと同等
 `$$u_2(k_{t-1}, k_t) + \beta u_1 (k_t, k_{t+1}) = 0$$`
 
 
-<div id="htmlwidget-fd7d34b4e862161de8b1" style="width:400px;height:250px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-fd7d34b4e862161de8b1">{"x":{"diagram":"\ndigraph {\n  node [shape = circle, fixedsize = true, width = 0.8] \n  { rank=same; \n    \"k0\" [label=\"k(0)\"]; \n    \"k1\" [label=\"k(1)\" style=filled, fillcolor=yellow]; \n    \"k2\" [label=\"k(2)\"]; \n    \"k3\" [label=\"k(3)\"]; \n  }\n\n  node [shape = circle, fontname = Palatino]\n  { rank=same; \n    \"k(1)\"; \n    \"k(2)\" [style=filled, fillcolor=yellow]; \n    \"k(3)\" [style=filled, fillcolor=yellow]; \n    \"k(4)\"; \n  }\n\n  k0->\"k(2)\"; k1->\"k(3)\"; k2->\"k(4)\"; \n  \"k(1)\"->\"k(2)\"; \"k(2)\"->\"k(3)\"; \"k(3)\"->\"k(4)\";\n  \n  k0->\"k(1)\" [style=dashed]; \n  k1->\"k(2)\" [style=dashed]; \n  k2->\"k(3)\" [style=dashed]; \n  k3->\"k(4)\" [style=dashed];\n\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e6955df83e997d196331" style="width:400px;height:250px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e6955df83e997d196331">{"x":{"diagram":"\ndigraph {\n  node [shape = circle, fixedsize = true, width = 0.8] \n  { rank=same; \n    \"k0\" [label=\"k(0)\"]; \n    \"k1\" [label=\"k(1)\" style=filled, fillcolor=yellow]; \n    \"k2\" [label=\"k(2)\"]; \n    \"k3\" [label=\"k(3)\"]; \n  }\n\n  node [shape = circle, fontname = Palatino]\n  { rank=same; \n    \"k(1)\"; \n    \"k(2)\" [style=filled, fillcolor=yellow]; \n    \"k(3)\" [style=filled, fillcolor=yellow]; \n    \"k(4)\"; \n  }\n\n  k0->\"k(2)\"; k1->\"k(3)\"; k2->\"k(4)\"; \n  \"k(1)\"->\"k(2)\"; \"k(2)\"->\"k(3)\"; \"k(3)\"->\"k(4)\";\n  \n  k0->\"k(1)\" [style=dashed]; \n  k1->\"k(2)\" [style=dashed]; \n  k2->\"k(3)\" [style=dashed]; \n  k3->\"k(4)\" [style=dashed];\n\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 
 ---
@@ -505,9 +505,9 @@ Ramsey モデルは次のモデルと同等
 `$$u_2(k^*, k^*) + \beta u_1 (k^*, k^*) = 0$$`
 の周りで Taylor 展開
 
-`\(\hat k_t := k_t - k^*\)` と置き， `\(u_{12}^* \neq 0\)` を仮定すると線形化方程式
+`\(\bar k_t := k_t - k^*\)` と置き， `\(u_{12}^* \neq 0\)` を仮定すると線形化方程式
 
-`$$\hat k_{t+1} + \left(\frac{u_{22}^* + \beta u_{11}^*}{\beta u_{12}^*} \right) \hat k_t + \beta^{-1} \hat k_{t-1} = 0$$`
+`$$\bar k_{t+1} + \left(\frac{u_{22}^* + \beta u_{11}^*}{\beta u_{12}^*} \right) \bar k_t + \beta^{-1} \bar k_{t-1} = 0$$`
 を得る。これは高校数学で漸化式（recurrence formula）と呼ばれるものである。
 
 ---
@@ -519,10 +519,10 @@ Ramsey モデルは次のモデルと同等
 の解 `\(\lambda_1, \lambda_2\)` を使って
 
 `$$\begin{aligned}
-  \hat k_{t+1} - \lambda_1 \hat k_{t} 
-    &amp;= \lambda_2^t (\hat k_1 - \lambda_1 \hat k_0) \\
-  \hat k_{t+1} - \lambda_2 \hat k_{t} 
-    &amp;= \lambda_1^t (\hat k_1 - \lambda_2 \hat k_0)
+  \bar k_{t+1} - \lambda_1 \bar k_{t} 
+    &amp;= \lambda_2^t (\bar k_1 - \lambda_1 \bar k_0) \\
+  \bar k_{t+1} - \lambda_2 \bar k_{t} 
+    &amp;= \lambda_1^t (\bar k_1 - \lambda_2 \bar k_0)
 \end{aligned}$$`
 
 と書ける
@@ -531,9 +531,9 @@ Ramsey モデルは次のモデルと同等
 
 ## 漸化式の解（cont'd）
 
-`\(\hat k_{t+1}\)` を消去して一般項
+`\(\bar k_{t+1}\)` を消去して一般項
 
-`$$\hat k_t = \left(\frac{\lambda_1^t - \lambda_2^t}{\lambda_1 - \lambda_2}\right) \hat k_1 + \left( \frac{\lambda_1\lambda_2^t - \lambda_2 \lambda_1^t}{\lambda_1 - \lambda_2}\right) \hat k_0$$`
+`$$\bar k_t = \left(\frac{\lambda_1^t - \lambda_2^t}{\lambda_1 - \lambda_2}\right) \bar k_1 + \left( \frac{\lambda_1\lambda_2^t - \lambda_2 \lambda_1^t}{\lambda_1 - \lambda_2}\right) \bar k_0$$`
 
 を得られる。
 
@@ -628,13 +628,13 @@ u_{11}^* u_{22}^* - (u_{12}^*)^2
 
 先ほどの漸化式は次の線形方程式で表すことができて，漸化式に対する特性方程式は行列の固有値を求めるための固有方程式と同じものである。
 
-`$$\begin{bmatrix} \hat k_{t} \\ \hat k_{t+1}\end{bmatrix}
+`$$\begin{bmatrix} \bar k_{t} \\ \bar k_{t+1}\end{bmatrix}
 =
 \begin{bmatrix}
 0 &amp; 1\\
  -\beta^{-1} &amp; - \frac{u_{22}^* + \beta u_{11}^*}{\beta u_{12}^*}
 \end{bmatrix}
-\begin{bmatrix} \hat k_{t-1} \\ \hat k_{t}\end{bmatrix}$$`
+\begin{bmatrix} \bar k_{t-1} \\ \bar k_{t}\end{bmatrix}$$`
 
 行列を用いた分析は変数の数にかかわらず適用できる。次週以降は，行列の標準化の理論を復習し，多セクターモデルの解法を展開する。
 
@@ -657,15 +657,15 @@ Levhavi-Liviatan の定理は，原点を中心にもつ半径 `\(1/\sqrt{\beta}
 
 鞍点のケースでは `\(|\lambda_1| &lt; 1\)`, `\(|\lambda_2| &gt; 1\)` であるから，
 
-`$$\hat k_t = \left(\frac{\lambda_1^t - \lambda_2^t}{\lambda_1 - \lambda_2}\right) \hat k_1 + \left( \frac{\lambda_1\lambda_2^t - \lambda_2 \lambda_1^t}{\lambda_1 - \lambda_2}\right) \hat k_0$$`
+`$$\bar k_t = \left(\frac{\lambda_1^t - \lambda_2^t}{\lambda_1 - \lambda_2}\right) \bar k_1 + \left( \frac{\lambda_1\lambda_2^t - \lambda_2 \lambda_1^t}{\lambda_1 - \lambda_2}\right) \bar k_0$$`
 は一般には発散する。 **経路が決定できる理由は，
 `$$\begin{aligned}
-  \hat k_{t+1} - \lambda_1 \hat k_{t} 
-    &amp;= \lambda_2^t (\hat k_1 - \lambda_1 \hat k_0) \equiv 0
+  \bar k_{t+1} - \lambda_1 \bar k_{t} 
+    &amp;= \lambda_2^t (\bar k_1 - \lambda_1 \bar k_0) \equiv 0
 \end{aligned}$$`
-となるように `\(\hat k_1\)` がうまく選ばれるからである**
+となるように `\(\bar k_1\)` がうまく選ばれるからである**
 
-これがマクロ経済モデルの決定性のもっとも簡単なケースである。
+これがマクロ経済モデルの決定性のもっとも簡単なケースである
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
@@ -673,7 +673,7 @@ Levhavi-Liviatan の定理は，原点を中心にもつ半径 `\(1/\sqrt{\beta}
 "highlightLines": true,
 "highlightStyle": "github"
 });
-if (window.HTMLWidgets) slideshow.on('showSlide', function (slide) {setTimeout(function() {window.dispatchEvent(new Event('resize'));}, 100)});</script>
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {window.dispatchEvent(new Event('resize'));});</script>
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -687,7 +687,7 @@ MathJax.Hub.Config({
 (function () {
   var script = document.createElement('script');
   script.type = 'text/javascript';
-  script.src  = 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+  script.src  = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
   if (location.protocol !== 'file:' && /^https?:/.test(script.src))
     script.src  = script.src.replace(/^https?:/, '');
   document.getElementsByTagName('head')[0].appendChild(script);

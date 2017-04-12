@@ -497,9 +497,9 @@ digraph {
 $$u_2(k^*, k^*) + \beta u_1 (k^*, k^*) = 0$$
 の周りで Taylor 展開
 
-$\hat k_t := k_t - k^*$ と置き， $u_{12}^* \neq 0$ を仮定すると線形化方程式
+$\bar k_t := k_t - k^*$ と置き， $u_{12}^* \neq 0$ を仮定すると線形化方程式
 
-$$\hat k_{t+1} + \left(\frac{u_{22}^* + \beta u_{11}^*}{\beta u_{12}^*} \right) \hat k_t + \beta^{-1} \hat k_{t-1} = 0$$
+$$\bar k_{t+1} + \left(\frac{u_{22}^* + \beta u_{11}^*}{\beta u_{12}^*} \right) \bar k_t + \beta^{-1} \bar k_{t-1} = 0$$
 を得る。これは高校数学で漸化式（recurrence formula）と呼ばれるものである。
 
 ---
@@ -511,10 +511,10 @@ $$\lambda^2 + \left(\frac{u_{22}^* + \beta u_{11}^*}{\beta u_{12}^*} \right) \la
 の解 $\lambda_1, \lambda_2$ を使って
 
 $$\begin{aligned}
-  \hat k_{t+1} - \lambda_1 \hat k_{t} 
-    &= \lambda_2^t (\hat k_1 - \lambda_1 \hat k_0) \\
-  \hat k_{t+1} - \lambda_2 \hat k_{t} 
-    &= \lambda_1^t (\hat k_1 - \lambda_2 \hat k_0)
+  \bar k_{t+1} - \lambda_1 \bar k_{t} 
+    &= \lambda_2^t (\bar k_1 - \lambda_1 \bar k_0) \\
+  \bar k_{t+1} - \lambda_2 \bar k_{t} 
+    &= \lambda_1^t (\bar k_1 - \lambda_2 \bar k_0)
 \end{aligned}$$
 
 と書ける
@@ -523,9 +523,9 @@ $$\begin{aligned}
 
 ## 漸化式の解（cont'd）
 
-$\hat k_{t+1}$ を消去して一般項
+$\bar k_{t+1}$ を消去して一般項
 
-$$\hat k_t = \left(\frac{\lambda_1^t - \lambda_2^t}{\lambda_1 - \lambda_2}\right) \hat k_1 + \left( \frac{\lambda_1\lambda_2^t - \lambda_2 \lambda_1^t}{\lambda_1 - \lambda_2}\right) \hat k_0$$
+$$\bar k_t = \left(\frac{\lambda_1^t - \lambda_2^t}{\lambda_1 - \lambda_2}\right) \bar k_1 + \left( \frac{\lambda_1\lambda_2^t - \lambda_2 \lambda_1^t}{\lambda_1 - \lambda_2}\right) \bar k_0$$
 
 を得られる。
 
@@ -620,13 +620,13 @@ u_{11}^* u_{22}^* - (u_{12}^*)^2
 
 先ほどの漸化式は次の線形方程式で表すことができて，漸化式に対する特性方程式は行列の固有値を求めるための固有方程式と同じものである。
 
-$$\begin{bmatrix} \hat k_{t} \\ \hat k_{t+1}\end{bmatrix}
+$$\begin{bmatrix} \bar k_{t} \\ \bar k_{t+1}\end{bmatrix}
 =
 \begin{bmatrix}
 0 & 1\\
  -\beta^{-1} & - \frac{u_{22}^* + \beta u_{11}^*}{\beta u_{12}^*}
 \end{bmatrix}
-\begin{bmatrix} \hat k_{t-1} \\ \hat k_{t}\end{bmatrix}$$
+\begin{bmatrix} \bar k_{t-1} \\ \bar k_{t}\end{bmatrix}$$
 
 行列を用いた分析は変数の数にかかわらず適用できる。次週以降は，行列の標準化の理論を復習し，多セクターモデルの解法を展開する。
 
@@ -649,13 +649,13 @@ Levhavi-Liviatan の定理は，原点を中心にもつ半径 $1/\sqrt{\beta} >
 
 鞍点のケースでは $|\lambda_1| < 1$, $|\lambda_2| > 1$ であるから，
 
-$$\hat k_t = \left(\frac{\lambda_1^t - \lambda_2^t}{\lambda_1 - \lambda_2}\right) \hat k_1 + \left( \frac{\lambda_1\lambda_2^t - \lambda_2 \lambda_1^t}{\lambda_1 - \lambda_2}\right) \hat k_0$$
+$$\bar k_t = \left(\frac{\lambda_1^t - \lambda_2^t}{\lambda_1 - \lambda_2}\right) \bar k_1 + \left( \frac{\lambda_1\lambda_2^t - \lambda_2 \lambda_1^t}{\lambda_1 - \lambda_2}\right) \bar k_0$$
 は一般には発散する。 **経路が決定できる理由は，
 $$\begin{aligned}
-  \hat k_{t+1} - \lambda_1 \hat k_{t} 
-    &= \lambda_2^t (\hat k_1 - \lambda_1 \hat k_0) \equiv 0
+  \bar k_{t+1} - \lambda_1 \bar k_{t} 
+    &= \lambda_2^t (\bar k_1 - \lambda_1 \bar k_0) \equiv 0
 \end{aligned}$$
-となるように $\hat k_1$ がうまく選ばれるからである**
+となるように $\bar k_1$ がうまく選ばれるからである**
 
 これがマクロ経済モデルの決定性のもっとも簡単なケースである
 
