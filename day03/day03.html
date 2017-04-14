@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Day 03: 行列論の基礎</title>
+    <meta charset="utf-8">
+    <meta name="author" content="佐藤 健治" />
+    <meta name="date" content="2017-04-17" />
+    <link rel="stylesheet" href="../asset/remark-css/style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Day 03: 行列論の基礎
+## 経済動学 (2017Q1)
+### 佐藤 健治
+### 2017-04-17
+
+---
+
+
+
+
+## 宿題 / Homework Assignment
+
+HW03 or HW03j or both  
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+&gt; Due 2017-04-19 18:00.  
+&gt; Hand in by Pull Request.  
+&gt; Read the handout for details!
+
+If you have any problems start discussions on Slack.
+https://rokkoecon.slack.com/
+
+---
+
+class: center, middle
+ # Review 
+
+
+
+---
+
+## 最適条件
+
+1セクターRamseyモデルの最適経路は次の Euler 条件を満たす
+
+`$$u_2(k_{t-1}, k_t) + \beta u_1 (k_t, k_{t+1}) = 0$$`
+
+平衡点 `\(k^*\)` の周りで Taylor 展開し， `\(\bar k_t := k_t - k^*\)` と置くと次の線形差分方程式 linear difference equationを得る
+
+`$$\bar k_{t+1} + \left(\frac{u_{22}^* + \beta u_{11}^*}{\beta u_{12}^*} \right) \bar k_t + \beta^{-1} \bar k_{t-1} = 0$$`
+
+`\(u_{12}^* \neq 0\)` と `\(u\)` の2階連続微分可能性 (`\(u_{12}=u_{21}\)`)を仮定した
+
+---
+
+## 差分方程式の解
+
+特性多項式
+`$$\lambda^2 + \left(\frac{u_{22}^* + \beta u_{11}^*}{\beta u_{12}^*} \right) \lambda + \beta^{-1} = 0$$`
+の解 `\(\lambda_1, \lambda_2\)` を使って解を特徴づける：
+
+`$$\begin{aligned}
+  \bar k_{t+1} - \lambda_1 \bar k_{t}
+    &amp;= \lambda_2^t (\bar k_1 - \lambda_1 \bar k_0) \\
+  \bar k_{t+1} - \lambda_2 \bar k_{t}
+    &amp;= \lambda_1^t (\bar k_1 - \lambda_2 \bar k_0)
+\end{aligned}$$`
+
+
+---
+
+## `\(\lambda_1\)` と `\(\lambda_2\)` の性質
+
+Levhari-Liviatan-Santos の定理より，次の事実が分かる
+
+- `\(\lambda_1\)`, `\(\lambda_2\)` は実数
+- `\(|\lambda_1| &lt; \beta^{-1/2} &lt; |\lambda_2|\)`
+
+---
+
+## 行列の固有値との関係
+
+先ほどの漸化式は次の線形方程式で表すことができて，漸化式に対する特性方程式は行列の固有値を求めるための固有方程式と同じものである。
+
+`$$\begin{bmatrix} \bar k_{t} \\ \bar k_{t+1}\end{bmatrix}
+=
+\begin{bmatrix}
+0 &amp; 1\\
+ -\beta^{-1} &amp; - \frac{u_{22}^* + \beta u_{11}^*}{\beta u_{12}^*}
+\end{bmatrix}
+\begin{bmatrix} \bar k_{t-1} \\ \bar k_{t}\end{bmatrix}$$`
+
+行列を用いた分析は変数の数にかかわらず適用できる。次週以降は，行列の標準化の理論を復習し，多セクターモデルの解法を展開する。
+
+---
+
+## 鞍点
+
+Levhavi-Liviatan の定理は，原点を中心にもつ半径 `\(1/\sqrt{\beta} &gt; 1\)` の円をまたぐように特性根が分布することを示している。
+
+1セクターモデルの特性根は
+
+- すべて絶対値1以上か，
+- 片方が1以下でもう一方が1より大きい
+
+というケースしかありえない。LRE の分析では特に2つ目のケースが重要である。
+
+---
+
+## 鞍点（cont'd）
+
+鞍点のケースでは `\(|\lambda_1| &lt; 1\)`, `\(|\lambda_2| &gt; 1\)` であるから，
+
+`$$\bar k_t = \left(\frac{\lambda_1^t - \lambda_2^t}{\lambda_1 - \lambda_2}\right) \bar k_1 + \left( \frac{\lambda_1\lambda_2^t - \lambda_2 \lambda_1^t}{\lambda_1 - \lambda_2}\right) \bar k_0$$`
+は一般には発散する。 **経路が決定できる理由は，
+`$$\begin{aligned}
+  \bar k_{t+1} - \lambda_1 \bar k_{t}
+    &amp;= \lambda_2^t (\bar k_1 - \lambda_1 \bar k_0) \equiv 0
+\end{aligned}$$`
+となるように `\(\bar k_1\)` がうまく選ばれるから**
+
+これがマクロ経済モデルの解法のエッセンスである。
+
+---
+
+## 行列形式
+
+一般解を得る前段階で用いた式
+
+`$$\begin{aligned}
+  \bar k_{t+1} - \lambda_2 \bar k_{t}
+    &amp;= \lambda_1^t (\bar k_1 - \lambda_2 \bar k_0) \\
+  \bar k_{t+1} - \lambda_1 \bar k_{t}
+    &amp;= \lambda_2^t (\bar k_1 - \lambda_1 \bar k_0)
+\end{aligned}$$`
+
+を行列形式で表すと
+
+`$$\begin{bmatrix}
+  \bar k_{t+1} - \lambda_2 \bar k_t \\
+  \bar k_{t+1} - \lambda_1 \bar k_t
+\end{bmatrix}
+=
+\begin{bmatrix}
+  \lambda_1^t &amp; 0 \\
+  0 &amp; \lambda_2^t
+\end{bmatrix}
+\begin{bmatrix}
+  \bar k_{1} - \lambda_2 \bar k_0 \\
+  \bar k_{1} - \lambda_1 \bar k_0
+\end{bmatrix}$$`
+
+`\(\bar k_1 = \lambda_1 \bar k_0\)` より，2行目は常にゼロである。
+
+---
+
+## 行列形式（cont'd）
+
+ここまでの手続きをまとめておこう。
+
+1. 最適条件を求める
+2. 線形化する
+3. 行列の固有値を求める
+4. **行列を「対角化」し，絶対値が1より大きな固有値が下段にくるようにする**
+5. **「不安定固有値」がある行（下段）がゼロになるように初期値を決める**
+
+これから学ぶ Blanchar-Kahn, King-Watson, Klein, etc. も同じアイデアにもとづいている。
+**多変数のモデルを扱うために行列論をきちんと学びましょう**
+
+
+---
+
+## 行列
+
+行列は
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"countIncrementalSlides": false,
+"highlightLines": true,
+"highlightStyle": "github"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {window.dispatchEvent(new Event('resize'));});</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
