@@ -32,6 +32,10 @@ knitr::opts_chunk$set(
 
 ## 宿題 / Homework Assignment
 
+```{r, include=FALSE}
+library("rblocks")
+```
+
 HW03 or HW03j or both  
 Visit https://github.com/rokko-ed17q1/hw-portal
 
@@ -85,11 +89,19 @@ Levhari-Liviatan-Santos の定理より，次の事実が分かる
 - $\lambda_1$, $\lambda_2$ は実数
 - $|\lambda_1| < \beta^{-1/2} < |\lambda_2|$
 
+解経路を決定する際には
+
+$$\begin{aligned}
+  \bar k_{t+1} - \lambda_1 \bar k_{t}
+    &= \lambda_2^t (\bar k_1 - \lambda_1 \bar k_0) \equiv 0
+\end{aligned}$$
+となるように $\bar k_1$ を選ぶ
+
 ---
 
 ## 行列の固有値との関係
 
-先ほどの漸化式は次の線形方程式で表すことができて，漸化式に対する特性方程式は行列の固有値を求めるための固有方程式と同じものである。
+先ほどの漸化式は線形方程式
 
 $$\begin{bmatrix} \bar k_{t} \\ \bar k_{t+1}\end{bmatrix}
 =
@@ -99,51 +111,56 @@ $$\begin{bmatrix} \bar k_{t} \\ \bar k_{t+1}\end{bmatrix}
 \end{bmatrix}
 \begin{bmatrix} \bar k_{t-1} \\ \bar k_{t}\end{bmatrix}$$
 
-行列を用いた分析は変数の数にかかわらず適用できる。次週以降は，行列の標準化の理論を復習し，多セクターモデルの解法を展開する。
+で表すことができて，漸化式に対する特性方程式は行列の固有値を求めるための固有方程式
+
+$$\det
+\begin{bmatrix}
+\lambda & -1\\
+ \beta^{-1} & \lambda + \frac{u_{22}^* + \beta u_{11}^*}{\beta u_{12}^*}
+\end{bmatrix}
+=
+0$$
+
+と同じもの
 
 ---
 
-## 鞍点
-
-Levhavi-Liviatan の定理は，原点を中心にもつ半径 $1/\sqrt{\beta} > 1$ の円をまたぐように特性根が分布することを示している。
-
-1セクターモデルの特性根は
-
-- すべて絶対値1以上か，
-- 片方が1以下でもう一方が1より大きい
-
-というケースしかありえない。LRE の分析では特に2つ目のケースが重要である。
+`r section("Analysis Using Linear Algebra")`
 
 ---
 
-## 鞍点（cont'd）
+## なぜ行列を使うのか？
 
-鞍点のケースでは $|\lambda_1| < 1$, $|\lambda_2| > 1$ であるから，
+Matrix operations scale.
 
-$$\bar k_t = \left(\frac{\lambda_1^t - \lambda_2^t}{\lambda_1 - \lambda_2}\right) \bar k_1 + \left( \frac{\lambda_1\lambda_2^t - \lambda_2 \lambda_1^t}{\lambda_1 - \lambda_2}\right) \bar k_0$$
-は一般には発散する。 **経路が決定できる理由は，
-$$\begin{aligned}
-  \bar k_{t+1} - \lambda_1 \bar k_{t}
-    &= \lambda_2^t (\bar k_1 - \lambda_1 \bar k_0) \equiv 0
-\end{aligned}$$
-となるように $\bar k_1$ がうまく選ばれるから**
+- 漸化式の解法は一般化しにくい。
+- 行列を用いた分析は変数の数にかかわらず適用できる
+  - 数千単位の内生変数が使われるモデルもある
 
-これがマクロ経済モデルの解法のエッセンスである。
+先週の結果を行列の言葉で表現し直そう
+
+**LREモデルの解法の概要を説明するとともに，なぜ行列理論をきちんと学ぶ必要があるかを説明する**
 
 ---
 
-## 行列形式
+## Ramsey モデルと鞍点
 
-一般解を得る前段階で用いた式
+- 不動点の周りの挙動は，Jacobian matrix の固有値 eigenvalues によって特徴づけられる
+  - Hartman-Grobman
+- Levhavi-Liviatan の定理は，原点を中心にもつ半径 $1/\sqrt{\beta} > 1$ の円をまたぐように
+  固有値が分布することを示している（1セクターに限らない，1セクターなら固有値は実数）
+- $\beta < 1$ が十分 1 に近ければ，単位円（ $|z| = 1$ ）をまたぐように分布
+  - 不動点は **鞍点 (saddle)** である
 
-$$\begin{aligned}
-  \bar k_{t+1} - \lambda_2 \bar k_{t}
-    &= \lambda_1^t (\bar k_1 - \lambda_2 \bar k_0) \\
-  \bar k_{t+1} - \lambda_1 \bar k_{t}
-    &= \lambda_2^t (\bar k_1 - \lambda_1 \bar k_0)
-\end{aligned}$$
 
-を行列形式で表すと
+---
+
+## Ramsey モデルと鞍点安定性
+
+不安点な成分を打ち消すように初期値が選ばれ，安定的な経路が実現することを，
+経済学では **鞍点安定（saddle-point stable）** と表現する
+
+Ramsey モデルの動学は鞍点安定性の典型的な例である
 
 $$\begin{bmatrix}
   \bar k_{t+1} - \lambda_2 \bar k_t \\
@@ -159,26 +176,1302 @@ $$\begin{bmatrix}
   \bar k_{1} - \lambda_1 \bar k_0
 \end{bmatrix}$$
 
-$\bar k_1 = \lambda_1 \bar k_0$ より，2行目は常にゼロである。
+$\bar k_1 = \lambda_1 \bar k_0$ が選ばれ，2行目は常にゼロ。
+1行目が鞍点安定な経路を決定する
 
 ---
 
-## 行列形式（cont'd）
+## 鞍点（cont'd）
 
-ここまでの手続きをまとめておこう。
+鞍点のケースでは $|\lambda_1| < 1$, $|\lambda_2| > 1$ であるから，
 
-1. 最適条件を求める
-2. 線形化して行列表現を得る
-3. 行列の固有値を求める
-4. **行列を「対角化」し，絶対値が1より大きな固有値が下段（上段）にくるようにする**
-5. **下段（上段）が常にゼロになるように初期値を決める**
+$$\bar k_t =
+\left(\frac{\lambda_1^t - \lambda_2^t}{\lambda_1 - \lambda_2}\right)
+\bar k_1 +
+\left( \frac{\lambda_1\lambda_2^t - \lambda_2 \lambda_1^t}{\lambda_1 - \lambda_2}\right) \bar k_0$$
 
-これから学ぶ Blanchar-Kahn, King-Watson, Klein, etc. も同じアイデアにもとづいている。
+は一般には発散する。 **経路を決定できる理由は
+$$\begin{aligned}
+  \bar k_{t+1} - \lambda_1 \bar k_{t}
+    &= \lambda_2^t (\bar k_1 - \lambda_1 \bar k_0) \equiv 0
+\end{aligned}$$
+となるように $\bar k_1$ がうまく選ばれるから**
+
+これが REモデルの解法のエッセンス
+
+---
+
+## LRE モデルと鞍点
+
+- 一般の LRE モデルでは，Levhavi-Liviatan の定理は**成り立たない**が
+  鞍点の存在によって解を特徴づける点で共通している
+- **経済主体の合理的な選択は発散経路を排除するように初期値を選ぶ**
+
+Rational agents select initial values so as to eliminate explosive paths.
+This is an important idea behind solution methods of LRE models.
+
+---
+
+## Summary (important!)
+
+.pull-left[
+1. 最適条件を求める  
+2. 線形化, 行列表現を得る  
+3. **行列を標準形に変形，絶対値が1より大きな固有値が下段（上段）にくるようにシステムを変形する**   
+4. **下段（上段）が常にゼロになるように初期値を決める**   
+]
+.pull-right[
+1. Find FoC's
+2. (Log-)Linearize.
+3. **Transform the system to a canonical form, partition it into stable and unstable subsys's**
+4. **Eliminate unstable component by properly setting initial values**
+]
+
+---
+
+## 標準形
+
+上の議論から，システム $Ax_{t+1} = Bx_t + Cu_t$ を次のように変形できればよいことが推察される
+
+$$\begin{bmatrix}
+  A_s & 0 \\
+  0 & A_u
+\end{bmatrix}
+\begin{bmatrix}
+  y^s_{t+1} \\
+  y^u_{t+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+  B_s & 0 \\
+  0 & B_u
+\end{bmatrix}
+\begin{bmatrix}
+  y^s_{t} \\
+  y^u_{t}
+\end{bmatrix}
++
+\begin{bmatrix}
+  C_s \\
+  C_u
+\end{bmatrix}
+u_t$$
+
+ただし
+- $B_s$ は安定固有値だけをもつ行列（Stable Matrix）
+- $B_u$ は不安定固有値だけをもつ行列（Anti-stable Matrix）
+
+---
+
+## 標準形（cont'd）
+
+後に詳しく学ぶように，さきほどの分解によってシステムは2つの成分に分解される
+
+$$\begin{aligned}
+y_{t+1}^s &= A_s^{-1}B_s y_t^s + A_s^{-1} C_s u_t \\
+y_t^{u}   &= B_u^{-1} A_u y_{t+1}^u - B_u^{-1} C_u u_t
+\end{aligned}$$
+
+この分解は「標準形」（canonical form）による
+* 対角化
+* Jordan canonical form
+* Weierstrass canonical form
+* Schur decomposition
+* QZ (Generalized Schur) decomposition
+
+---
+
+## Foward-Backward decomposition
+
+時間のインデックスに注目しよう
+
+$$\begin{aligned}
+y_{t+1}^s &= A_s^{-1}B_s y_t^s + A_s^{-1} C_s u_t & \text{(Backward looking)}\\
+y_t^{u}   &= B_u^{-1} A_u y_{t+1}^u - B_u^{-1} C_u u_t & \text{(Forward looking)}
+\end{aligned}$$
+
+* 1本目の式は，現在が未来を決める
+* 2本目の式は，未来が現在を決める
+
+資本蓄積方程式（capital accumulation eqn.）とEuler 方程式の役割を思い出してほしい。
+
+---
+
+`r section("Linear algebra crash course: Shape of matrices")`
 
 ---
 
 ## 行列
 
-2次元であろうと10,000次元であろうと同じ形式でモデルを扱うことができる（scalability）
+まずは簡単に表形式に数を並べたものとして**行列 (matrix)** を捉えよう。行列とは次のような対象である
+$$A =
+\begin{bmatrix}
+  a_{1,1}   & a_{1,2}   & \cdots & a_{1,n-1}   & a_{1,n}  \\
+  a_{2,1}   & a_{2,2}   & \cdots & a_{2,n-1}   & a_{2,n}  \\
+  \vdots    & \vdots    & \ddots & \vdots      & \vdots   \\
+  a_{m-1,1} & a_{m-1,2} & \cdots & a_{m-1,n-1} & a_{m-1,n}\\
+  a_{m,1}   & a_{m,2}   & \cdots & a_{m-1,n}   & a_{m,n}
+\end{bmatrix}$$
 
-- 理論・計算ともに
+$a_{i,j}\in\mathbb{F}$， $i=1,\dots,m$， $j=1,\dots,n$ 。 $\mathbb{F}$ は
+$\mathbb{R}$ または $\mathbb{C}$ 。数 $a_{i,j}$ を行列の**成分**または**要素 (element，component，entry)** と呼ぶ
+
+---
+
+## 行列
+
+```{r, echo=FALSE}
+mat = rblocks::block_grid(5, 8, type = 'matrix')
+display(mat)
+```
+
+---
+
+## 行（row）
+
+各
+$$\begin{aligned}
+  &\begin{bmatrix}a_{1,1} & a_{1,2} & \cdots & a_{1,n-1} & a_{1,n}\end{bmatrix}\\
+  &\begin{bmatrix}a_{2,1} & a_{2,2} & \cdots & a_{2,n-1} & a_{2,n}\end{bmatrix}\\
+  &\hspace{6em}\vdots\\
+  &\begin{bmatrix}a_{m,1} & a_{m,2} & \cdots & a_{m,n-1} & a_{m,n}\end{bmatrix}
+\end{aligned}$$
+
+を行列の**行 (row)** という
+
+
+---
+
+## 行（row）
+
+
+```{r, echo=FALSE}
+mat = rblocks::block_grid(5, 8, type = 'matrix')
+mat[3, ] = 'red'
+display(mat)
+```
+
+
+---
+
+## 列（column）
+
+各
+$$\begin{bmatrix}
+  a_{1,1}\\
+  a_{2,1}\\
+  \vdots\\
+  a_{m-1,1}\\
+  a_{m,1}
+\end{bmatrix},
+\
+\begin{bmatrix}
+  a_{1,2}\\
+  a_{2,2}\\
+  \vdots\\
+  a_{m-1,2}\\
+  a_{m,2}
+\end{bmatrix},
+\ \dots,\
+\begin{bmatrix}
+  a_{1,n}\\
+  a_{2,n}\\
+  \vdots\\
+  a_{m-1,n}\\
+  a_{m,n}
+\end{bmatrix}$$
+
+を行列の**列 (column)** という。上の行列 $A$ は $m$ 個の行と $n$
+個の列を持つので， $m\times n$ 行列と呼ばれる。
+$\mathbb{F}^{m\times n}$　を $\mathbb{F}$
+の値を成分にもつ $m\times n$ 行列の全体の集合と定義する
+
+---
+
+## 列（column）
+
+```{r, echo=FALSE}
+mat = rblocks::block_grid(5, 8, type = 'matrix')
+mat[, 4] = 'red'
+display(mat)
+```
+
+
+---
+
+## 正方行列 (square matrix)
+
+
+$m=n$ のとき，すなわち $A\in\mathbb{F}^{n\times n}$ のとき， $A$ は $n$ 次の
+**正方行列 (square matrix of order $n$)** であるという。
+
+```{r, echo=FALSE}
+square = rblocks::block_grid(5, 5, type = 'matrix')
+display(square)
+```
+
+---
+
+## ゼロ行列 (zero matrix，null matrix) 
+
+すべての成分がゼロである行列をゼロ行列という。 $O_{n\times m}$, $O$ とか $0$ と書く。
+
+$$O_{2\times3} = 
+\begin{bmatrix}
+  0 & 0 & 0\\
+  0 & 0 & 0
+\end{bmatrix}$$
+
+---
+
+## 対角成分 (diagonal elements) 
+
+**対角成分 (diagonal elements)**  
+正方行列 $A$ の成分 $\{a_{ij}\ |\ i,j=1,\dots,n\}$ のうち $i=j$ なる部分 $\{a_{11},\dots,a_{nn}\}$
+
+**優対角成分 (superdiagonal elements)**  
+対角成分の1つ上の成分 $\{a_{12},a_{23},\dots,a_{n-1,n}\}$
+
+**劣対角成分 (subdiagonal elements)**  
+対角成分の1つ下の成分 $\{a_{21},a_{32},\dots,a_{n,n-1}\}$ 
+
+**トレース (trace)**  
+対角成分の和をトレースといい， $\operatorname{trace} A$ と書く.
+
+---
+
+## 対角成分 (diagonal elements)
+
+```{r, echo=FALSE, out.height="600px"}
+n = 4
+layout(matrix(c(1, 2, 3, 4, 4, 4), nrow = 2, byrow = TRUE))
+
+# diagonal
+mat = rblocks::block_grid(n, n, type = 'matrix')
+for (i in 1:n) mat[i, i] = 'red'
+display(mat)
+
+# superdiagonal
+mat = rblocks::block_grid(n, n, type = 'matrix')
+for (i in 1:(n - 1)) mat[i, i + 1] = 'red'
+display(mat)
+
+# subdiagonal
+mat = rblocks::block_grid(n, n, type = 'matrix')
+for (i in 2:n) mat[i, i - 1] = 'red'
+display(mat)
+
+```
+
+
+---
+
+## 三角行列 (triangular matrix) 
+
+$A=[a_{ij}]$ を正方行列とする
+
+**上三角行列 (upper triangular matrix)**  
+$A=[a_{ij}]$ が $i>j\Rightarrow a_{ij}=0$
+
+**下三角行列 (lower triangular matrix)**  
+$A=[a_{ij}]$ が $i<j\Rightarrow a_{ij}=0$
+
+---
+
+## 三角行列 (triangular matrix) 
+
+```{r, echo=FALSE, out.height="600px"}
+layout(matrix(c(1, 2, 3, 3), nrow = 2, byrow = TRUE))
+
+# upper triangular
+mat = rblocks::block_grid(n, n, type = 'matrix')
+for (i in 1:n) {
+  for (j in 1:n) {
+    if (i <= j) {
+      mat[i, j] = 'red' 
+    } else {
+      mat[i, j] = 'gray'
+    }
+  }
+}
+display(mat)
+
+# lower triangular
+mat = rblocks::block_grid(n, n, type = 'matrix')
+for (i in 1:n) {
+  for (j in 1:n) {
+    if (i >= j) {
+      mat[i, j] = 'red' 
+    } else {
+      mat[i, j] = 'gray'
+    }
+  }
+}
+display(mat)
+
+```
+
+---
+
+## 対角行列 (diagonal matrix) 
+
+**対角行列 (diagonal matrix)**  
+対角成分を除いた成分がすべてゼロであるような正方行列
+
+$$\begin{bmatrix}
+a_1 & &  \\ 
+    & \ddots & \\ 
+    &  & a_n 
+\end{bmatrix}$$
+
+
+---
+
+## 対角行列 (diagonal matrix) 
+
+```{r, echo=FALSE}
+# diagonal
+mat = rblocks::block_grid(n, n, type = 'matrix')
+for (i in 1:n) {
+  for (j in 1:n) {
+    if (i == j) {
+      mat[i, j] = 'red' 
+    } else {
+      mat[i, j] = 'gray'
+    }
+  }
+}
+display(mat)
+
+```
+
+---
+
+## 対角行列 (diagonal matrix) 
+
+$\operatorname{diag}\{a_1, \dots, a_n\}$ のように書いて対角成分が左上から順に $a_{1},\dots,a_{n}$ である対角行列を表すことがある。
+
+R でも類似の方法で対角行列を定義できる。
+
+```{r}
+diag(c(1, 2, 3))
+```
+
+
+---
+
+## 単位行列 (identity matrix) 
+
+**単位行列** 
+対角成分がすべて $1$ である対角行列
+
+* $n$ 次の単位行列を $I_{n}$ と書く
+* 誤解の恐れがない場合は単に $I$ と書く
+
+```{r}
+diag(3)
+```
+
+---
+
+## 転置行列 (transpose matrix) 
+
+$A=[a_{ij}]\in\mathbb{F}^{m\times n}$ の **転置行列**  $A^{\top}$ とは， $(A^{\top})_{ij}=a_{ji}$,
+$i=1,\dots,m$, $j=1,\dots n$ を満たす $m\times n$ 行列のこと
+
+```{r}
+A = matrix(c(1, 2, 3, 4), nrow = 2)
+A
+t(A)
+```
+
+
+---
+
+## 共役転置行列 (Hermitian transpose) 
+
+$A=[a_{ij}]\in\mathbb{F}^{m\times n}$ の**共役転置行列** $A^{*}$ とは, $(A^{*})_{ij}=\bar{a}_{ji}$,
+$i=1,\dots,m$, $j=1,\dots n$ を満たす $m\times n$ 行列のこと
+
+実行列の共役転置行列は転置行列である。
+
+```{r}
+Conj(t(A + A * 1i))
+```
+
+---
+
+## 対称行列 (symmetric matrix) 
+
+**対称行列 (symmetric matrix)**  
+$$A^{\top}=A$$
+
+**エルミート行列 (Hermitian matrix)**  
+$$A^{*}=A$$
+
+
+---
+
+## 列/行ベクトル (column/row vector) 
+
+数ベクトルも行列の一種と捉えることができる
+
+$$\begin{aligned}
+  \mathbb{F}^{n\times1} &= \left\{
+    \begin{bmatrix}
+      a_1\\
+      \vdots\\
+      a_n
+    \end{bmatrix}
+    \mid
+    a_1, \dots, a_n \in \mathbb F
+  \right\} \\
+  \mathbb{F}^{1\times n} &= \left\{
+    \begin{bmatrix}
+      a_1 & \cdots & a_n
+    \end{bmatrix}
+    \mid
+    a_1, \dots, a_n \in \mathbb F
+  \right\} 
+\end{aligned}$$
+
+通常これらのうちいずれかを $\mathbb{F}^{n}$ と記す (普通は $\mathbb F^{n\times 1}$)
+
+行列 $A\in\mathbb{F}^{n\times m}$ を $n$次元列ベクトル ( $\mathbb{F}^{n\times1})$
+を $m$ 個並べたもの， $m$次元行ベクトル ( $\mathbb{F}^{1\times m})$ を $n$
+個並べたものと考えることもある
+
+
+---
+
+## ブロック行列 (block matrix) 
+
+$$\begin{aligned}A
+&=\left[
+  \begin{array}{ccc|ccc}
+    a_{1,1} & \cdots & a_{1,n} & a_{1,n+1} & \cdots & a_{1,n+q}\\
+    \vdots & \ddots & \vdots & \vdots & \ddots & \vdots\\
+    a_{m,1} & \cdots & a_{m,n} & a_{m,n+1} & \cdots & a_{m,n+q}\\
+    \hline a_{m+1,1} & \cdots & a_{m+1,n} & a_{m+1,n+1} & \cdots & a_{m+1,n+q}\\
+    \vdots & \ddots & \vdots & \vdots & \ddots & \vdots\\
+    a_{m+p,1} & \cdots & a_{m+p,n} & a_{m+p,n+1} & \cdots & a_{m+p,n+q}
+  \end{array}
+  \right]\\
+&=:
+  \left[
+    \begin{array}{c|c}
+      A_{11} & A_{12}\\
+      \hline
+      A_{21} & A_{22}
+    \end{array}
+  \right]
+\end{aligned}$$
+
+---
+
+## ブロック対角行列 (block diagonal matrix)
+
+```{r, echo=FALSE}
+n = 5
+# block diagonal
+mat = rblocks::block_grid(n, n, type = 'matrix')
+for (i in 1:n) {
+  for (j in 1:n) {
+    if (i <= 3 && j <= 3) {
+      mat[i, j] = 'red' 
+    } else if (i > 3 && j > 3) {
+      mat[i, j] = 'blue'
+    } else {
+      mat[i, j] = 'gray'
+    }
+  }
+}
+display(mat)
+
+```
+
+
+---
+
+## ブロック上三角行列 (block upper triangular matrix)
+
+```{r, echo=FALSE}
+n = 5
+# block diagonal
+mat = rblocks::block_grid(n, n, type = 'matrix')
+for (i in 1:n) {
+  for (j in 1:n) {
+    if (i <= 3 && j <= 3) {
+      mat[i, j] = 'red' 
+    } else if (i > 3 && j > 3) {
+      mat[i, j] = 'blue'
+    } else if (i > 3) {
+      mat[i, j] = 'gray'
+    }
+  }
+}
+display(mat)
+
+```
+
+---
+
+`r section("Linear algebra crash course: Matrix operations")`
+
+---
+
+## スカラー倍（scalar multiplication）
+
+$A\in\mathbb{F}^{m\times n}$, $\alpha\in\mathbb{F}$ について,
+
+$$\begin{aligned}\alpha A
+&:=\begin{bmatrix}\alpha a_{1,1} & \alpha a_{1,2} & \cdots & \alpha a_{1,n-1} & \alpha a_{1,n}\\
+\alpha a_{2,1} & \alpha a_{2,2} & \cdots & \alpha a_{2,n-1} & \alpha a_{2,n}\\
+\vdots & \vdots & \ddots & \vdots & \vdots\\
+\alpha a_{m-1,1} & \alpha a_{m-1,2} & \cdots & \alpha a_{m-1,n-1} & \alpha a_{m-1,n}\\
+\alpha a_{m,1} & \alpha a_{m,2} & \cdots & \alpha a_{m-1,n} & \alpha a_{m,n}
+\end{bmatrix}\\
+&\in\mathbb{F}^{m\times n}\end{aligned}$$
+
+
+---
+
+## 和（Addition）
+
+$A=[a_{ij}]\in\mathbb{F}^{m\times n}$, $B=[b_{ij}]\in\mathbb{F}^{m\times n}$ に対して，
+
+$$A+B:=[a_{ij}+b_{ij}]\in\mathbb{F}^{m\times n}$$
+和は**交換法則(commutative law)**
+$$A+B =B+A$$
+**結合法則(associative law)**
+$$A+(B+C) =(A+B)+C$$
+を満たす
+
+---
+
+## 積（Multiplication）
+
+行列 $A=[a_{ij}]\in\mathbb{F}^{m\times n}$ と $B=[b_{ij}]\in\mathbb{F}^{n\times p}$
+の積 $AB\in\mathbb{F}^{m\times p}$ を次のように定義する.
+
+$$AB:=\left[\sum_{k=1}^{n}a_{ik}b_{kj}\right]$$
+この定義は**線形写像の合成**という観点から見ればごく自然なものであることが分かる
+
+---
+
+## 積（Multiplication）
+
+```{r, echo=FALSE, out.height="800px"}
+n = 3 # AB = n x m
+m = 4 # A = n x k
+k = 5 # B = k x m
+
+layout(matrix(c(1, 2)))
+
+mat = rblocks::block_grid(k, m + k + m + 3, type = 'matrix')
+mat[, m + 1] = 'white'
+mat[, m + 2] = 'white'
+mat[, m + 2 + k + 1] = 'white'
+mat[1, 1:(m + 2 + k)] = 'white'
+mat[k, 1:(m + 2 + k)] = 'white'
+
+mat[3, 3] = 'red'
+mat[3, 7:11] = 'red'
+mat[, m + k + m + 2] = 'red'
+
+display(mat)
+```
+
+---
+
+## 積（Multiplication）
+
+正方行列 $A,B\in\mathbb{F}^{n\times n}$ に対して， $AB$ と $BA$ の両方が定義される。しかし，それらは一般には一致しない。例えば，
+$$\begin{aligned}
+  \begin{bmatrix}
+    1 & 1\\
+    0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 & 0\\
+    1 & 1
+  \end{bmatrix}
+  & \neq
+  \begin{bmatrix}
+    1 & 0\\
+    1 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 & 1\\
+    0 & 1
+  \end{bmatrix}
+\end{aligned}$$
+
+---
+
+## 積（Multiplication）
+
+行列の積には次の性質がある。
+$$\begin{aligned}
+  (AB)C & =A(BC)\\
+  A(B+C) & =AB+AC\\
+  (A+B)C & =AC+BC.
+\end{aligned}$$
+スカラー$\alpha$に対して，
+$$(\alpha A)B=A(\alpha B)=\alpha(AB).$$
+
+
+---
+
+## 可換（commutative matrices）
+
+$AB=BA$ が成り立つとき， $A$ と $B$ は**可換である (commute)**という。
+
+単位行列とゼロ行列は任意の行列と可換である。任意の $A\in\mathbb{F}^{n\times n}$ に対して
+$$AI_{n}=I_{n}A=A$$
+と
+$$AO_{n\times n}=O_{n\times n}A=O_{n\times n}$$
+が成り立つ。
+
+---
+
+## 逆行列 (Inverse matrix) 
+
+正方行列 $A\in\mathbb{F}^{n\times n}$ に対して，
+
+$$AB=BA=I_{n}$$
+なる $B\in\mathbb{F}^{n\times n}$ が存在するとき $A$ は**可逆 (invertible)** あるいは**正則 (regular)** であるという。 $B$ を $A$ の**逆行列 (inverse matrix)** といい $A^{-1}$ と記す。
+
+
+---
+
+## 逆行列の性質
+
+
+.theorem[
+逆行列は存在すれば一意的に定まる
+]
+
+.theorem[
+逆行列は存在すれば正則である
+]
+
+
+.theorem[
+$A,B\in\mathbb{F}^{n\times n}$ がともに正則であるとき， $AB$ は可逆であり， $(AB)^{-1}=B^{-1}A^{-1}$ が成り立つ
+]
+
+
+---
+
+## 直交行列 (orthogonal matrix) 
+
+**直交行列 (orthogonal matrix)**  
+$A\in\mathbb{R}^{n\times n}$ が直交行列であるとは， $A^{\top}=A^{-1}$ が成り立つことをいう。
+
+**ユニタリ行列 (unitary matrix)**  
+$A\in\mathbb{C}^{n\times n}$ がユニタリ行列であるとは，$A^{*}=A^{-1}$ が成り立つことをいう。
+
+
+---
+
+`r section("Linear algebra crash course: Linear equation")`
+
+---
+
+## 線形方程式
+
+行列とベクトルの組
+$$\begin{aligned}
+  A =[a_{ij}]\in\mathbb{F}^{m\times n},\quad
+  b =[b_{j}]\in\mathbb{F}^{m\times1}
+\end{aligned}$$
+
+に対して，
+$$
+Ax=b
+$$
+を満たす $x\in\mathbb{F}^{n\times1}$ を求める問題を**線形方程式 (linear equation)**という。 $Ax$ は行列 $A$と列ベクトル
+$x$ の積である。
+
+---
+
+## 線形方程式（cont'd）
+
+これは次の連立1次方程式の行列表現に外ならない。
+$$\begin{cases}
+a_{11}x_{1}+\cdots+a_{1n}x_{n}=b_{1}\\
+\qquad\vdots\\
+a_{m1}x_{1}+\cdots+a_{mn}x_{n}=b_{m}
+\end{cases}$$
+
+---
+
+## 線形連立方程式の変形
+
+要点を理解するために簡単な例を用いよう。
+
+連立方程式
+$$\begin{cases}
+    x_{1}+x_{2}=1\\
+    x_{1}-x_{2}=2
+\end{cases}$$
+を行列の形式で表現すると
+
+$$\begin{bmatrix}
+    1 & 1\\
+    1 & -1
+  \end{bmatrix}
+  \begin{bmatrix}
+    x_{1}\\x_{2}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1\\2
+\end{bmatrix}$$
+  
+と表すことができる。
+
+---
+
+## 線形連立方程式の変形（cont'd）
+
+全く同じ連立方程式で順序だけを入れ替えたもの
+$$\begin{cases}
+x_{1}-x_{2}=2\\
+x_{1}+x_{2}=1
+\end{cases}$$
+を行列表示すると，
+
+$$\begin{bmatrix}1 & -1\\
+1 & 1
+\end{bmatrix}\begin{bmatrix}x_{1}\\
+x_{2}
+\end{bmatrix}=\begin{bmatrix}2\\
+1
+\end{bmatrix}$$
+
+**全く同じ $(x_{1},x_{2})$ が解であるという意味で同値な方程式であるが，係数行列 $A$ と定数項 $b$ が異なっている**
+
+---
+
+## 線形連立方程式の変形（cont'd）
+
+この他にも，
+$$\begin{cases}
+x_{1}-x_{2}=2\\
+x_{1}+x_{2}=1
+\end{cases}$$
+の第1式を定数倍した
+$$\begin{cases}
+2x_{1}-2x_{2}=4\\
+x_{1}+x_{2}=1
+\end{cases}$$
+も同値な方程式である
+
+---
+
+## 線形連立方程式の変形（cont'd）
+
+
+$$\begin{cases}
+x_{1}-x_{2}=2\\
+x_{1}+x_{2}=1
+\end{cases}$$
+の第1式を第2式に足すことで得られる
+$$\begin{cases}
+x_{1}-x_{2}=2\\
+x_{1}+x_{2}+(x_{1}-x_{2})=1+2
+\end{cases}$$
+も同じ解をもつはずである。
+
+行列表現がどのように変わるかを確認してほしい。
+
+---
+
+## 線形連立方程式の変形（cont'd）
+
+あるいは次の方程式
+$$\begin{cases}
+x_{2}+x_{1}=1\\
+-x_{2}+x_{1}=2
+\end{cases}$$
+も全く同じ方程式を変形したものなので，その行列表示
+$$\begin{bmatrix}1 & 1\\
+-1 & 1
+\end{bmatrix}\begin{bmatrix}x_{2}\\
+x_{1}
+\end{bmatrix}=\begin{bmatrix}1\\
+2
+\end{bmatrix}$$
+も，$x_{1},x_{2}$ の順序は入れ替わるが同じ解を導く。
+
+---
+
+## 線形連立方程式の変形（cont'd）
+
+見かけ上異なる複数の行列が連立方程式の解という観点から見れば全て同じものになるという事実は応用上大変重要である。
+
+連立方程式や動学方程式を分析する上では,
+もっとも有利な形式に変形してから分析すれば十分なのである。特に，あらかじめ都合のよい形式に変形されているものとして理論分析を行うこともあるので,
+応用者は自らそのような形式に変形し，さらに復元できなければいけない。
+
+---
+
+## 線形連立方程式の変形（cont'd）
+
+ 連立方程式の求解に関していえば，同値な変形を繰り返して
+$$\begin{cases}
+  x_{1}=*\\
+  x_{2}=*
+\end{cases}$$
+という形式を導けばよい。行列表示すると
+$$\begin{bmatrix}
+  1 & 0\\
+  0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+  x_{1}\\
+  x_{2}
+\end{bmatrix}=\begin{bmatrix}*\\
+*
+\end{bmatrix}$$
+
+---
+
+## 基本変形
+
+連立方程式の変形を行列の言葉で表現してみよう。
+
+* 行基本変形
+  * 行の交換
+  * 行全体の非ゼロ定数倍
+  * 行の定数倍を別の行に加える 
+* 列基本変形
+  * 列の交換
+  * 列全体の非ゼロ定数倍
+  * 列の定数倍を別の行に加える
+* 初等変形
+  * 行基本変形と列基本変形を有限回適用
+
+---
+
+## 行の交換 
+
+$2\times2$ 行列の行順序の変更は行列 $\left[\begin{smallmatrix}0 & 1\\1 & 0\end{smallmatrix}\right]$を左から掛ける操作に対応する。
+$$\begin{aligned}
+\begin{bmatrix}0 & 1\\
+1 & 0
+\end{bmatrix}\begin{bmatrix}1 & 1\\
+1 & -1
+\end{bmatrix}\begin{bmatrix}x_{1}\\
+x_{2}
+\end{bmatrix} & =\begin{bmatrix}1 & -1\\
+1 & 1
+\end{bmatrix}\begin{bmatrix}x_{1}\\
+x_{2}
+\end{bmatrix}\\
+\begin{bmatrix}0 & 1\\
+1 & 0
+\end{bmatrix}\begin{bmatrix}1\\
+2
+\end{bmatrix} & =\begin{bmatrix}2\\
+1
+\end{bmatrix}.
+\end{aligned}$$
+次の関係が成り立つことに注目してほしい.
+$$\begin{bmatrix}
+  0 & 1\\
+  1 & 0
+\end{bmatrix}^{-1}
+=
+\begin{bmatrix}
+  0 & 1\\
+  1 & 0
+\end{bmatrix}$$
+
+---
+
+## 行の交換 
+
+
+より一般の $m\times n$ 行列についてどのようになるか考えてみよ。
+
+.exercise[
+  $A \in\mathbb{F}^{m\times n}$
+  を任意の行列とする。行列の第 $i$ 行と第 $j$ 行を入れ替えた結果が行列積
+  $C_{ij}^{m}A$ で表せるような行列 $C_{ij}^{m}\in\mathbb{F}^{m\times m}$ 
+  の要素をかきだしなさい。
+]
+
+
+---
+
+## 行全体の非ゼロ定数倍 
+
+1つの行にゼロでない定数 $u$ をかける操作も行列積を用いて表現できる。ここでも簡単な場合だけ見ておこう。
+
+$$\begin{bmatrix}1 & 0\\
+0 & u
+\end{bmatrix}\begin{bmatrix}1 & 1\\
+1 & -1
+\end{bmatrix}=\begin{bmatrix}1 & 1\\
+u & -u
+\end{bmatrix}$$
+
+次の関係が成り立つことに注目してほしい.
+
+$$\begin{bmatrix}1 & 0\\
+0 & u
+\end{bmatrix}^{-1}=\begin{bmatrix}1 & 0\\
+0 & 1/u
+\end{bmatrix}$$
+
+---
+
+## 行全体の非ゼロ定数倍 
+
+.exercise[
+$A\in\mathbb{F}^{m\times n}$ を任意の行列とする。行列の第$i$行に一斉に非ゼロ定数
+$u$ をかけた結果が行列積 $D_{i}^{m}(u)A$ で表せるような行列 $D_{i}^{m}(u)\in\mathbb{F}^{m\times m}$ の要素をかきだしなさい。
+]
+
+
+
+---
+
+## 行の定数倍を別の行に加える 
+
+1つの行に(ゼロであってもよい)定数 $a$ をかける操作も行列積を用いて表現できる。簡単な場合だけ見ておこう。
+$$\begin{bmatrix}1 & a\\
+0 & 1
+\end{bmatrix}\begin{bmatrix}1 & 1\\
+1 & -1
+\end{bmatrix}=\begin{bmatrix}1+a & 1-a\\
+1 & -1
+\end{bmatrix}$$
+次の関係が成り立つことに注目してほしい。
+$$\begin{bmatrix}1 & a\\
+0 & 1
+\end{bmatrix}^{-1}=\begin{bmatrix}1 & -a\\
+0 & 1
+\end{bmatrix}$$
+
+---
+
+## 行の定数倍を別の行に加える 
+
+
+一般の場合は練習問題とする。
+.exercise[
+  $A\in\mathbb{F}^{m\times n}$ を任意の行列とする。行列の第 $i$行の
+ $a$倍を第 $j$行に加えた結果が行列積 $E_{ij}^{m}(a)A$ で表せるような行列 $E_{ij}^{m}(a)\in\mathbb{F}^{m\times m}$ の要素をかきだしなさい。
+]
+
+---
+
+
+
+### 列基本変形
+
+行の変形と同様に，列の変形も定義できる。実は上で得られた行列を「右から」かける操作が列変形に対応している。各自確認しておいてほしい。
+
+.exercise[
+$A\in\mathbb{F}^{m\times n}$ を任意の行列とする。行列の第 $i$列と第 $j$列を入れ替えた行列は
+$AC_{ij}^{m}$ と一致する。
+]
+
+---
+
+## 列基本変形（cont'd）
+
+
+.exercise[
+  $A\in\mathbb{F}^{m\times n}$ を任意の行列とする。行列の第 $i$列に一斉に非ゼロ定数
+  $u$ をかけた結果は $AD_{i}^{m}(u)$ と一致する。
+]
+
+.exercise[
+$A\in\mathbb{F}^{m\times n}$ を任意の行列とする。行列の第$i$列の
+$a$倍を第$j$列に加えた結果は $AE_{ij}^{m}(a)$ と一致する。
+]
+
+---
+
+## 列基本変形（cont'd）
+
+列の変形は「解の並び替え」を一般化したものである。  
+線形方程式 $Ax=b$ は
+$$AC_{ij}^{m}\left(C_{ij}^{m}\right)^{-1}x=b$$
+と同値であるから $y=\left(C_{ij}^{m}\right)^{-1}x$ と置き換えれば
+$$AC_{ij}^{m}y=b$$
+と同値である。この変換については座標変換（change of basis）と関連付けて今後より詳しく学ぶことになる。
+
+---
+
+## 初等変形（elementary operations）
+
+行列に行基本変形と列基本変形を繰り返して得られる操作を初等変形とよぼう。
+
+$A\in\mathbb{F}^{m\times n}$， $i=1,\dots,n_{r}$， $j=1,\dots,n_{c}$ について $P_{i}$ をいずれかの行基本変形， $Q_{j}$ をいずれかの列基本変形とすると
+$$P=P_{n_{r}}\cdots P_{1},\quad Q=Q_{1}\cdots Q_{n_{c}}$$
+を用いて初等変形 (の結果) を
+$$PAQ$$
+と表すことができる。
+
+---
+
+## 初等変形（elementary operations）
+
+.exercise[
+ $P,Q$ が正則行列であることを示せ.
+]
+ 
+---
+
+## 初等変形（elementary operations）
+
+.theorem[
+  任意の行列 $A\in\mathbb{F}^{m\times n}$ に対して，適当に初等変形 $P$， $Q$ を選べば
+$$PAQ=\left[\begin{array}{c|c}
+    I_{d\times d} & O_{d\times(n-d)}\\
+    \hline O_{(m-d)\times d} & O_{(m-d)\times(n-d)}
+    \end{array}\right]$$
+  とできる。ここで， $d$ は $P,Q$の選び方によらず $A$のみから決まる定数である
+]
+
+
+
+---
+
+## ランク 
+
+上の $d$ を行列 $A$ の**ランク (rank)**といい， $\operatorname{rank}A$ と書く。
+
+一般に $\mathrm{rank}A\le\min\{m,n\}$ である。この不等式が等号で成り立つとき， $A$ は**フルランク
+(full rank)** であるという。特に， $\operatorname{rank}A = m$ のとき**行フルランク (full column
+rank)**， $\operatorname{rank}A = n$ のとき**列フルランク (full row rank)**という。
+
+
+---
+
+## ランク 
+
+.theorem[
+行列 $A\in\mathbb{F}^{n\times n}$ が正則であることと，フルランクであることは同値である
+]
+
+**証明**
+
+$A$ がフルランクであると仮定する。すなわち
+
+$$PAQ=I$$
+なる初等変形 $P$， $Q$ がある。
+
+---
+
+## 証明
+
+左から $P^{-1}$，右から $Q^{-1}$ をかけてやれば
+$$A = P^{-1}Q^{-1} $$
+が得られる。右辺は正則なので逆行列が存在する。すなわち $A^{-1}=QP$.
+
+$A$ は正則であるがフルランクでないと仮定する。すなわち， $d<n$ に対して
+$$PAQ=\left[\begin{array}{c|c}
+  I_{d\times d} & O_{d\times(n-d)}\\
+  \hline O_{(m-d)\times d} & O_{(m-d)\times(n-d)}
+  \end{array}\right]$$
+
+---
+
+## 証明（cont'd）
+
+逆行列 $A^{-1}$ が存在するので， $PAQ$ に右から $Q^{-1}A^{-1}$ をかければ
+$$
+PAQ(Q^{-1}A^{-1})=P
+$$
+を得る。 $PAQ$ の形状により $P$ の $(d+1)$ 行目以下はすべてゼロにならなければならないが，このような行列を基本変形の積として表現することはできない。この等式は不合理であるから， $A$はフルランクでなければならない.
+
+---
+
+## 逆行列の計算方法
+
+$PAQ=I$ を少し変形すると
+
+$$
+A=P^{-1}Q^{-1}=\tilde{P}^{-1}
+$$
+
+なる行基本変形のみ（あるいは列基本変形のみ）からなる初等変形 $\tilde{P}$ が存在することが分かる。 
+
+$A^{-1}=\tilde{P}$ であるから， **$A$ から $I$ に至る行基本変形を $I$ に施せば $A$の逆行列を得ることができる**
+
+
+---
+
+`r section('R Code')`
+
+---
+
+## R コード
+
+線形システムの分析において行列計算は中心的な役割を果たすので，繰り返しタイプして十分に手に馴染ませて欲しい。
+
+
+---
+
+## 行列の定義
+
+定義したい行列の要素と同じ要素を持つアトミックベクタを定義してから，行列に変換するのがもっとも簡単である。
+
+```{r}
+a <- 1:9
+(A <- matrix(a, nrow = 3))
+```
+
+列方向に並んでいくことを確認してほしい。この振る舞いは，オプションで変更することができる。
+
+
+---
+
+## 行列の定義（`byrow = TRUE`）
+
+タイプする文字が増えてしまうが，次のように定義する方がコードから内容が直感的に分かりやすい
+
+```{r}
+b <- c( 1.11, 3.12, 4.13,
+       -3.21, 2.22, 5.23,
+        0.31, 1.32, 8.33)
+(B <- matrix(b, nrow = 3, byrow = TRUE))
+```
+
+---
+
+## ゼロ行列 
+
+```{r}
+matrix(0, 5, 5)
+```
+
+---
+
+## 対角行列 
+
+```{r}
+d <- c(1.11, 3.22, -1.33)
+diag(d)
+```
+
+---
+
+## 単位行列 
+
+```{r}
+diag(1, 4)
+```
+
+---
+
+## 要素の取得
+
+行列の要素を取得するには，次のような構文を使う。
+
+```{r}
+B[1, 2]
+```
+
+ただし，このような要素の取得はできる限りなくす努力をするべきだ。
+
+
+---
+
+## スカラー倍 
+
+```{r}
+0.5 * A
+```
+
+---
+
+## 和・差 
+
+```{r}
+A + B
+```
+
+---
+
+## 積 
+
+行列の積は `A * B` と計算できると期待するかもしれないが，この演算は成分ごとの積を計算する。**行列積のための特別な演算子 `%*%` を使わなければならない**
+
+```{r}
+A %*% B
+```
+
+---
+
+## 転置 
+
+転置行列は, `t()` で計算できる。
+
+```{r 03-transpose}
+t(B)
+```
+
+
+---
+
+## 共役転置 
+
+複素数を成分に持つ行列は，共役転置行列が必要だろう。次のように計算する。
+
+```{r 03-hermite}
+C <- A + B * 1i
+Conj(t(C))
+```
+
+---
+
+## 逆行列 
+
+実用上利用するかどうかは別として，逆行列は次のように計算できる。
+
+```{r 03-sove1}
+solve(B)
+```
+
+---
+
+## 逆行列 
+
+
+多くの場合， $B^{-1} A$ を計算する次の形式で使うことになる。
+
+```{r 03-solve2}
+solve(B, A)
+```
+
+`solve(B)` はより冗長な次のコードと同一である。
+
+```{r 03-solve3}
+solve(B, diag(3))
+```
+
+---
+
+## ランク 
+
+次の行列のランクはもちろんゼロである。
+
+$$M
+=
+\begin{bmatrix}
+0.1 + 0.1 + 0.1 - 0.3 & 0 \\
+0 & 0\\
+\end{bmatrix}$$
+しかし，特定の数字が0であることを数値計算で判定することは容易でない。
+```{r 03-rank1}
+M = diag(c(0.1 + 0.1 + 0.1 - 0.3, 0))
+qr(M)$rank
+```
