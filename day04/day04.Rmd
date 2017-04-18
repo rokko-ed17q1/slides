@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 )
 
 include_graphics = function(name, ...){
-  knitr::include_graphics(file.path("04-eigen", name), ...) 
+  knitr::include_graphics(file.path("04-eigen", name), ...)
 }
 library(tidyverse)
 ```
@@ -40,8 +40,8 @@ library(tidyverse)
 HW04
 Visit https://github.com/rokko-ed17q1/hw-portal
 
-> Due 2017-04-23 18:00.  
-> Hand in by Pull Request.  
+> Due 2017-04-23 18:00.
+> Hand in by Pull Request.
 > Read the handout for details!
 
 If you have any problems start discussions on Slack.
@@ -68,7 +68,7 @@ https://rokkoecon.slack.com/
 有限個の自然数の集合 $\{1,2,\dots,n-1,n\}$ を並び替える方法には $n!$ 通りの方法がある。この並び替え全体の集合を
 $S_n$ で表す。
 
-例えば 
+例えば
 $$\sigma'=(1,2,\dots,n-1,n)$$
 $$\sigma''=(n,n-1,\dots,2,1)$$
 
@@ -92,11 +92,11 @@ $$(\sigma_{1}\sigma_{2})(i)=\sigma_{1}(\sigma_{2}(i)),\quad i=1,2,\dots,n.$$
 
 ## 置換（Permutation）
 
-**恒等置換 (identity permutation)**とは， 
+**恒等置換 (identity permutation)**とは，
 $$\sigma_{id}(i)=i,\quad i=1,\dots,n$$
 なる置換である。
 
-**互換 (transposition)**とは，2つの文字を入れ替える特別な置換である。すなわち $i\neq j$ に対して 
+**互換 (transposition)**とは，2つの文字を入れ替える特別な置換である。すなわち $i\neq j$ に対して
 $$\pi_{ij}(i)=j,\quad\pi_{ij}(j)=i,\quad\pi_{ij}(k)=k,\quad k\neq i,j.$$
 
 ---
@@ -108,14 +108,21 @@ $$\pi_{ij}(i)=j,\quad\pi_{ij}(j)=i,\quad\pi_{ij}(k)=k,\quad k\neq i,j.$$
 例えば， $\sigma=(2,3,4,1)$ とすれば
 $$(1,2,3,4)\xrightarrow{\pi_{1,2}}(2,1,3,4)
   \xrightarrow{\pi_{1,3}}(2,3,1,4)\xrightarrow{\pi_{1,4}}(2,3,4,1)$$
-  
-なので， $\sigma=\pi_{1,4}\pi_{1,3}\pi_{1,2}$ となる。
+
+なので，
+
+$$\sigma=\pi_{1,4}\pi_{1,3}\pi_{1,2}$$
 
 ---
 
 ## 偶・奇置換（Even/Odd Permutation）
 
-この分解の方法は一意的ではないが，分解を構成する互換の数は奇遇が不変となることが知られている。
+この分解の方法は一意的ではないが，分解を構成する互換の数は奇遇が不変となることが知られている
+
+$$\sigma = \underbrace{
+  \pi_{1,4}\pi_{1,3}\pi_{1,2}
+}_{n\text{ transpositions}}
+\ \Rightarrow\ n\mod 2 = 1$$
 
 **奇置換 (odd permutation)**  
 奇数個の互換の積に分解できる置換
@@ -150,9 +157,10 @@ $$\det A=\sum_{\sigma\in S_{n}}\mathrm{sgn}(\sigma)a_{1\sigma(1)}\cdots a_{n\sig
 
 (1) $\det A^{\top}=\det A$.  
 (2) $\det C_{ij}A=-\det A$ (行の交換で符号が変わる).  
-(3) $\det D_{i}^{n}(a)A=a\det A$   
+(3) $\det D_{i}^{n}(a)A=a\det A$  
    (行の $a$倍で行列式が $a$倍になる。 $a=0$ もOK)  
-(4) $\det\left(E_{ij}^{n}(a)A\right)=\det A$   (行の$a$倍を別の行に加えても行列式は変化しない).
+(4) $\det\left(E_{ij}^{n}(a)A\right)=\det A$  
+   (行の $a$倍を別の行に加えても行列式は変化しない).
 
 
 ---
@@ -176,7 +184,7 @@ $$\det\left[\begin{smallmatrix}
       a_{n1} & \cdots & a_{nn}
       \end{smallmatrix}\right].$$
 (6) $\det I = 1$.  
-(7) $\det AB = \det A\det B$.
+(7) $\det AB = \det A\det B$.  
 
 ---
 
@@ -196,9 +204,9 @@ $A$ が正則であるとしよう。このとき，性質
 (6) $\det I = 1$.  
 (7) $\det AB = \det A\det B$.
 
-より， 
+より，
 
-$$1 = \det I = \det A \det A^{-1}$$ 
+$$1 = \det I = \det A \det A^{-1}$$
 
 が成り立つから $\det A \neq 0$。
 
@@ -226,12 +234,12 @@ $$PAQ=\left[
 
 2次正方行列
 
-$$A = 
+$$A =
 \begin{bmatrix}
   a & b \\
   c & d
 \end{bmatrix}$$
- 
+
 
 の行列式は定義に従って容易に計算することができる。
 
@@ -243,18 +251,18 @@ $$\det A = ad - bc$$
 
 この量 $ad - bc$ は，行列 $A$の列を成す2つのベクトル
 
-$$A_1 = 
-  \begin{bmatrix} 
+$$A_1 =
+  \begin{bmatrix}
     a \\
-    c 
+    c
   \end{bmatrix},
   \quad
-  A_2 = 
-  \begin{bmatrix} 
-    b \\ 
-    d 
+  A_2 =
+  \begin{bmatrix}
+    b \\
+    d
   \end{bmatrix}$$
-  
+
 が作る平行四辺形 (parallelogram) の（符号付き）面積と一致
 
 ---
@@ -301,14 +309,14 @@ $v_1 = \alpha v_2 + \beta v_3$ かつ $\alpha$ と $\beta$ が存在しないと
 
 いずれかのベクトルがゼロである可能性も考慮して，次のような概念を定義すると便利である。
 
-**1次独立（linearly independent）**  
-$n$ 本のベクトル $v_1, \dots, v_n$ が1次独立（linearly independent）であるとは, 
-$\alpha_{1},\dots,\alpha_{n}$ に対して 
+**1次独立（linearly independent）**
+$n$ 本のベクトル $v_1, \dots, v_n$ が1次独立（linearly independent）であるとは,
+$\alpha_{1},\dots,\alpha_{n}$ に対して
 $$\alpha_{1}v_{1}+ \cdots + \alpha_{n}v_{n}=0
 \Rightarrow \alpha_{1}=\cdots=\alpha_{n}=0$$
 が成り立つことをいう
 
- **1次従属（linearly dependent）**  
+ **1次従属（linearly dependent）**
 1次独立でないベクトルの組は1次従属（linearly dependent）であるという
 
 
@@ -351,7 +359,7 @@ $$\alpha_{1}v_{1}+ \cdots + \alpha_{n}v_{n}=0
 ## 固有値と固有ベクトル
 
 複素数 $\lambda$ が正方行列 $A\in\mathbb{F}^{n\times n}$ の**固有値 (eigenvalue)**
-であるとは，ゼロでない列ベクトル $v\in\mathbb{C}^{n}$ が存在して 
+であるとは，ゼロでない列ベクトル $v\in\mathbb{C}^{n}$ が存在して
 $$
   Av=\lambda v
 $$
@@ -401,7 +409,7 @@ $\phi_{A}(\lambda)=0$ は重複度 multiplicity を込めて $n$ 個の解を持
 $$\phi_{A}(\lambda)=\lambda^{n}+c_{1}\lambda^{n-1}+\cdots+c_{n}$$
 とすれば，
 $$c_{1}=-\operatorname{trace} A,\qquad c_{n}=(-1)^{n}\det A$$
-が成り立つことを示せ。 
+が成り立つことを示せ。
 
 なお， $\operatorname{trace} A = \sum_{i=1}^n A_{i,i}$ は行列 $A$ のトレースといい，
 対角成分を足して得られる数である。
@@ -454,7 +462,7 @@ $\alpha_1 v_1 + \alpha_2 v_2 = 0$ より,
 
 $$\alpha_1 (\lambda_1 - \lambda_2) v_1 = 0$$
 
-  
+
 $\alpha_{1}\neq0$， $v_{1}\neq0$, $\lambda_{1} \neq \lambda_{1}$
 であったから，これは不合理である。
 
@@ -471,10 +479,10 @@ $\alpha_{1}\neq0$， $v_{1}\neq0$, $\lambda_{1} \neq \lambda_{1}$
 .theorem[
 正方行列 $A \in \mathbb R^{n \times n}$ が相異なる固有値 $\lambda_{1}, \dots, \lambda_{n}$
 をもつとする。それぞれの固有値 $\lambda_i$ に対応する固有ベクトル $v_i$ としたとき，
-$\{ v_1, \dots, v_n \}$ は1次独立である。 
+$\{ v_1, \dots, v_n \}$ は1次独立である。
 
 すなわち，
-$\alpha_{1},\dots,\alpha_{n}\in\mathbb{C}$ に対して $\alpha_{1}v_{1}+ \cdots + \alpha_{n}v_{n}=0$ 
+$\alpha_{1},\dots,\alpha_{n}\in\mathbb{C}$ に対して $\alpha_{1}v_{1}+ \cdots + \alpha_{n}v_{n}=0$
 が成り立てば， $\alpha_{1}=\cdots=\alpha_{n}=0$ が成り立つ。
 ]
 
@@ -495,9 +503,9 @@ $\alpha_{1},\dots,\alpha_{n}\in\mathbb{C}$ に対して $\alpha_{1}v_{1}+ \cdots
 
 ## 計算方法の確認
 
-簡単のため，行列 $A \in \mathbb R^{n \times n}$ の固有値 
-$\lambda_1,\dots, \lambda_n \in \mathbb C$ 
-が互いに異なると仮定する。対応する固有ベクトルをそれぞれ 
+簡単のため，行列 $A \in \mathbb R^{n \times n}$ の固有値
+$\lambda_1,\dots, \lambda_n \in \mathbb C$
+が互いに異なると仮定する。対応する固有ベクトルをそれぞれ
 $v_1,\dots, v_n \in \mathbb C^n$ とすれば，
 $$\begin{aligned}
 Av_1 &= \lambda_1 v_1\\
@@ -518,7 +526,7 @@ $$\begin{aligned}
 AV &= \begin{bmatrix} Av_1 & \cdots & Av_n \end{bmatrix} \\
    &= \begin{bmatrix} \lambda_1 v_1 & \cdots & \lambda_n v_n \end{bmatrix}\\
    &= \begin{bmatrix} v_1 & \cdots & v_n \end{bmatrix}
-   \begin{bmatrix} 
+   \begin{bmatrix}
      \lambda_1 &        & \\
                & \ddots & \\
                &        & \lambda_n
@@ -533,7 +541,7 @@ AV &= \begin{bmatrix} Av_1 & \cdots & Av_n \end{bmatrix} \\
 
 ただし，
 
-$$D = \begin{bmatrix} 
+$$D = \begin{bmatrix}
 \lambda_1 &        & \\
           & \ddots & \\
           &        & \lambda_n
@@ -567,7 +575,7 @@ D &= \left[
 \right] \\
 V &= \left[
   \begin{array}{ccc|cccc}
-    v_{s_1} & \dots & v_{s_k} & v_{u_1} & \dots & v_{u_{n-k}} 
+    v_{s_1} & \dots & v_{s_k} & v_{u_1} & \dots & v_{u_{n-k}}
   \end{array}
 \right]
 \end{aligned}$$
@@ -576,7 +584,7 @@ V &= \left[
 
 ## 例題
 
-行列 
+行列
 $$J =
 \begin{bmatrix}
   0 & -1\\
@@ -585,8 +593,8 @@ $$J =
 
 の固有値と固有ベクトルを計算してみよう。
 
-$$\det(\lambda J-I) 
-  = 
+$$\det(\lambda J-I)
+  =
   \left|
     \begin{bmatrix}
       \lambda & 1\\
@@ -595,7 +603,7 @@ $$\det(\lambda J-I)
   \right|
   =
   \lambda^2 + 1$$
-  
+
 だから，固有値は $\pm i$ である。
 
 ---
@@ -645,8 +653,8 @@ $$v_{-i}=\begin{bmatrix} 1\\ i \end{bmatrix}$$
 ## 例題
 
 固有ベクトル $v_{i}$ と $v_{-i}$を並べた行列
-$$V = \begin{bmatrix} v_{j} & v_{-j} \end{bmatrix} 
-= 
+$$V = \begin{bmatrix} v_{j} & v_{-j} \end{bmatrix}
+=
 \begin{bmatrix}
   i & 1\\
   1 & i
@@ -675,7 +683,7 @@ $$\begin{aligned}
   V\begin{bmatrix}
     i & 0\\
     0 & -i
-  \end{bmatrix}V^{-1} 
+  \end{bmatrix}V^{-1}
   & =
   \begin{bmatrix}
     i & 1\\
@@ -729,7 +737,7 @@ $$J = \begin{bmatrix}
   0 & -1\\
   1 & 0
 \end{bmatrix}$$
-に対して 
+に対して
 $$J^{2}=-I$$
 が成り立つことに注意しよう。 $I$ を実数の単位（すなわち， $1$）と対応させれば，
 $J$ が虚数単位と同じ性質を持つことが想像できるだろう。
@@ -738,9 +746,9 @@ $J$ が虚数単位と同じ性質を持つことが想像できるだろう。
 
 ## 複素数の行列表現
 
-複素数 $z = a + bi$ を行列を用いて 
-$$Z 
-= 
+複素数 $z = a + bi$ を行列を用いて
+$$Z
+=
 aI+bJ
 =
 \begin{bmatrix}
@@ -762,7 +770,7 @@ $$Z^n
   \begin{bmatrix}
     x_{1}\\
     x_{2}
-  \end{bmatrix} 
+  \end{bmatrix}
   =
   r^n
   \begin{bmatrix}
@@ -773,8 +781,8 @@ $$Z^n
     x_{1}\\
     x_{2}
   \end{bmatrix}$$
-  
-をR上で計算し，$Z$ がベクトルの伸縮と回転という複素数積と同様の性質を持っていることを確認しておこう。
+
+をR上で計算し， $Z$ がベクトルの伸縮と回転という複素数積と同様の性質を持っていることを確認しておこう。
 
 ---
 
@@ -783,11 +791,11 @@ $$Z^n
 
 ```{r complex-plot, eval = FALSE}
 r = 0.8; theta = pi / 6 # polar form
-Z = r * matrix(c(cos(theta), -sin(theta), 
+Z = r * matrix(c(cos(theta), -sin(theta),
                  sin(theta),  cos(theta)), nrow=2, byrow=TRUE)
 v0 = c(1, 0) # initial vector
 
-# iterative multiplication 
+# iterative multiplication
 simulation_size = 50 # >= 2
 res = tibble(x1 = numeric(simulation_size),
              x2 = numeric(simulation_size))
@@ -838,7 +846,7 @@ $P$ は固有ベクトルを並べた行列である。
 ## 実対角化
 
 $$\begin{aligned}
-  AP 
+  AP
   &= P \left(
     a I + b \begin{bmatrix} i & 0 \\ 0 & - i \end{bmatrix}
   \right) \\
@@ -895,15 +903,15 @@ $$y_{t+1} = Dy_t$$
 ## 線形動学方程式と固有値
 
 $y_t = D^t y_0$ は容易に計算することができる。実際，
-$$D = 
-\begin{bmatrix} 
+$$D =
+\begin{bmatrix}
   \lambda_1 &        & \\
             & \ddots & \\
             &        & \lambda_n
 \end{bmatrix}$$
 とすれば，
 $$D^t =
-\begin{bmatrix} 
+\begin{bmatrix}
   \lambda_1^t &        & \\
               & \ddots & \\
               &        & \lambda_n^t
@@ -917,7 +925,7 @@ $$D^t =
 $A^t = (VDV^{-1})^t= VD^tV^{-1}$ により, 固有値を用いて$x_t$ の振る舞いを分析できる。
 
 固有値がすべて複素平面上の単位円の内側にあれば，原点は大域的に**漸近安定 asymptotically stable**である。
-線形システムは安定であり，任意の初期値 $x_0 \in \mathbb R^n$ に対して 
+線形システムは安定であり，任意の初期値 $x_0 \in \mathbb R^n$ に対して
 $\lim_{t\to\infty} x_t \to 0$ が成り立つ。
 
 すべての固有値が単位円の外側にあれば，
@@ -940,7 +948,7 @@ $\lim_{t\to\infty} x_t \to 0$ が成り立つ。
 残りが不安定であるというのが典型的である。このような原点を**鞍点（saddle）**，
 システムの鞍点周りの挙動を鞍点安定（saddle-point stability）と呼んでいる。
 
-実際には反安定となるケースもあるにはあるのだが，鞍点の方が発生しやすく，鞍点安定な均衡経路を探すことが重要な目標となっている。これは Ramsey モデルに対する Levhari-Liviatan 
+実際には反安定となるケースもあるにはあるのだが，鞍点の方が発生しやすく，鞍点安定な均衡経路を探すことが重要な目標となっている。これは Ramsey モデルに対する Levhari-Liviatan
 の定理である
 
 ---
@@ -992,4 +1000,3 @@ prod(eigen(C, only.values = TRUE)$values)
 これで行列式を計算できるのは，固有値の積が行列式と一致するという公式による。
 
 $\phi_A(\lambda)$ の定数項が $\prod_i (-\lambda_i) = (-1)^n \det A$ であることを使う
-
