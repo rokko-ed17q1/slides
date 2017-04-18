@@ -92,14 +92,14 @@ strong {
   margin: auto;
 }
 
-.lemma, .theorem, .exercise {
+.lemma, .theorem, .exercise, .proposition {
     border: 2px solid #da4033;
     border-radius: 4px;
     margin: 2em 0;
     padding: 0 2em;
     position: relative;
 }
-.lemma:before, .theorem:before, .exercise:before {
+.lemma:before, .theorem:before, .exercise:before, .proposition:before {
     background-color: #fff;
     color: #da4033;
     font-weight: bold;
@@ -111,7 +111,7 @@ strong {
 .lemma:before { content: "Lemma"; }
 .theorem:before { content: "Theorem"; }
 .exercise:before { content: "Exercise"; }
-
+.proposition:before { content: "Proposition"; }
 
 
 
