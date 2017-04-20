@@ -1,7 +1,4 @@
 ---
-title: "Day 04: Quiz"
-author: 'Kenji Sato^[Kobe University, mail@kenjisato.jp]'
-date: '`r format(Sys.time(), "%Y/%m/%d")`'
 output:
   bookdown::pdf_document2:
     fig_caption: yes
@@ -20,6 +17,10 @@ biblio-style: apalike
 link-citations: yes
 ---
 
+## 2017/04/20 Quiz (not for grading) {-}
+
+\thispagestyle{empty}
+
 Let 
 $$
 A = 
@@ -31,7 +32,9 @@ A =
 $$
 Diagonalize $A$ by finding nonsingular $V$ such that $V^{-1}AV$ is a diagonal matrix. In particular, find $V$'s that do the following: 
 
-1. Find a $V$ that arranges the eigenvalues in ascending order of their absolute value.
-2. Find a $V$ that arranges in descending order.
+* Find a $V$ that arranges the eigenvalues in ascending order of their absolute value.
+* Find a $V$ that arranges them in descending order.
+
+How can you use the above results to compute the general terms for the components of $A^n$, $n = 1, 2, \dots$?
 
 
