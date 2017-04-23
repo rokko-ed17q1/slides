@@ -1,0 +1,122 @@
+---
+title: "Day 05: 固有値と安定性"
+author: "佐藤 健治"
+date: '2017-04-24'
+output:
+  xaringan::moon_reader:
+    css: ../asset/remark-css/style.css
+    lib_dir: libs
+    nature:
+      countIncrementalSlides: no
+      highlightLines: yes
+      highlightStyle: github
+  beamer_presentation:
+    includes:
+      in_header:
+      - ../asset/styles/luatexja.sty
+      - ../asset/styles/beamer.sty
+    keep_tex: yes
+    latex_engine: lualatex
+    template: null
+subtitle: 経済動学 (2017Q1)
+---
+
+```{r setup, include=FALSE}
+source("../R/utils.R")
+knitr::opts_chunk$set(
+  fig.align = "center",
+  out.height = "380px",
+  dpi = 180
+)
+
+include_graphics = function(name, ...){
+  knitr::include_graphics(file.path("04-eigen", name), ...)
+}
+library(tidyverse)
+```
+
+## 宿題 / Homework Assignment
+
+HW05
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+> Due 2017-04-30 18:00.
+> Hand in by Pull Request.
+> Read the handout for details!
+
+
+---
+
+## 本日の目標
+
+* 種々の安定性概念を理解する
+* 行列の固有値と安定性の関係を理解する
+
+---
+
+`r section("Recap")`
+
+---
+
+## 対角化
+
+行列 $A$ の固有ベクトルを並べた行列 $V$ が正則であれば，
+
+$$A = VDV^{-1}, \qquad D = V^{-1}AV$$
+によって対角化できる
+
+---
+
+## べきの計算
+
+対角化によって行列のべき乗 $A$ を計算できる
+
+$$\begin{aligned}
+A^n 
+&= \left(
+  VDV^{-1}
+\right)^n \\
+&= VD^nV^{-1}.
+\end{aligned}$$
+
+
+---
+
+`r section("Stability")`
+
+---
+
+## 自律的な動的システム
+
+非線形システム
+
+$$x_{t+1} = G(x_t)$$
+
+平衡点（steady state）
+
+$$x^* = G(x^*)$$
+
+自律的（autonomous）という言葉は，ここでは入力がない（no input）という意味
+
+
+---
+
+## Lyapunov Stability
+
+
+---
+
+## Asymptotic Stability
+
+---
+
+## Exponential Stability 
+
+
+
+---
+
+##
+
+
+

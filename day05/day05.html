@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Day 05: 固有値と安定性</title>
+    <meta charset="utf-8">
+    <meta name="author" content="佐藤 健治" />
+    <meta name="date" content="2017-04-24" />
+    <link rel="stylesheet" href="../asset/remark-css/style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Day 05: 固有値と安定性
+## 経済動学 (2017Q1)
+### 佐藤 健治
+### 2017-04-24
+
+---
+
+
+
+
+## 宿題 / Homework Assignment
+
+HW05
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+&gt; Due 2017-04-30 18:00.
+&gt; Hand in by Pull Request.
+&gt; Read the handout for details!
+
+
+---
+
+## 本日の目標
+
+行列の固有値と安定性の関係を理解する
+
+---
+
+class: center, middle
+ # Recap 
+
+
+
+---
+
+## 対角化
+
+行列 `\(A\)` の固有ベクトルを並べた行列 `\(V\)` が正則であれば，
+
+`$$A = VDV^{-1}, \qquad D = V^{-1}AV$$`
+によって対角化できる
+
+---
+
+class: center, middle
+ # Stability 
+
+
+
+---
+
+## 自律的な動的システム
+
+非線形システム
+
+`$$x_{t+1} = G(x_t)$$`
+
+平衡点（steady state）
+
+`$$x^* = G(x^*)$$`
+
+自律的（autonomous）という言葉は，ここでは入力がない（no input）という意味
+
+##
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"countIncrementalSlides": false,
+"highlightLines": true,
+"highlightStyle": "github"
+});
+if (window.HTMLWidgets) slideshow.on('showSlide', function (slide) {setTimeout(function() {window.dispatchEvent(new Event('resize'));}, 100)});</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
