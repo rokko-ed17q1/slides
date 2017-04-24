@@ -250,12 +250,12 @@ a_{m1}B &amp; \cdots &amp; a_{mn}B
 
 ---
 
-## Fact
+## Fact 1
 
 Let `\(A, B, C\)` be conformable matrices. 
 `$$\mathrm{vec}(ABC)=(C^{\top}\otimes A)\mathrm{vec}(B)$$` 
 
-Proof. 
+**Proof.**
 
 `\(A\in\mathbb{F}^{m\times n}\)`, `\(B\in\mathbb{F}^{n\times p}\)`, `\(C\in\mathbb{F}^{p\times q}\)`. 
 
@@ -291,6 +291,34 @@ c_{1q}AB_{1}+\cdots+c_{pq}AB_{p}
 ABC_{q}
 \end{bmatrix}=\mathrm{vec}(ABC)
 \end{aligned}$$`
+
+---
+
+## Fact 2
+
+Let `\(A, B, C\)` and `\(D\)` be comformable. Then,
+
+`$$(A\otimes B)(C \otimes D) = (AC)\otimes (BD).$$`
+
+**Exercise.** Prove this fact. 
+
+---
+
+## Fact 3
+
+Let matrices `\(A\)` and `\(B\)` have eigenvalues (incl. multiplicity)
+
+`$$\begin{aligned}
+\operatorname{sp}(A) = \{ \lambda_1, \dots, \lambda_m \} \\
+\operatorname{sp}(B) = \{ \omega_1, \dots, \omega_n \}.
+\end{aligned}$$`
+
+It holds that 
+
+`$$\operatorname{sp}(A\otimes B) = \{\lambda_i \omega_j \mid 
+1\le i \le m, \ 1 \le j \le n \}$$`
+
+**Proof.** Follows from Fact 2. 
 
 ---
 
@@ -331,7 +359,12 @@ is a special case of the Sylvester equation, which is solved by
 
 `$$\operatorname{vec}(P) = (I - A^\top \otimes A^\top)^{-1} \operatorname{vec}(Q)$$`
 
-If `\(\operatorname{sp}(A) \subset \mathbb D\)`, `\(\operatorname{sp}(A^\top \otimes A^\top) \subset \mathbb D\)`, which implies that `\(I - A^\top \otimes A^\top\)` is nonsingular. 
+By Fact 3, 
+
+`$$\operatorname{sp}(A) \subset \mathbb D \Rightarrow 
+\operatorname{sp}(A^\top \otimes A^\top) \subset \mathbb D$$`
+
+which implies that `\(I - A^\top \otimes A^\top\)` is nonsingular. 
 
 ---
 
