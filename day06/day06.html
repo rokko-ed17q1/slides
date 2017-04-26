@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Day 06: 安定性・後編</title>
+    <meta charset="utf-8">
+    <meta name="author" content="佐藤 健治" />
+    <meta name="date" content="2017-04-24" />
+    <link rel="stylesheet" href="../asset/remark-css/style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Day 06: 安定性・後編
+## 経済動学 (2017Q1)
+### 佐藤 健治
+### 2017-04-24
+
+---
+
+
+
+
+
+## 宿題 / Homework Assignment
+
+**Reminder**
+
+HW05
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+&gt; Due 2017-04-30 18:00.
+&gt; Hand in by Pull Request.
+&gt; Read the handout for details!
+
+
+---
+
+## 本日の目標
+
+* 状態空間モデルのBIBO安定性
+* 抽象的な線形空間論に進む前の準備
+  * なぜ「線形空間」の構造を学ぶ必要があるのか？
+* 非線形モデルとの関係
+  * Hartman-Grobman の定理
+  * 安定多様体定理
+
+---
+
+class: center, middle
+ # State Space Model 
+
+
+
+---
+
+## Stability of Autonomous Systems
+
+線形システム
+`$$x_{t+1} = Ax_t$$`
+の安定性は `\(\operatorname{sp}(A) \subset \mathbb D\)` を調べればよい
+
+* 固有値の絶対値がすべて1未満 `\(\Rightarrow\)` 漸近安定
+* 固有値の絶対値がすべて1以下 `\(\Rightarrow\)` Lyapunov 安定
+* 固有値の絶対値に1を超えるものがある `\(\Rightarrow\)` 不安定
+
+---
+
+## Systems with input
+
+`$$\begin{aligned}
+x_{t+1} &amp;= Ax_t + Bu_t &amp; (\Sigma)
+\end{aligned}$$`
+の安定性はどのように定義されるか？
+
+**発散する `\(u_t\)` を選べばシステムの出力も発散する可能性が高いことに注意**
+
+---
+
+## Linear State Space Model
+
+参考：
+
+`$$\begin{aligned}
+x_{t+1} &amp;= Ax_t + Bu_t \\
+y_t &amp;= Cx_t
+\end{aligned}$$`
+
+の形のシステムを線形状態空間モデルという
+
+システム `\((\Sigma)\)` は `\(C = I\)` のケース 
+
+---
+
+## Autoregressive Model
+
+`$$y_t = a_1 y_{t-1} + a_2 y_{t-2} + \cdots + a_p y_{t-p} + u_t \in \mathbb R$$`
+
+は線形状態空間モデルで表現できる
+
+.exercise[
+上の AR(p) モデルの状態空間表現を求めよ。解を決定するためには，初期値をどのように与えればよいか。
+]
+
+---
+
+## BIBO 安定性
+
+.definition[
+
+* ゼロ初期状態： `\(x_0 = 0\)`
+* 有界入力： `\(\sup_{t \ge 0} \| u_t \| &lt; \infty\)`
+
+のもとで
+`$$\sup_{t \ge 0} \| x_t \| &lt; \infty$$` 
+が成り立つとき，
+線形システム `\((\Sigma)\)` は**有界入力有界出力安定 (Bounded Input Bounded 
+Output Stable, BIBO Stable)** であるという
+
+]
+
+---
+
+## 一般解
+
+安定性を特徴付ける前に，次の問題を考えてみよう。
+
+.exercise[
+
+初期値 `\(x_0\)` が与えられているとき，システム
+
+`$$\begin{aligned}
+x_{t+1} &amp;= Ax_t + Bu_t &amp; (\Sigma)
+\end{aligned}$$`
+
+の一般解を求めよ。
+
+]
+
+
+---
+
+## Impulse Response 
+
+初期条件を `\(x_0 = 0\)`，入力
+
+`$$u_0 = e^i = \begin{bmatrix}
+  0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0
+\end{bmatrix} \leftarrow i\text{-th}, \qquad 
+u_t = 0, \quad t &gt; 0$$`
+
+に対する解を**インパルス応答 (Impulse Response)** という。
+
+---
+
+## Impulse Response 
+
+インパルス `\(e^i\)` に対する出力 `\((x^i_t)_{t=0,1,\dots}\)`は， `\(B\)` の `\(i\)`-列目を `\(B_i\)` とすると，
+
+`$$x^i_t
+= A^{t - 1} B_i, \qquad t \ge 1$$`
+
+
+---
+
+## 一般解
+
+初期値をゼロとすれば， 第 `\(i\)` 成分への一般の入力 `\(u_t^i \in \mathbb R\)` に対する解は，
+
+`$$x_t^i = \sum_{s = 0}^{t - 1} A^{t-s-1} B_i u_{s}^i, \qquad t \ge 1$$`
+
+と表せる。すべての成分に入力が入る場合は，このような解を足せばよい。
+
+---
+
+## BIBO安定性
+
+`\(u_t^i\)` が有界としよう。
+
+`$$\begin{aligned}
+\| x_t^i \|
+&amp;= \left\|
+  \sum_{s = 0}^{t - 1} A^{t - s - 1} B_i
+\right\| \cdot 
+\sup_{t} \| u_t^i\|\\
+&amp;\le
+\sum_{s = 0}^{t - 1} \| A^{t - s - 1} B_i \|
+\cdot
+\sup_{t} \| u_t^i\| \\
+&amp;\le 
+\sum_{t = 0}^{\infty} \| A^{t} B_i \|
+\cdot
+\sup_{t} \| u_t^i\|
+\end{aligned}$$`
+
+級数部分が有限ならBIBO安定である。これは `\(A\)` が安定行列であることで保証できる。（初期値の影響は消えることに注意）
+
+---
+
+class: center, middle
+ # Decomposition into Stable and Unstable Subspaces 
+
+
+
+---
+
+## Decomposition
+
+
+再び自律系 
+
+`$$x_{t+1} = A x_t$$`
+を考えよう。行列 `\(A\)` を対角化して，
+
+`$$x_{t+1} = V \begin{bmatrix}
+D^s &amp; \\
+    &amp; D^u 
+\end{bmatrix} V^{-1} x_t$$`
+
+とできたとしよう。
+
+---
+
+## Decomposition
+
+変数変換 (change of variables) 
+
+`$$y_t = V^{-1} x_t$$`
+
+により，システムの同値な表現を得る。
+
+`$$y_{t+1} = \begin{bmatrix}
+D^s &amp; \\
+    &amp; D^u 
+\end{bmatrix}
+y_t$$`
+
+
+---
+
+## Decomposition
+
+ここで，
+
+`$$y_t =
+\begin{bmatrix}
+  y_t^s \\ y_t^u
+\end{bmatrix}
+=
+\begin{bmatrix}
+  y_t^s \\ 0
+\end{bmatrix}
++
+\begin{bmatrix}
+  0 \\ y_t^u
+\end{bmatrix}$$`
+
+と分解すれば
+
+`$$\begin{bmatrix}
+D^s &amp; \\
+    &amp; D^u 
+\end{bmatrix}
+\left(
+\begin{bmatrix}
+  y_t^s \\ 0
+\end{bmatrix}
++
+\begin{bmatrix}
+  0 \\ y_t^u
+\end{bmatrix}
+\right) 
+= 
+\begin{bmatrix}
+  D^s y_t^s \\ 0
+\end{bmatrix}
++
+\begin{bmatrix}
+  0 \\ D^u y_t^u
+\end{bmatrix}$$`
+
+---
+
+## Decomposition
+
+したがって，2つの独立なシステム
+
+`$$\begin{aligned}
+  y_{t+1}^s &amp;= D^s y_t^s \\
+  y_{t+1}^u &amp;= D^u y_t^u
+\end{aligned}$$`
+
+に分解できることになる。
+
+* `\(\begin{bmatrix}y_t^s \\ 0 \end{bmatrix}\)`: 安定固有値に対応する固有空間
+* `\(\begin{bmatrix}0 \\ y_t^u \end{bmatrix}\)`: 不安定固有値に対応する固有空間
+
+
+---
+
+## Decomposition
+
+LRE モデルの解法では
+
+* backward-looking subspace 
+* forward-looking subspace
+
+への分解を考えることになる。それぞれ
+
+* stable subspace
+* unstable subspace
+
+に対応する（「無限大一般化固有値」の分だけ異なる）
+
+**線形空間の構造に慣れておくと，このようなサブシステムへの分解を理解しやすい**
+
+
+---
+
+class: center, middle
+ # Linearization 
+
+
+
+---
+
+## 線形化
+
+非線形システム 
+`$$x_{t+1} = G(x_t)$$`
+
+を平衡点 `\(x^* = G(x^*)\)` の周りで1次近似して得られる線形システム
+
+`$$\bar{x}_{t+1} = DG (x^*) \bar x_t$$`
+
+を線形化システム (linearized system) という。
+
+`\(DG\)` は `\(G\)` の Jacobian 行列
+
+---
+
+## 線形化
+
+線形化システムは次の意味で，もとの非線形システムの近似になっている。
+
+.theorem[
+
+`\(DG(x^*)\)` の固有値で絶対値が1のものは存在しないとする（双曲型不動点, hyperbolic equilibrium point）。このとき，非線形システム `\(x_{t+1} = G(x_t)\)` の解軌道を線形化システム `\(\bar x_{t+1} = DG(x^*) \bar x_t\)`  の解軌道に写す連続かつ逆も連続な写像（homeomorphism）が存在する。
+
+]
+
+---
+
+## 連続写像
+
+.definition[
+
+写像 `\(f\)` が連続（continuous）であるとは，
+
+`$$x_t \to x \Longrightarrow f(x_t) \to f(x)$$`
+
+が成り立つことをいう
+
+]
+
+双曲型不動点の場合，非線形システムの不動点まわりの挙動を線形化システムによって近似できる
+
+---
+
+&lt;img src="fig/fig.001.jpeg" style="display: block; margin: auto;" /&gt;
+
+---
+
+## 安定多様体定理 (stable manifold theorem)
+
+.theorem[
+線形化システムの安定固有空間（不安定固有空間）は非線形システムの安定軌道（不安定軌道）に接する。
+]
+
+非線形システムには平衡点に収束する安定軌道が乗る「多様体」（安定多様体）が存在する。この図形は線形化システムの安定固有空間と平衡点で接している
+不安定軌道についても同様。
+
+この定理は双曲型不動点でないケースにも一般化できる。
+
+
+---
+
+## 安定多様体定理 (stable manifold theorem)
+
+&lt;img src="fig/fig.002.jpeg" height="400px" style="display: block; margin: auto;" /&gt;
+
+---
+
+## 参考: 中心多様体（center manifold）
+
+絶対値1の固有値を持つ場合には，平衡点まわりの挙動を線形化システムによって調べることはできない。
+
+線形システムは，中心固有値に対応する固有空間の上では多項式オーダーで発散するか，原点との距離を保つ。しかし，中心固有空間に接する中心多様体上では不動点が安定であるということもある
+
+中心固有値をもつ不動点は，中心多様体の上に制限した非線形のサブシステムで安定性・不安定性を調べる必要がある
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"countIncrementalSlides": false,
+"highlightLines": true,
+"highlightStyle": "github"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {window.dispatchEvent(new Event('resize'));});</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
