@@ -70,7 +70,7 @@ $$x_{t+1} = Ax_t$$
 の安定性は $\operatorname{sp}(A) \subset \mathbb D$ を調べればよい
 
 * 固有値の絶対値がすべて1未満 $\Rightarrow$ 漸近安定
-* 固有値の絶対値がすべて1以下 $\Rightarrow$ Lyapunov 安定
+* 固有値の絶対値がすべて1以下 $\Rightarrow$ Lyapunov 安定 (対角化可能なケース)
 * 固有値の絶対値に1を超えるものがある $\Rightarrow$ 不安定
 
 ---
