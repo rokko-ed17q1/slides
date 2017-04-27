@@ -1,7 +1,7 @@
 ---
 title: "Day 06: 安定性・後編"
 author: "佐藤 健治"
-date: '2017-04-24'
+date: '2017-04-27'
 output:
   xaringan::moon_reader:
     css: ../asset/remark-css/style.css
