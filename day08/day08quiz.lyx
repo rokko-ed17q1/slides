@@ -1,0 +1,625 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\begin_preamble
+
+
+\usepackage{listings}
+\usepackage{courier}
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{frame=single}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language japanese
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language french
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Jordan 標準形
+\end_layout
+
+\begin_layout Subtitle
+経済動学 2017q1
+\end_layout
+
+\begin_layout Author
+mail@
+\series bold
+kenjisato
+\series default
+.jp
+\end_layout
+
+\begin_layout Date
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+relax
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+ジョルダン標準形 (Jordan canonical form) を計算してみよう.
+ 
+\end_layout
+
+\begin_layout Section
+ジョルダン標準形
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $J_{r}(\lambda)\in\mathbb{C}^{r\times r}$
+\end_inset
+
+ を次のような形の行列とする.
+ 何も書かれていない部分はゼロとする.
+ 
+\begin_inset Formula 
+\[
+J_{r}(\lambda)=\begin{bmatrix}\lambda & 1\\
+ & \lambda & \ddots\\
+ &  & \ddots & 1\\
+ &  &  & \lambda
+\end{bmatrix}
+\]
+
+\end_inset
+
+行列がジョルダン標準形であるとは, 次のようなブロック対角行列であることをいう:
+\begin_inset Formula 
+\[
+\begin{bmatrix}J_{r_{1}}(\lambda_{1})\\
+ & J_{r_{2}}(\lambda_{2})\\
+ &  & \ddots\\
+ &  &  & J_{r_{k}}(\lambda_{k})
+\end{bmatrix}.
+\]
+
+\end_inset
+
+
+\begin_inset Formula $\lambda_{1},\dots,\lambda_{k}$
+\end_inset
+
+ には重複があってもよい.
+ 例えば, 
+\begin_inset Formula 
+\[
+\begin{bmatrix}1 & 1\\
+ & 1 & 1\\
+ &  & 1\\
+ &  &  & 1 & 1\\
+ &  &  &  & 1\\
+ &  &  &  &  & 0
+\end{bmatrix}=\begin{bmatrix}J_{3}(1)\\
+ & J_{2}(1)\\
+ &  & J_{1}(0)
+\end{bmatrix}
+\]
+
+\end_inset
+
+はジョルダン標準形である.
+ 
+\end_layout
+
+\begin_layout Standard
+自明なケースを使ってジョルダン標準形の計算方法を確認してみよう.
+ 
+\begin_inset Formula 
+\[
+A_{1}=\begin{bmatrix}1 & 1\\
+0 & 1
+\end{bmatrix}.
+\]
+
+\end_inset
+
+固有値は
+\begin_inset Formula 
+\[
+\det\left(A_{1}-\lambda I\right)=0
+\]
+
+\end_inset
+
+の解である.
+ 計算するまでもなく, 
+\begin_inset Formula $\lambda=1$
+\end_inset
+
+ (2重根) である.
+ 固有ベクトルの1つは
+\begin_inset Formula 
+\[
+\left(A_{1}-\lambda I\right)p_{1}=0
+\]
+
+\end_inset
+
+の解 
+\begin_inset Formula $p_{1}$
+\end_inset
+
+ である.
+ 解の1つは
+\begin_inset Formula 
+\[
+p_{1}=\begin{bmatrix}1\\
+0
+\end{bmatrix}
+\]
+
+\end_inset
+
+である.
+ 重複固有値に対する固有ベクトルは独立な次元を1つしか持たない.
+ すなわち, 幾何的重複度が1である.
+ このような場合には対角化はできない.
+ 
+\end_layout
+
+\begin_layout Standard
+一般固有空間 
+\begin_inset Formula $\ker(A_{1}-1)^{2}$
+\end_inset
+
+ の基底を構成するために, 方程式
+\begin_inset Formula 
+\[
+\left(A_{1}-\lambda I\right)p_{2}=p_{1}
+\]
+
+\end_inset
+
+を解く.
+ 明示的に書けば, 
+\begin_inset Formula 
+\[
+\begin{bmatrix}0 & 1\\
+0 & 0
+\end{bmatrix}\begin{bmatrix}p_{21}\\
+p_{22}
+\end{bmatrix}=\begin{bmatrix}1\\
+0
+\end{bmatrix}
+\]
+
+\end_inset
+
+であるから, 解の1つは
+\begin_inset Formula 
+\[
+p_{2}=\begin{bmatrix}0\\
+1
+\end{bmatrix}
+\]
+
+\end_inset
+
+である.
+ このようにして得られた
+\begin_inset Formula 
+\[
+P=\begin{bmatrix}p_{1} & p_{2}\end{bmatrix}=\begin{bmatrix}1 & 0\\
+0 & 1
+\end{bmatrix}
+\]
+
+\end_inset
+
+が一般固有空間の基底をなす.
+ したがって, 
+\begin_inset Formula 
+\[
+P^{-1}A_{1}P=J_{2}(1)
+\]
+
+\end_inset
+
+となる.
+ ジョルダン細胞のサイズが大きい場合には
+\begin_inset Formula 
+\[
+\left(A-\lambda I\right)p_{n+1}=p_{n}
+\]
+
+\end_inset
+
+を満たす 
+\begin_inset Formula $p_{n+1}$
+\end_inset
+
+ を探すステップを必要なだけ繰り返せばよい.
+\end_layout
+
+\begin_layout Section
+例
+\end_layout
+
+\begin_layout Standard
+次に
+\begin_inset Formula 
+\[
+A_{2}=\begin{bmatrix}2 & 0 & 0\\
+0 & 2 & 0\\
+1 & 0 & 2
+\end{bmatrix}
+\]
+
+\end_inset
+
+のジョルダン標準形を計算してみよう.
+ 
+\begin_inset Formula 
+\begin{align*}
+\det(A_{2}-\lambda I) & =\left|\begin{bmatrix}2-\lambda & 0 & 0\\
+0 & 2-\lambda & 0\\
+1 & 0 & 2-\lambda
+\end{bmatrix}\right|\\
+ & =(2-\lambda)^{3}\\
+ & =0
+\end{align*}
+
+\end_inset
+
+を解くと, 固有値 
+\begin_inset Formula $\lambda=2$
+\end_inset
+
+ (3重根) を得る.
+ 
+\begin_inset Formula 
+\[
+\left(A_{2}-2I\right)p_{1}=0
+\]
+
+\end_inset
+
+の解を求めると, 
+\begin_inset Formula 
+\[
+\begin{bmatrix}0 & 0 & 0\\
+0 & 0 & 0\\
+1 & 0 & 0
+\end{bmatrix}\begin{bmatrix}p_{11}\\
+p_{12}\\
+p_{13}
+\end{bmatrix}=0
+\]
+
+\end_inset
+
+より, 
+\begin_inset Formula 
+\[
+\begin{bmatrix}0\\
+0\\
+p_{11}
+\end{bmatrix}=0
+\]
+
+\end_inset
+
+を得る.
+ 2つの独立な固有ベクトルをもち, 例えば 
+\begin_inset Formula 
+\[
+p_{1}=\begin{bmatrix}0\\
+0\\
+1
+\end{bmatrix},\quad p'_{1}=\begin{bmatrix}0\\
+1\\
+0
+\end{bmatrix}
+\]
+
+\end_inset
+
+が固有ベクトルである.
+ 次に, 一般固有ベクトル 
+\begin_inset Formula $p_{2}$
+\end_inset
+
+を 
+\begin_inset Formula 
+\[
+\begin{bmatrix}0 & 0 & 0\\
+0 & 0 & 0\\
+1 & 0 & 0
+\end{bmatrix}p_{2}=p_{1}
+\]
+
+\end_inset
+
+の解として求める.
+ 
+\begin_inset Formula 
+\[
+\begin{bmatrix}0 & 0 & 0\\
+0 & 0 & 0\\
+1 & 0 & 0
+\end{bmatrix}\begin{bmatrix}p_{21}\\
+p_{22}\\
+p_{23}
+\end{bmatrix}=\begin{bmatrix}0\\
+0\\
+1
+\end{bmatrix}
+\]
+
+\end_inset
+
+より
+\begin_inset Formula 
+\[
+p_{21}=1
+\]
+
+\end_inset
+
+ を得る.
+ したがって, 例えば
+\begin_inset Formula 
+\[
+p_{2}=\begin{bmatrix}1\\
+0\\
+0
+\end{bmatrix}
+\]
+
+\end_inset
+
+と選べば
+\begin_inset Formula 
+\[
+P=\begin{bmatrix}p_{1} & p_{2} & p_{1}'\end{bmatrix}=\begin{bmatrix}0 & 1 & 0\\
+0 & 0 & 1\\
+1 & 0 & 0
+\end{bmatrix}
+\]
+
+\end_inset
+
+はジョルダン基底である.
+ 
+\begin_inset Formula 
+\[
+P^{-1}=\begin{bmatrix}0 & 0 & 1\\
+1 & 0 & 0\\
+0 & 1 & 0
+\end{bmatrix}
+\]
+
+\end_inset
+
+に注意して, 
+\begin_inset Formula 
+\begin{align*}
+P^{-1}AP & =\begin{bmatrix}0 & 0 & 1\\
+1 & 0 & 0\\
+0 & 1 & 0
+\end{bmatrix}\begin{bmatrix}2 & 0 & 0\\
+0 & 2 & 0\\
+1 & 0 & 2
+\end{bmatrix}\begin{bmatrix}0 & 1 & 0\\
+0 & 0 & 1\\
+1 & 0 & 0
+\end{bmatrix}\\
+ & =\begin{bmatrix}0 & 0 & 1\\
+1 & 0 & 0\\
+0 & 1 & 0
+\end{bmatrix}\begin{bmatrix}0 & 2 & 0\\
+0 & 0 & 2\\
+2 & 1 & 0
+\end{bmatrix}\\
+ & =\begin{bmatrix}2 & 1 & 0\\
+0 & 2 & 0\\
+0 & 0 & 2
+\end{bmatrix}
+\end{align*}
+
+\end_inset
+
+を得る.
+ 
+\end_layout
+
+\begin_layout Section
+問題
+\end_layout
+
+\begin_layout Paragraph
+問題1
+\end_layout
+
+\begin_layout Standard
+次の行列のジョルダン標準形を求めよ.
+ 
+\begin_inset Formula 
+\[
+A_{3}=\begin{bmatrix}1 & j\\
+j & -1
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+A_{4}=\begin{bmatrix}2 & -3 & 2\\
+-5 & 8 & -6\\
+-8 & 12 & -9
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+問題2
+\end_layout
+
+\begin_layout Standard
+ジョルダン細胞のべき乗 
+\begin_inset Formula 
+\[
+J_{k}(\lambda)^{t},\quad t\in\mathbb{N}
+\]
+
+\end_inset
+
+を計算せよ.
+ (ヒント: 
+\begin_inset Formula 
+\begin{align*}
+J_{k}(\lambda) & =\lambda I_{k}+N_{k}\\
+ & =:\begin{bmatrix}\lambda\\
+ & \lambda\\
+ &  & \ddots\\
+ &  &  & \lambda
+\end{bmatrix}+\begin{bmatrix}0 & 1\\
+ & 0 & \ddots\\
+ &  & \ddots & 1\\
+ &  &  & 0
+\end{bmatrix}
+\end{align*}
+
+\end_inset
+
+と分解したとき, 
+\begin_inset Formula 
+\[
+(\lambda I_{k})N_{k}=N_{k}(\lambda I_{k}),\qquad(N_{k})^{k}=0
+\]
+
+\end_inset
+
+が成り立つことに注意せよ.)
+\end_layout
+
+\begin_layout Paragraph
+問題3
+\end_layout
+
+\begin_layout Standard
+任意の行列
+\begin_inset Formula $A\in\mathbb{R}^{n\times n}$
+\end_inset
+
+ に対し, 適当な正則行列
+\begin_inset Formula $V$
+\end_inset
+
+ を選べば 
+\begin_inset Formula $V^{-1}AV$
+\end_inset
+
+ がJordan標準形となるようにできる.
+ この定理を用いて 
+\begin_inset Formula $A$
+\end_inset
+
+ の固有値 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ がすべて 
+\begin_inset Formula $|\lambda|<1$
+\end_inset
+
+ を満たすとき
+\begin_inset Formula 
+\[
+A^{t}\to0,\quad t\to\infty
+\]
+
+\end_inset
+
+ が成り立つことを示せ.
+ 収束は要素ごとの収束を考えてよい.
+ 
+\end_layout
+
+\end_body
+\end_document
