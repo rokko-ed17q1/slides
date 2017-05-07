@@ -1,0 +1,589 @@
+---
+title: "Day 08: Jordan 標準形"
+author: "佐藤 健治"
+date: '2017-05-01'
+output:
+  xaringan::moon_reader:
+    css: ../asset/remark-css/style.css
+    lib_dir: libs
+    nature:
+      countIncrementalSlides: no
+      highlightLines: yes
+      highlightStyle: github
+subtitle: 経済動学 (2017Q1)
+---
+
+```{r setup, include=FALSE}
+source("../R/utils.R")
+knitr::opts_chunk$set(
+  fig.align = "center"
+)
+
+include_graphics = function(name, ...){
+  knitr::include_graphics(file.path("fig", name), ...)
+}
+library(tidyverse)
+```
+
+
+## 宿題 / Homework Assignment
+
+HW08 on first LRE simulation
+
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+> Due 2017-05-15 18:00.
+> Hand in by Pull Request.
+> Read the handout for details!
+
+
+---
+
+`r section("Motivation")`
+
+---
+
+## Example
+
+$$A = \begin{bmatrix} 
+  2 & 1 \\
+  0 & 2
+\end{bmatrix}$$
+
+を対角化できるか？
+
+---
+
+## 解答
+
+$$\operatorname{sp}(A)
+= \{ 2 \}$$
+
+対応する固有ベクトルは，
+
+$$\begin{bmatrix}
+  x \\ 0
+\end{bmatrix}, \qquad x \neq 0$$
+
+の1つだけ。
+
+固有ベクトルから成る正則行列 $V$ を作ることができないので，対角化できない。
+
+---
+
+## Jordan 標準形
+
+
+対角化できない行列はすべて，
+
+$$A = \begin{bmatrix} 
+  2 & 1 \\
+  0 & 2
+\end{bmatrix}$$
+
+と同じ形式の小行列が対角成分に並ぶように変形できる。
+
+---
+
+## Jordan 標準形
+
+
+例えば
+
+$$\left[\begin{array}{cc|cc|c} 
+  -1 &  1 & 0 & 0 & 0\\
+   0 & -1 & 0 & 0 & 0\\
+   \hline
+   0 &  0 & 2 & 1 & 0\\
+   0 &  0 & 0 & 2 & 0\\
+   \hline
+   0 &  0 & 0 & 0 & 2
+\end{array}\right]
+= \begin{bmatrix}
+  J_2(-1) & & \\
+  & J_2(2) & \\
+  & & J_1(2) 
+\end{bmatrix}$$
+
+Jordan 細胞 $J_k(\lambda)$ を並べたブロック対角行列
+Jordan 細胞 = 対角成分に固有値，優対角成分は 1
+
+
+
+---
+
+## 目標
+
+経済動学のためには，Jordan 標準形理論の詳細をに踏み込む必要はないが，
+概ね次のことが必要である
+
+* 理論の概要，主要な結果を知っている
+* 小さい行列に対して Jordan 標準形を手計算できる
+* Jordan 細胞（あるいは固有値）の自由に並べ替えられる
+* 対角化できない行列の漸近挙動を計算できる
+
+
+---
+
+## 特性多項式の性質
+
+* $X$: 有限次元線形空間
+* $f:X\to X$ 線形写像
+* $A$: $f$ の表現行列
+
+特性多項式
+$$\phi_{A}(z)=\det(zI-A)$$
+
+基底の取り替えによって $f$ の表現が $P^{-1}AP$ となるなら
+
+$$\begin{aligned}
+\phi_{P^{-1}AP}(z)
+&=\det(zI-P^{-1}AP)\\
+&=\det P^{-1}\det(zI-A)\det P=\phi_{A}(z)
+\end{aligned}$$
+
+---
+
+## Hamilton-Cayley の定理
+
+固有多項式は基底に依存しない。
+
+行列の固有値問題はその背後にある線形写像の固有値問題である。
+以下では, 固有多項式を $\phi_{f}(z)$ と書くこともある
+
+.theorem[
+ $X$ を有限次元線形空間, $f:X\to X$ を線形とする. このとき, 任意の $x\in X$
+について $\phi_{f}(f)x=0$ が成り立つ. すなわち $f$ の任意の行列表現 $A$ について, $\phi_{f}(A)$
+はゼロ行列となる. 
+]
+
+---
+
+## Example
+
+$A = \left[ \begin{smallmatrix} 2 & 1 \\ 0 & 2 \end{smallmatrix} \right]$
+として
+
+$$\phi_A(\lambda) 
+= \det 
+\begin{bmatrix}
+  2 & 1 \\ 
+  0 & 2 
+\end{bmatrix}
+= (\lambda - 2)^2$$
+
+
+$$\phi_A(A)
+=
+\left(
+\begin{bmatrix}
+  2 & 1 \\
+  0 & 2
+\end{bmatrix}
+-
+2
+\right)^2
+=
+\begin{bmatrix}
+  0 & 1 \\
+  0 & 0
+\end{bmatrix}^2
+=
+\begin{bmatrix}
+  0 & 0 \\
+  0 & 0
+\end{bmatrix}$$
+
+---
+
+## 特性多項式の構造
+
+
+$\dim X=n$ とすると方程式 $\phi_{f}(z)=0$ には重複度を込めて $n$ 個の解を持つ
+
+重複を除いた解を
+$$\{z\in\mathbb{C}\ \mid\ \phi_{f}(z)=0\}=\{\lambda_{1},\dots,\lambda_{r}\}$$
+とし, $n_{i}$ を $\lambda_{i}$, $i=1,\dots,r$ の重複度 (multiplicity) とすると, 
+$$\phi_{f}(z)=(z-\lambda_{1})^{n_{1}}\cdots(z-\lambda_{r})^{n_{r}}$$
+
+---
+
+## 特性多項式の構造
+
+Hamilton-Cayley の定理により
+
+$$(f-\lambda_{1})^{n_{1}}\cdots(f-\lambda_{r})^{n_{r}}=0$$
+
+各 $(f-\lambda_{1})^{n_{1}},\dots,(f-\lambda_{r})^{n_{r}}$
+は互いに可換であることに注意
+
+.definition[
+多項式 $p(z)$, $q(z)$ が互いに素 (coprime) であるとは, 多項式 $\tilde{p}(z)$, $\tilde{q}(z)$, $c(z)$ が 
+
+$$[ p(z)=\tilde{p}(z)c(z)\ \&\ q(z)=\tilde{q}(z)c(z) ]
+\Longrightarrow c(z)=1$$
+が成り立つことをいう. 
+]
+
+---
+
+## 特性多項式の構造
+
+ベズーの等式 (Bézout's identity):
+
+.lemma[
+多項式 $p(z)$, $q(z)$ が互いに素であれば, ある多項式 $a(z)$, $b(z)$ が存在して 
+$$a(z)p(z)+b(z)q(z)=1$$
+が成り立つ.
+]
+
+---
+
+## 特性多項式の構造
+
+.lemma[
+実(複素)係数多項式 $p(z)$, $q(z)$ が互いに素であることの必要十分条件は, $\mathbb{C}$ において共通根をもたないことである. 
+]
+
+---
+
+## 一般固有空間への直和分解
+
+.lemma[
+$X$ を次のように直和分解できる. 
+
+$$X=\ker(f-\lambda_{1})^{n_{1}}\oplus\cdots\oplus\ker(f-\lambda_{r})^{n_{r}}.$$
+
+各 $\ker(f-\lambda_{i})^{n_{i}}$ は $f$ の不変部分空間であり, 一般固有空間という.
+各一般固有空間の基底を 並べて構成した $X$ の基底を採用すると， $f$ の行列表現はブロック対角行列になる.
+]
+
+
+---
+
+### 証明
+
+定理の前半は, 非ゼロベクトル $x$ が $(f-\lambda_{i})^{n_{i}}x_{1}=0$ と $\prod_{j\neq i}(f-\lambda_{j})^{n_{j}}x_{2}=0$
+を満たす2つのベクトルの和として一意的に表現できることを示せばよい. 
+
+$$\begin{aligned}
+p(z) &= (z-\lambda_{i})^{n_{i}} \\
+q(z) &=\prod_{j\neq i}(z-\lambda_{j})^{n_{j}}
+\end{aligned}$$
+は互いに素. ベズー等式により多項式
+$a(z)$, $b(z)$ が存在して
+
+$$a(z)p(z)+b(z)q(z)=1$$
+
+---
+
+### 証明 (cont'd)
+
+任意の $x\in X$ について 
+
+$$a(f)p(f)x+b(f)q(f)x=x$$
+
+ハミルトン・ケーリーの定理により
+
+$$a(f)p(f)x\in\ker q(f),\quad b(f)q(f)x\in\ker p(f)$$
+
+なので, $\ker p(f)+\ker q(f)=X$ が成り立つ. 
+
+---
+
+### 証明 (cont'd)
+
+$v\in\ker p(f)\cap\ker q(f)$ に対して
+$$v =a(f)p(f)v+b(f)q(f)v=0$$
+であるから，
+
+$$v\in\ker p(f)\cap\ker q(f) = \{ 0 \}$$
+
+したがって
+
+$$\ker (f-\lambda_{i})^{n_{i}} \oplus \ker \prod_{j\neq i}(f-\lambda_{j})^{n_{j}} = X$$
+
+同じ手続きを繰り返せば命題の前半のような直和分解ができる
+
+---
+
+### 証明 (cont'd)
+
+次に, 各 $\ker(f-\lambda_{i})^{n_{i}}$ は $f$ の不変部分空間であることを示す. 
+
+実際, $x\in\ker(f-\lambda_{i})^{n_{i}}$とすれば, 
+
+$$\begin{aligned}
+(f-\lambda_{i})^{n_{i}} f(x) 
+&=
+(f-\lambda_{i})(f-\lambda_{i})^{n_{i} - 1}f(x)\\
+&=(f-\lambda_{i})(f-\lambda_{i})^{n_{i} - 1}\lambda_{i}x\\
+&=\lambda_{i}(f-\lambda_{i})^{n_{i}}x\\
+&=0
+\end{aligned}$$
+
+直和分解に適合する基底の下で $f$ はブロック対角行列になる. 
+
+
+---
+
+### まとめ
+
+線形写像の固有値 $\lambda_i$ が定める部分空間 $\ker (f - \lambda_i)^{n_i}$ によって $X\simeq\mathbb{F}^{n}$ を直和分解できることが分かった. 
+
+$$X=\ker(f-\lambda_{1})^{n_{1}}\oplus\cdots\oplus\ker(f-\lambda_{r})^{n_{r}}.$$
+
+$$\dim X=n_{1}+\cdots+n_{r}=n$$
+
+だから, 固有値の代数的重複度が対応する部分空間の次元とならなければならない (証明せよ). 
+
+
+---
+
+### 例
+
+次の2つの行列
+$$I_{2}=\begin{bmatrix}1 & 0\\
+0 & 1
+\end{bmatrix},\quad J_{2}(1)=\begin{bmatrix}1 & 1\\
+0 & 1
+\end{bmatrix}$$
+
+について
+
+$$\ker(I_{2}-1)=\ker(I_{2}-1)^{2}=\mathbb{R}^{2}$$
+$$\ker(J_{2}(1)-1)\subsetneq\ker(J_{2}(1)-1)^{2}=\mathbb{R}^{2}$$
+
+固有値と代数的重複度が同じでも一般固有空間の構造が同じとは限らない
+
+---
+
+## 最小多項式
+
+ハミルトン・ケーリーの定理より固有多項式が $\phi_{f}(f)=0$ を満たすことを確認した. しかし, $\phi_{f}(z)$
+はこの性質をもつ唯一の多項式ではない. 
+
+.definition[
+最高次の係数が 1 であり, $m_{f}(f)=0$ を満たす多項式 $m_{f}(z)$ で次数が最小のものを最小多項式という. 
+]
+
+最小多項式は特定の行列表現に依存しないことに注意
+
+---
+
+### 最小多項式
+
+$I_{2}$ と $J_{2}(1)$ の最小多項式はそれぞれ
+
+$$\begin{aligned}
+m_{I_{2}}(z) & =z-1,\\
+m_{J_{2}(1)}(z) & =(z-1)^{2}.
+\end{aligned}$$
+
+
+---
+
+### 最小多項式
+
+最小多項式 $m_{f}$ は $\phi_{f}$ と共通のゼロ点をもつので, 因数分解すると
+
+$$m_{f}(z)=(z-\lambda_{1})^{\tilde{n}_{1}}\cdots(z-\lambda_{r})^{\tilde{n}_{r}}$$
+
+とできる. 
+
+.theorem[
+線形写像が対角化可能であることの必要十分条件は最小多項式が重根を持たないことである. 
+]
+
+---
+
+### 証明
+
+$f$ が対角化可能であれば $m(z)=(z-\lambda_{1})\cdots(z-\lambda_{r})$
+が $m(A)=0$ を満たす最小多項式であることを簡単に示せる. 
+
+逆に $m_{f}(z)=(z-\lambda_{1})\cdots(z-\lambda_{r})$
+であれば, 多項式 $p_{1}(z),\dots,p_{r}(z)$ が存在して, 
+$$p_{1}(z)(z-\lambda_{1})+\cdots+p_{r}(z)(z-\lambda_{r})=1$$
+が成り立つ (ベズー等式の拡張版). したがって,
+
+$$\mathbb{F}^{n}=\ker(A-\lambda_{1})\oplus\cdots\oplus\ker(A-\lambda_{r}).$$
+$\ker(A-\lambda_{1}),\dots,\ker(A-\lambda_{r})$ の基底 (つまり固有ベクトル) について
+$f$ を表現すれば対角行列を得る. 
+
+---
+
+### 系
+
+実は次のような分解ができる.
+
+.theorem[
+$X$ を次のように直和分解できる. 
+$$X=\ker(f-\lambda_{1})^{\tilde{n}_{1}}\oplus\cdots\oplus\ker(f-\lambda_{r})^{\tilde{n}_{r}}.$$
+]
+
+---
+
+## 一般固有空間の基底
+
+一般固有空間の構造を定めよう. 表記の簡単のため, $\tilde{n}:=\tilde{n}_{i}$, $F:=f-\lambda_{i}$,
+$M_{k}:=\ker F^{k}$とする.
+
+$$\mathbb{F}^{n}=M_{\tilde{n}}\supsetneq M_{\tilde{n}-1}\supsetneq\cdots\supsetneq M_{1}\supsetneq M_{0}=\{0\}$$
+
+に注意する. $M_{\tilde{n}_{-1}}$ の基底に $V_{\tilde{n}}=\{v_{1}^{\tilde{n}},\dots,v_{r(\tilde{n})}^{\tilde{n}}\}$
+を付け加えて,　 $M_{\tilde{n}}=\mathbb{F}^{n_{i}}$ の基底になるようにできる. すなわち
+
+$$\mathbb{F}^{n}=\mathrm{span}V_{\tilde{n}}\oplus M_{\tilde{n}-1}.$$
+
+---
+
+このとき, $FV_{\tilde{n}}:=\{Fv_{1}^{\tilde{n}},\dots,Fv_{r(\tilde{n})}^{\tilde{n}}\}\subset M_{\tilde{n}-1}$
+である. これらのベクトルは1次独立であり, 
+
+$$\mathrm{span}FV_{\tilde{n}}\cap M_{\tilde{n}-2}=\{0\}$$
+
+が成り立つ. なぜなら, 
+
+$$\alpha_{1}Fv_{1}^{\tilde{n}}+\cdots+\alpha_{r(\tilde{n})}Fv_{r(\tilde{n})}^{\tilde{n}}\in M_{\tilde{n}-2}$$
+
+とすれば, 
+$$\alpha_{1}v_{1}^{\tilde{n}}+\cdots+\alpha_{r(\tilde{n})}v_{r(\tilde{n})}^{\tilde{n}}\in M_{\tilde{n}-1}.$$
+
+$V_{\tilde{n}}$ の構成により, $\alpha_{1}=\cdots=\alpha_{r(\tilde{n})}=0$
+となる. 
+
+---
+
+したがって, $M_{\tilde{n}-2}$ の基底に
+$$FV_{\tilde{n}}\cup\{v_{1}^{\tilde{n}-1},\dots,v_{r(\tilde{n}-1)}^{\tilde{n}-1}\}\\
+=:FV_{\tilde{n}}\cup V_{\tilde{n}-1}=\bigcup_{k=0}^{1}F^{1-k}V_{\tilde{n}-k}=:W_{\tilde{n}-1}$$
+
+を付け加えて ( $V_{\tilde{n}-1}=\emptyset$ かもしれない, $0\le r(\tilde{n}-1)$),  
+$M_{\tilde{n}-1}$ の基底を構成できる. 
+
+$FW_{\tilde{n}-1}$ の元は1次独立であり, $FW_{\tilde{n}-1}\cap M_{\tilde{n}-3}=\{0\}$
+が成り立つ. したがって, $M_{\tilde{n}-3}$ の基底に, 
+$$W_{\tilde{n}-2}:=FV_{\tilde{n}-1}\cup\{v_{1}^{\tilde{n}-2},\dots,v_{r(\tilde{n}-2)}^{\tilde{n}-2}\}=:FV_{\tilde{n}-1}\cup V_{\tilde{n}-2}$$
+を付け加えて, $M_{\tilde{n}-2}$ の基底を構成できる. 
+
+---
+
+同様の手続きを $(\tilde{n}-1)$ 回続けると,
+$M_{1}$ の基底
+$$W_{1}:=FV_{2}\cup\{v_{1}^{1},\dots,v_{r(1)}^{1}\}=:FV_{2}\cup V_{1}$$
+を得る. このようにして得た, 
+
+$$V=\begin{Bmatrix}F^{\tilde{n}-1}V_{\tilde{n}} & F^{\tilde{n}-2}V_{\tilde{n}-1} & F^{\tilde{n}-3}V_{\tilde{n}-2} & \cdots & FV_{2} & V_{1}\\
+\vdots & \vdots & \vdots & \ddots & V_{2}\\
+F^{2}V_{\tilde{n}} & FV_{\tilde{n}-1} & V_{\tilde{n}-2}\\
+FV_{\tilde{n}} & V_{\tilde{n}-1}\\
+V_{\tilde{n}}
+\end{Bmatrix}$$
+は $\mathbb{F}^{n}$ の基底を成す. 
+
+---
+
+基底の並べ方は, 次のように縦方向にならんでいると考えよう. 
+$$V=\left\{ \begin{array}{ccccc}
+F^{\bullet}V_{\tilde{n}} & F^{\bullet}V_{\tilde{n}-1} & F^{\bullet}V_{\tilde{n}-2} & \cdots & V_{1}\\
+\hline 1,6 & 11,15 & 19,23 & \vdots\vdots & m-1,m\\
+2,7 & 12,16 & 20,24 & \vdots\vdots\\
+3,8 & 13,17 & 21,25 & \vdots\vdots\\
+4,9 & 14,18 & 22,26\\
+5,10
+\end{array}\right\}$$
+
+.theorem[
+基底 $V$ に関する $f$ の表現行列はJordan標準形である. 
+]
+
+---
+
+### 証明
+
+$V$ の適当な1列を $\{v_{1},\dots,v_{k}\}$ と表そう. 基底の構成方法より,
+
+$$(f-\lambda_{i})v_{s+1}=v_{s},\quad s=1,\dots,k-1$$
+および
+$$(f-\lambda_{i})v_{1}=0$$
+が成り立つ. $\mathrm{span}\{v_{1},\dots,v_{k}\}$ は不変部分空間を成すから, $f$ の行列表現はこの典型的な例に対する表現を対角成分に並べたブロック対角行列になる.
+上の関係を整理すると, 
+
+---
+
+$$\begin{aligned}
+&\begin{bmatrix}fv_{1} & fv_{2} & \cdots & fv_{k-1} & fv_{k}\end{bmatrix}\\
+&=\begin{bmatrix}v_{1} & v_{2} & \cdots & v_{k-1} & v_{k}\end{bmatrix}\begin{bmatrix}\lambda_{i} & 1\\
+ & \lambda_{i} & 1\\
+ &  & \ddots & \ddots\\
+ &  &  & \lambda_{i} & 1\\
+ &  &  &  & \lambda_{i}
+\end{bmatrix}\end{aligned}$$
+
+を得る. これはジョルダン細胞 $J_{k}(\lambda_{i})$ に他ならない
+
+
+---
+
+### 練習問題
+
+Jordan細胞
+
+$$J_k(0) = \begin{bmatrix}
+0 & 1\\
+ & 0 & 1\\
+ &  & \ddots & \ddots\\
+ &  &  & 0 & 1\\
+ &  &  &  & 0
+\end{bmatrix} \in \mathbb F^{k\times k}, \qquad k = 1, 2, \dots$$
+
+について
+$$J_k(0)^{k} = 0$$
+が成り立つことを示せ。すなわち $J_k(0)$ は「べきゼロ行列」
+
+
+
+---
+
+## Jordan 標準形行列の分解
+
+Jordan 標準形行列 $J$ は，対角行列 $D$ と べきゼロ行列 $N$ の和の形で書けることに注意
+
+$$J = D + N$$
+
+対角化ができない理由はべきゼロ部分に起因することが知られている（Jordan 分解）
+
+---
+
+### 練習問題
+
+任意の行列 $A\in\mathbb{R}^{n\times n}$ に対し, 適当な正則行列 $V$ を選べば $V^{-1}AV$  がJordan標準形となるようにできる. この定理を用いて $A$ の固有値 $\lambda$ がすべて $|\lambda|<1$  を満たすとき $A^{t}\to0,\quad t\to\infty$ が成り立つことを示せ
+
+
+**したがって, これまで対角化可能なシステムに対して示した安定性の結果は対角化できない場合にも適用できる**
+
+
+---
+
+### 中心固有値
+
+ただし, 絶対値が1の固有値をもつ場合には注意が必要。
+
+例えば
+
+$$\begin{bmatrix}
+1 & 1 \\
+0 & 1
+\end{bmatrix}^t
+=
+\begin{bmatrix}
+1 & t \\
+0 & 1
+\end{bmatrix}$$
+
+より大きなJordan細胞も多項式のオーダーで発散する。
+
+安定固有値のケースでは固有値による指数的な収束が支配的になるので，多項式の発散が影響しない
+
+
