@@ -28,7 +28,7 @@ library(tidyverse)
 
 ## 宿題 / Homework Assignment
 
-HW08 on first LRE simulation
+HW07 on first LRE simulation
 
 Visit https://github.com/rokko-ed17q1/hw-portal
 
