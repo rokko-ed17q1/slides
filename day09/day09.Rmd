@@ -537,3 +537,71 @@ h(x_t^1, x_t^2, (u_\tau)_{\tau \ge t})
 \end{aligned}$$
 
 **Splitting off the unstable subsystem is enough for BK analysis to work.**
+
+
+---
+
+## Appendix: Solve Sylvester Equation in R
+
+Matrix equation
+
+$$AX + XB = C$$
+
+is called the Sylvester Equation, where $X$ is the unknown.
+
+$$A \in \mathbb R^{m \times m}, \ B \in \mathbb R^{n \times n},
+\ C, X \in \mathbb R^{m \times n}$$
+
+The solution is given by
+
+$$\operatorname{vec}(X) = 
+\left[
+  I_n \otimes A + B^\top \otimes I_m
+\right]^{-1} \operatorname{vec}(C)$$
+
+---
+
+## Appendix: Solve Sylvester Equation in R
+
+There seems to be no built-in function for 
+the solver but you can code it easily: 
+
+```{r, eval = FALSE}
+sylvester <- function(A, B, C) {
+  na <- dim(A)[1]
+  nb <- dim(B)[1]
+  vecC <- matrix(C, ncol = 1)
+  X <- solve(diag(nb) %x% A + t(B) %x% diag(na), vecC)
+  dim(X) <- dim(C)
+  X
+}
+```
+
+---
+
+## Appendix: Solve Sylvester Equation in R with RCpp
+
+You can use Armadillo C++ Library via RcppArmadillo to code 
+the solver. And this is very very easy.
+
+```{c++, eval = FALSE}
+#include <RcppArmadillo.h>
+// [[Rcpp::depends(RcppArmadillo)]]
+
+// [[Rcpp::export]]
+arma::mat sylvester(arma::mat a, arma::mat b, arma::mat c) {
+  return syl(a, b, -c);
+}
+
+```
+
+RCpp solution worked 9.5x faster than the pure R solution on my computer. Since you solve this equation only once, however, the performance gain would be negligible. 
+
+---
+
+## Appendix: Why use C++?
+
+Simulation of dynamic models cannot be vectorized well because computation of variables at time $t+1$ depends on those at time $t$. It's impossible to eliminate all the `for` loops.  
+
+Since loops in interpreted languages like R/Python/Matlab are typically slow, you can benefit from learning compiled language like C++. I would recommend you to learn it once you have learned basic components of R. Using C++ from within R is easy thanks to RCpp package.
+
