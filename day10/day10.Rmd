@@ -1,0 +1,326 @@
+---
+title: "Day 10: Descriptor Systems"
+author: "佐藤 健治"
+date: '2017-05-11'
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    css: ../asset/remark-css/style.css
+    lib_dir: libs
+    nature:
+      countIncrementalSlides: no
+      highlightLines: yes
+      highlightStyle: github
+subtitle: 経済動学 (2017Q1)
+---
+
+```{r setup, include=FALSE}
+source("../R/utils.R")
+knitr::opts_chunk$set(
+  fig.align = "center"
+)
+
+include_graphics = function(name, ...){
+  knitr::include_graphics(file.path("fig", name), ...)
+}
+library(tidyverse)
+```
+
+
+## 宿題 / Homework Assignment
+
+HW08
+
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+> Due 2017-05-15 18:00.
+> Hand in by Pull Request.
+> Read the handout for details!
+
+
+---
+
+## Descriptor System
+
+$$Ex_{t+1}=Ax_{t}+Bu_{t},\quad t=0,1,\dots$$
+
+* $x$: endogenous variables
+* $u$: exogenous shocks
+* $E, A, B$: comformable, constant matrices
+* ** $E$ may or may not be singular**
+
+
+
+---
+
+## 一般化固有値問題
+
+固有値問題を拡張した
+$$Av=\lambda Ev,\quad v\neq0,\quad v\in\mathbb{C}^{n}$$
+
+を $(E,A)$ に対する一般化固有値問題 (generalized eigenvalue problem) という. 
+
+標準的な状態方程式 $x_{t+1}=Ax_{t}$ に対しては, 固有値問題
+$Av=\lambda v$ が重要であったように, デスクリプタシステム $Ex_{t+1}=Ax_{t}$ の分析では一般化固有値問題
+$Av=\lambda Ev$ が重要な役割を果たす.
+
+
+---
+
+## デスクリプタシステムと因果性
+
+デスクリプタシステムでは，一般に因果性（causality）が成り立たない。すなわち，解が未来の入力に依存することがある
+
+一般化固有値問題はシステムを前向き成分と後ろ向き成分に直和分解するシステマティックな方法を与えてくれる
+
+経済モデルの問題とも類似していることが分かると思う
+
+
+---
+
+## 固有値問題とシステムの変形
+
+通常の固有値問題は, $A$ が「良い形」になるような基底を探すことを目標とした. 
+
+一般化固有値問題では, $(E,A)$ が同時に「良い形」になるような基底を探す.
+
+1点違いを強調しておくと, 定義域と終域では異なる基底を選ばれなければならない. したがって, 変換された行列は 
+
+$$(P^{-1}EQ,P^{-1}AQ)$$
+
+によって与えられる. 
+
+---
+
+## 固有値問題とシステムの変形
+
+このような問題を扱う場合には, ペンシル (pencil) と呼ばれる多項式行列 $zE-A$ を考えると便利なことが多いので,
+同じ問題が「ペンシルの正準形」の問題と呼ばれることもある. 
+
+$$P^{-1} (zE - A) Q$$
+
+が「望ましい形」になるような基底を探す
+
+---
+
+## 一般化固有値
+
+$(E,A)$ の固有多項式を
+$$
+\varphi_{E,A}(z)=\det(zE-A)
+$$
+と定義する. 
+
+次の仮定を置く: ** $\varphi(z)$ は恒等的にはゼロでない**
+
+このとき, $(E,A)$ はレギュラー (regular) であるという. 
+
+---
+
+### 一般化固有値 (有限固有値)
+
+$E=(e_{ij}),A=(a_{ij})\in\mathbb{R}^{2\times2}$ として固有多項式を計算してみると,
+
+$$\varphi_{E,A}(z)=(\det E)z^{2}-(e_{11}a_{22}+e_{22}a_{11}+e_{12}a_{21}+e_{21}a_{12})z+\det A$$
+
+が成り立つ. 
+
+$\det E=0$ であれば, $\varphi_{E,A}(z)$ の次数は $n$ を下回る. 
+
+一般に,
+$\varphi_{E,A}(z)$ が恒等的にゼロでなければ, $\varphi_{E,A}(z)=0$ は $d\le n$
+個の解を持つ. これらの解を $(E,A)$ の **有限固有値 (finite eigenvalues)** という. 有限固有値の集合
+
+$$\mathrm{sp}(E,A)=\{z\in\mathbb{C}\ \mid\ \varphi_{E,A}(z)=0\}$$
+
+---
+
+### 一般化固有値 (無限大有値)
+
+同時に, $\det E=0$ であれば $E$ にはゼロ固有値 (重複度 $n-d$) が存在し, 
+
+$$Ev=0,\quad v\neq0,\quad v\in\mathbb{C}^{n}$$
+
+なるベクトルが存在する. これらを $(E,A)$ の **無限大固有値 (infinite eigenvalue)** という. 
+
+---
+
+## 一般化固有ベクトル
+
+一般化固有ベクトルの構成はジョルダン標準形のケースとほとんど同じである. 
+
+### 1次の有限固有ベクトル
+
+$\lambda_{i}\in\mathrm{sp}(E,A)$ とする. 
+
+$$(A-\lambda_{i}E)v_{ij}^{1}=0$$
+
+なる非ゼロベクトル $v_{ij}^{1}$, $j=1,\dots,\eta_{i}=\dim\ker(A-\lambda_{i}E)$
+を1次独立に選ぶことができる. 
+
+---
+
+### $k$次の有限固有ベクトル
+
+$\mathrm{span}\{v_{i1}^{1},\dots,v_{i\eta_{i}}^{1}\}$ が $\lambda_{i}$
+の代数的重複度と同じ次元を持てば,  $\lambda_{i}$ に対応する一般化固有空間が完成している.
+この場合は行列が対角化されている.
+
+さもなくば, 各 $\lambda_{i}\in\mathrm{sp}(E,A)$ と各 $j=1,\dots,\eta_{i}$
+について, 高次の一般化固有ベクトル, すなわち
+
+$$(A-\lambda_{i}E)v_{ij}^{k+1}=Ev_{ij}^{k},\quad k\ge1$$
+
+なる固有ベクトルを探す. 
+
+ジョルダン標準形の理論では $(A-\lambda_{i}I)v_{ij}^{k+1}=v_{ij}^{k}$ によって $\ker (A - \lambda_i)$ の基底を決定したことを思い出してほしい
+
+---
+
+### $k$次の有限固有ベクトル
+
+
+このようにして, $\lambda_{i}$ の代数的重複度と同じ数のベクトルの組
+
+$$V_{i}=\begin{bmatrix}v_{i1}^{1} & \cdots & v_{i1}^{k_{i1}} & | & \cdots & \cdots & | & v_{i\eta_{i}}^{1} & \cdots & v_{i\eta_{i}}^{k_{i\eta_{i}}}\end{bmatrix}$$
+
+が, 1次独立になるようにできる. 
+
+---
+
+### 有限固有値に対応する表現行列
+
+各 $v_{ij}$, $j=1,\dots,\eta_{i}$ に対して定まる部分行列の表現は次のようになる.
+
+$$\begin{multline}
+\begin{bmatrix}Av_{ij}^{1} & Av_{ij}^{2} & \cdots & Av_{ij}^{k_{ij}-1} & Av_{ij}^{k_{ij}}\end{bmatrix}\\
+=\begin{bmatrix}Ev_{ij}^{1} & Ev_{ij}^{2} & \cdots & Ev_{ij}^{k_{ij}-1} & Ev_{ij}^{k_{ij}}\end{bmatrix}\begin{bmatrix}\lambda_{i} & 1\\
+ & \lambda_{i} & 1\\
+ &  & \ddots & \ddots\\
+ &  &  & \lambda_{i} & 1\\
+ &  &  &  & \lambda_{i}
+\end{bmatrix}.\label{eq:weier_a}
+\end{multline}$$
+
+終域の基底として, $\begin{bmatrix}Ev_{ij}^{1} & Ev_{ij}^{2} & \cdots & Ev_{ij}^{k_{ij}-1} & Ev_{ij}^{k_{ij}}\end{bmatrix}$
+を取っていることに注意せよ. 
+
+---
+
+### 1次の無限大固有ベクトル
+
+$E$ のゼロ固有値に対応する固有ベクトルを求める. 
+
+$$Ev_{\infty j}^{1}=0,$$
+
+$v_{\infty j}^{1}\neq0$, $j=1,\dots,\eta=\dim\ker E$. 
+
+---
+
+### $k$次の無限大固有ベクトル
+
+非ゼロベクトルの列, $v_{\infty j}^{1},\dots,v_{\infty j}^{k_{\infty j}}$ を
+
+$$Ev_{\infty j}^{k+1}=Av_{\infty j}^{k},\quad k\ge 1$$
+
+が成り立つように選ぶ. 
+
+---
+
+### 無限大固有値に対応する表現行列
+
+各 $v_{\infty j}$, $j=1,\dots,\eta_{i}$ に対して定まる部分行列の表現は.
+
+$$\begin{multline}
+\begin{bmatrix}Ev_{\infty j}^{1} & Ev_{\infty j}^{2} & \cdots & Ev_{\infty j}^{k_{\infty j}-1} & Ev_{\infty j}^{k_{\infty j}}\end{bmatrix}\\
+=\begin{bmatrix}Av_{\infty j}^{1} & Av_{\infty j}^{2} & \cdots & Av_{\infty j}^{k_{\infty j}-1} & Av_{\infty j}^{k_{\infty j}}\end{bmatrix}\begin{bmatrix}0 & 1\\
+ & 0 & 1\\
+ &  & \ddots & \ddots\\
+ &  &  & 0 & 1\\
+ &  &  &  & 0
+\end{bmatrix}.\label{eq:weier_e}
+\end{multline}$$
+
+終域の基底として $\begin{bmatrix}Av_{\infty j}^{1} & Av_{\infty j}^{2} & \cdots & Av_{\infty j}^{k_{\infty j}-1} & Av_{\infty j}^{k_{\infty j}}\end{bmatrix}$
+を取っていることに注意せよ. 
+
+---
+
+## Weierstrass form
+
+$(E,A)$ はレギュラーであるとする. このとき, 上のように得た非ゼロベクトルを並べた行列
+
+$$V =[v_{ij}^{k}\ |\ v_{\infty j}^{k}],\quad
+W=[Ev_{ij}^{k}\ \mid Av_{\infty j}^{k}]$$
+は正則であり, 
+$$\begin{aligned}
+W^{-1}EV & =\begin{bmatrix}I\\
+ & N
+\end{bmatrix},\\
+W^{-1}AV & =
+\begin{bmatrix}
+J\\
+ & I
+\end{bmatrix},
+\end{aligned}$$
+
+* $N$: nilpotent canonical form 
+* $J$: Jordan form having the finite eigenvalues along diag
+
+---
+
+## デスクリプタシステムの分解
+
+$(E,A)$ をレギュラーとする. デスクリプタシステム
+
+$$Ex_{t+1}=Ax_{t}+Bu_{t}$$
+
+を前向きのシステム方程式と, 後ろ向きのシステム方程式に分解することができる. すなわち, 適当な変数変換のもとで, 
+
+$$\begin{align}
+\hat{x}_{t+1}^{f} & =J\hat{x}_{t}^{f}+B^{f}u_{t},\label{eq:forward}\\
+\hat{x}_{t}^{b} & =N\hat{x}_{t+1}^{b}+B^{b}u_{t}.\label{eq:backward}
+\end{align}$$
+
+---
+
+### 証明
+
+ワイエルシュトラス形式に変換する
+
+$$(W^{-1}EV)(V^{-1}x_{t+1})=(W^{-1}AV)(V^{-1}x_{t})+W^{-1}Bu_{t}.$$
+
+$\hat{x}_{t}:=V^{-1}x_{t}$, $\hat{x}_{t}=(\hat{x}_{t}^{f},\hat{x}_{t}^{b})$,
+$W^{-1}B=(B^{f},-B^{b})$ の分解を適切に選べば
+
+$$\begin{bmatrix}I\\
+ & N
+\end{bmatrix}\begin{bmatrix}\hat{x}_{t+1}^{f}\\
+\hat{x}_{t+1}^{b}
+\end{bmatrix}=\begin{bmatrix}J\\
+ & I
+\end{bmatrix}\begin{bmatrix}\hat{x}_{t}^{f}\\
+\hat{x}_{t}^{b}
+\end{bmatrix}+\begin{bmatrix}B^{f}\\
+-B^{b}
+\end{bmatrix}u_{t}.$$
+
+これを整理して定理の式を得る. 
+
+
+---
+
+## Luenber (1977)
+
+レギュラーなデスクリプタシステムは, $\hat{x}^{f}$ の初期条件と, $\hat{x}^{b}$ の終端条件, および
+$u_{t}$ によって解軌道を一意的に定めることができる. Luenberger (1977, _IEEE Transactions on Automatic Control_) 
+
+
+.exercise[
+システム
+$$\begin{aligned}
+\hat{x}_{t+1}^{f} & =J\hat{x}_{t}^{f}+B^{f}u_{t},\\
+\hat{x}_{t}^{b} & =N\hat{x}_{t+1}^{b}+B^{b}u_{t}.
+\end{aligned}$$
+の一般解を書き下しなさい. 
+]
