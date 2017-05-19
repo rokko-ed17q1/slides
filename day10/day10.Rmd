@@ -1,7 +1,7 @@
 ---
 title: "Day 10: Descriptor Systems"
 author: "佐藤 健治"
-date: '2017-05-11'
+date: '2017-05-18'
 output:
   xaringan::moon_reader:
     mathjax: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
@@ -33,7 +33,7 @@ HW08
 
 Visit https://github.com/rokko-ed17q1/hw-portal
 
-> Due 2017-05-15 18:00.
+> Due 2017-05-28 18:00.
 > Hand in by Pull Request.
 > Read the handout for details!
 
