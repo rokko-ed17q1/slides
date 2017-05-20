@@ -1,0 +1,496 @@
+---
+title: "Day 11: Solution method by Weierstrass form"
+author: "佐藤 健治"
+date: '2017-05-22'
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    css: ../asset/remark-css/style.css
+    lib_dir: libs
+    nature:
+      countIncrementalSlides: no
+      highlightLines: yes
+      highlightStyle: github
+subtitle: 経済動学 (2017Q1)
+---
+
+```{r setup, include=FALSE}
+source("../R/utils.R")
+knitr::opts_chunk$set(
+  fig.align = "center"
+)
+
+include_graphics = function(name, ...){
+  knitr::include_graphics(file.path("fig", name), ...)
+}
+library(tidyverse)
+```
+
+
+## 宿題 / Homework Assignment
+
+Reminder: HW08
+
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+> Due 2017-05-28 18:00.
+> Hand in by Pull Request.
+
+
+---
+
+## モデル
+
+$(E,A)$: レギュラーペンシル 
+
+システム 
+
+$$Ex_{t+1}=Ax_{t}+Bu_{t},\quad x\in\mathbb{R}^{n},\quad u\in\mathbb{R}^{m}$$
+
+に対する解公式を導出しよう. 
+
+---
+
+## 初期条件, 実行可能性
+
+$$Ex_{t+1}=Ax_{t}+Bu_{t},\quad x\in\mathbb{R}^{n},\quad u\in\mathbb{R}^{m}$$
+
+これまでと同様, 
+
+$$x_{0}= 
+\begin{bmatrix} 
+  x_{0}^{1} \\
+  x_{0}^{2}
+\end{bmatrix} 
+\in
+\mathbb{R}^{n_{1}}\times\mathbb{R}^{n_{2}}$$
+
+には初期条件 $x_{0}^{1}=\bar{x}_{0}^{1}$ が与えられている.
+
+幾何数列の発散スピードを超えない $(x_{t})_{t\ge0}$
+を実行可能な解とする. 
+
+---
+
+## 標準形
+
+$(E, A)$ に対して, 適当な正則行列 $V,W$ が存在して,
+$$\begin{aligned}
+W^{-1}EV 
+& =
+\begin{bmatrix}
+  I & \\
+    & N
+\end{bmatrix},\\
+W^{-1}AV 
+&=
+\begin{bmatrix}
+  J & \\
+    & I
+\end{bmatrix}
+\end{aligned}$$
+
+$J$ は $(E,A)$ の有限固有値を対角成分にもつジョルダン標準形行列, $N$ はべきゼロ標準形行列.
+
+$\det E\neq0$ であれば, 右下ブロック $(N, I)$ は現れない. 
+
+---
+
+## システムの変換
+
+$$\begin{aligned}
+  Ex_{t+1} &= Ax_{t}+Bu_{t} \\
+  &\Updownarrow \\
+  W^{-1} E V \cdot V^{-1} x_{t+1}
+    &= W^{-1} A V \cdot V^{-1} x_{t} + W^{-1}B u_{t} \\
+  &\Updownarrow \\
+  \begin{bmatrix}
+  I & \\
+    & N
+  \end{bmatrix} V^{-1} x_{t+1}
+  &=
+  \begin{bmatrix}
+    J & \\
+      & I
+  \end{bmatrix}
+  V^{-1} x_t + W^{-1}B u_{t}
+\end{aligned}$$
+
+---
+
+## 固有値の並べ替え
+
+有限固有値に対応する一般化固有ベクトルの並びによって $J$ に現れる 固有値の順序を自由に設定できる. 
+
+$J$ は
+$$J=\begin{bmatrix}J_{fs}\\
+   & J_{fu}
+  \end{bmatrix}$$
+というブロックに分かれており, 
+
+* $J_{fs}$ = weakly stable 
+* $J_{fu}$ = unstable 
+
+
+---
+
+## 変数変換
+
+変数変換 $y=V^{-1}x$
+
+変数の分割 
+
+$$y=
+\begin{bmatrix}
+  y^{fs} \\
+  y^{fu} \\
+  y^{b}
+\end{bmatrix}\in\mathbb{R}^{n_{fs}}\times\mathbb{R}^{n_{fu}}\times\mathbb{R}^{n_{b}}$$
+
+$$W^{-1}B=
+\begin{bmatrix}
+  C_{fs}\\
+  C_{fu}\\
+  C_{b}
+\end{bmatrix}$$
+
+---
+
+## サブシステム
+
+$$\begin{bmatrix}I_{n_{fs}}\\
+ & I_{n_{fu}}\\
+ &  & N
+\end{bmatrix}\begin{bmatrix}y_{t+1}^{fs}\\
+y_{t+1}^{fu}\\
+y_{t+1}^{b}
+\end{bmatrix}=\begin{bmatrix}J_{fs}\\
+ & J_{fu}\\
+ &  & I
+\end{bmatrix}\begin{bmatrix}y_{t}^{fs}\\
+y_{t}^{fu}\\
+y_{t}^{b}
+\end{bmatrix}+\begin{bmatrix}C_{fs}\\
+C_{fu}\\
+C_{b}
+\end{bmatrix}u_{t}.$$
+
+以下の3つ (あるいは2つ) のサブシステムに分解する. 
+$$\begin{aligned}
+y_{t+1}^{fs} & =J_{fs}y_{t}^{fs}+C_{fs}u_{t}\\
+\begin{bmatrix}y_{t}^{fu}\\
+y_{t}^{b}
+\end{bmatrix} & =\begin{bmatrix}J_{fu}^{-1}\\
+ & N
+\end{bmatrix}\begin{bmatrix}y_{t+1}^{fu}\\
+y_{t+1}^{b}
+\end{bmatrix}-\begin{bmatrix}J_{fu}^{-1}C_{fu}\\
+C_{b}
+\end{bmatrix}u_{t}\\
+ & =:\hat{J_u} y_{t+1}^{u}-C_{u}u_{t}.
+\end{aligned}$$
+
+---
+
+### 不安定成分の除去
+
+$$y_{t}^{fu} 
+= 
+J_{fu}^{-1} y_{t+1}^{fu} 
+-
+J_{fu}^{-1}C_{fu} u_{t}$$
+
+$y_t^{fu}$ については Blanchard-Kahn のケースと同様に
+
+$$y_{t}^{fu} = -\sum_{k=0}^{\infty}J_{fu}^{-k-1}C_{fu}u_{t+k}$$
+
+$\lim_{T}\|J_{fu}^{-T}C_{fu}u_{T}\|=0$ と $y_{t}^{fu}$ に現れる級数の収束性が成り立つように
+$u_{t}$ は制限されている
+
+---
+
+### 不安定成分の除去
+
+$$y_{t}^{b}
+= 
+N y_{t+1}^{b} - C_{b} u_{t}$$
+
+$y_t^b$ については
+
+$$\begin{aligned}
+y_{t}^{b} & =N\left(N y_{t+2}^{b}-C_{b}u_{t+1}\right)-C_{b}u_{t} \\
+ & =N^{n_{b}}y_{t+n_{b}}^{b}-\sum_{k=0}^{n_{b}-1}N^{k}C_{b}u_{t+k} \\
+ & =-\sum_{k=0}^{n_{b}-1}N^{k}C_{b}u_{t+k}
+\end{aligned}$$
+
+---
+
+### 不安定成分の除去
+
+不安定有限固有値と無限大固有値をまとめて
+
+$$y_{t}^{u} = -\sum_{k=0}^{\infty}\hat{J_u}^{-k-1}C_{u}u_{t+k}$$
+
+としてやってもよいが, $C_{b} u_{t}$ 成分のショックは発散的であって $y_t^b$ が定まる
+
+---
+
+## 初期条件の決定
+
+初期時点の変数を決定する線形方程式は次式で与えられる. 
+$$\begin{aligned}
+  \begin{bmatrix}\bar{x}_{0}^{1}\\
+  x_{0}^{2}
+  \end{bmatrix} & =\left[\begin{array}{c|cc}
+  V_{1fs} & V_{1fu} & V_{1b}\\
+  \hline V_{2fs} & V_{2fu} & V_{2b}
+  \end{array}\right]\left[\begin{array}{c}
+  y_{0}^{fs}\\
+  \hline \bar{y}_{0}^{fu}\\
+  \bar{y}_{0}^{b}
+  \end{array}\right]\\
+   & =:\left[\begin{array}{c|c}
+  V_{1fs} & V_{1u}\\
+  \hline V_{2fs} & V_{2u}
+  \end{array}\right]\begin{bmatrix}y_{0}^{fs}\\
+  \bar{y}_{0}^{u}
+  \end{bmatrix}
+\end{aligned}$$
+
+すでに決定している変数には上線を付している.
+
+---
+
+### 初期条件の決定
+
+Blanchard-Kahn のケースと同様に $(y_{0}^{fs},x_{0}^{2})$
+について解くことができれば解軌道の存在が示される. 
+
+未知変数を左辺に集めて
+
+$$\begin{aligned}
+  \begin{bmatrix}V_{1fs} & 0\\
+  V_{2fs} & -I
+  \end{bmatrix}\begin{bmatrix}y_{0}^{fs}\\
+  x_{0}^{2}
+  \end{bmatrix}
+  &=
+  \begin{bmatrix}I & -V_{1fu} & -V_{1b}\\
+  0 & -V_{2fu} & -V_{2b}
+  \end{bmatrix}\begin{bmatrix}\bar{x}_{0}^{1}\\
+  \bar{y}_{0}^{fu}\\
+  \bar{y}_{0}^{b}
+  \end{bmatrix}\\
+  &=
+  \begin{bmatrix}I & -V_{1u}\\
+  0 & -V_{2u}
+  \end{bmatrix}\begin{bmatrix}\bar{x}_{0}^{1}\\
+  \bar{y}_{0}^{u}
+  \end{bmatrix}
+\end{aligned}$$
+
+$t=0$ 以外の任意の時点で成り立つことに注意 
+
+---
+
+## Determinacy
+
+次の結果を得る. 
+
+.theorem[
+$V_{1fs}$ が正方 ( $n_{1}=n_{fs}$) かつ $\det V_{1fs}\neq0$
+が成り立てば, $(y_{0}^{fs},x_{0}^{2})$ および解経路が一意的に定まる. 
+]
+
+.exercise[
+解の不存在および不決定性が起こる場合の議論を完成させなさい.
+]
+
+---
+
+## 無限大固有値に関する注意
+
+ここで得られた結果は, 有限不安定固有値と無限大固有値の区別に依存していないことに注意
+
+無限大固有値を不安定固有値とみなせば
+Blanchard-Kahn の定理とまったく同じ条件と言ってよい. 
+
+ただし, 解公式は同じにはならない.
+前節の $J_{u}^{-1}$ は可逆 (これは当たり前のことである) であったのに対して, $\det E=0$ の場合 $\hat{J_u}$
+は可逆ではない. したがって, Blanchard-Kahn のケースとは違って後ろ向きの方程式に対応する順方向の方程式は存在しない
+
+---
+
+## $g$: non-predetermined $\mapsto$ predetermined
+
+$$\begin{aligned}
+  \begin{bmatrix}
+    \bar{x}_{t}^{1}\\
+    x_{t}^{2}
+  \end{bmatrix} 
+  &=
+  \begin{bmatrix}
+    V_{1fs} & V_{1u}\\
+    V_{2fs} & V_{2u}
+  \end{bmatrix}
+  \begin{bmatrix}
+    y_{t}^{fs}\\
+    \bar{y}_{t}^{u}
+  \end{bmatrix}
+\end{aligned}$$
+
+
+$$\begin{aligned}
+  \begin{bmatrix}
+    V_{1fs} & 0\\
+    V_{2fs} & -I
+  \end{bmatrix}
+  \begin{bmatrix}
+    y_{t}^{fs}\\
+    x_{t}^{2}
+  \end{bmatrix}
+  &=
+  \begin{bmatrix}
+    I & -V_{1u}\\
+    0 & -V_{2u}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \bar{x}_{t}^{1}\\
+    \bar{y}_{t}^{u}
+  \end{bmatrix}
+\end{aligned}$$
+
+非先決変数に関する公式
+
+$$\begin{aligned}
+  x_{t}^{2}
+  &=V_{2fs}y_{t}^{fs}+V_{2u}\bar{y}_{t}^{u}\\
+  &=V_{2fs}\left(V_{1fs}^{-1}\bar{x}_{t}^{1}
+    -V_{1fs}^{-1}V_{1u}\bar{y}_{t}^{u}\right)
+    +V_{2u}\bar{y}_{t}^{u}\\
+  &=
+  V_{2fs}V_{1fs}^{-1}\bar{x}_{t}^{1}+
+    \left(V_{2u}-V_{2fs}V_{1fs}^{-1}V_{1u}\right)
+    \bar{y}_{t}^{u} \\
+  &=
+  g\left(
+    \bar{x}_t^1, (u_\tau)_{\tau \ge t}
+  \right)
+\end{aligned}$$
+
+
+---
+
+## $h$: non-predetermined $\mapsto$ non-predetermined
+
+
+先決変数に関する公式
+
+$$\begin{aligned}x_{t+1}^{1} & =V_{1fs}y_{t+1}^{fs}+V_{1u}\bar{y}_{t+1}^{u}\\
+ & =V_{1fs}\left(J_{fs}y_{t}^{fs}+C_{fs}u_{t}\right)+V_{1u}\bar{y}_{t+1}^{u}\\
+ & =V_{1fs}J_{fs}y_{t}^{fs}+V_{1fs}C_{fs}u_{t}+V_{1u}\bar{y}_{t+1}^{u}\\
+ & =V_{1fs}J_{fs}\left(V_{1fs}^{-1}\bar{x}_{t}^{1}-V_{1fs}^{-1}V_{1u}\bar{y}_{t}^{u}\right)+V_{1fs}C_{fs}u_{t}+V_{1u}\bar{y}_{t+1}^{u}\\
+ & =V_{1fs}J_{fs}V_{1fs}^{-1}\bar{x}_{t}^{1}-V_{1fs}J_{fs}V_{1fs}^{-1}V_{1u}\bar{y}_{t}^{u}+V_{1fs}C_{fs}u_{t}+V_{1u}\bar{y}_{t+1}^{u}\\
+ & =V_{1fs}J_{fs}V_{1fs}^{-1}\bar{x}_{t}^{1}+\left(V_{1u}-V_{1fs}J_{fs}V_{1fs}^{-1}V_{1u}\hat{J_{u}}\right)\bar{y}_{t+1}^{u}\\
+ & \qquad+\left(V_{1fs}V_{fs}V_{1fs}^{-1}V_{1u}C_{u}+V_{1fs}C_{fs}\right)u_{t}\\
+ & =:h\left(\bar{x}_{t}^{1},(u_{\tau})_{\tau\ge t}\right)
+\end{aligned}$$
+
+---
+
+## AR shock
+
+Klein (2000) にならって $u$ が状態方程式
+$$u_{t+1}=\Phi u_{t},\quad\Phi\in\mathbb{R}^{m\times m}$$
+に従うと仮定する
+
+$$y_{t}^{u}=-\sum_{k=0}^{\infty}\hat{J_u}^{k}C_{u}u_{t+k}.$$
+
+$u$ に対する仮定から $u_{t+k}=\Phi^{k}u_{t}$, $k=0,1,\dots$, 
+$$\begin{aligned}
+y_{t}^{u}
+=-\left(\sum_{k=0}^{\infty}\hat{J_u}^{k}C_{u}\Phi^{k}\right)u_{t} 
+=:Mu_{t}.
+\end{aligned}$$
+
+---
+
+## $M$ の計算
+
+行列 $M$を計算しよう. 簡単な計算から
+$$\begin{aligned}
+M
+&=-\left(\sum_{k=0}^{\infty}\hat{J_u}^{k}C_{u}\Phi^{k}\right)
+=-C_{u}-\sum_{k=1}^{\infty}\hat{J_u}^{k}C_{u}\Phi^{k}\\
+&=-C_{u}+\hat{J_u}M\Phi
+\end{aligned}$$
+
+
+$$\mathrm{vec}(M)=\left[\left(\Phi^{\top}\otimes\hat{J_u}\right)-I\right]^{-1}\mathrm{vec}(C_{u}).$$
+
+---
+
+## $g$: non-predetermined $\mapsto$ predetermined
+
+$$\begin{aligned}
+g\left(\bar{x}_t^1, (u_\tau)_{\tau \ge t} \right)
+&=
+V_{2fs}V_{1fs}^{-1}\bar{x}_{t}^{1}+
+    \left(V_{2u}-V_{2fs}V_{1fs}^{-1}V_{1u}\right)
+    \bar{y}_{t}^{u} \\
+&= 
+V_{2fs}V_{1fs}^{-1}\bar{x}_{t}^{1}+
+    \left(V_{2u}-V_{2fs}V_{1fs}^{-1}V_{1u}\right) Mu_t
+\end{aligned}$$
+
+---
+
+## $h$: non-predetermined $\mapsto$ non-predetermined
+
+$$\begin{aligned}
+  &h\left(
+    \bar{x}_t^1, (u_\tau)_{\tau \ge t}
+  \right)\\
+  &= V_{1fs}J_{fs}V_{1fs}^{-1}\bar{x}_{t}^{1}+\left(V_{1u}-V_{1fs}J_{fs}V_{1fs}^{-1}V_{1u}\hat{J_{u}}\right)\bar{y}_{t+1}^{u}\\
+  &\qquad+\left(V_{1fs}V_{fs}V_{1fs}^{-1}V_{1u}C_{u}+V_{1fs}C_{fs}\right)u_{t}\\
+  &=
+  V_{1fs} J_{fs} V_{1fs}^{-1}\bar{x}_{t}^{1} + 
+  \left(V_{1u}-V_{1fs}J_{fs}V_{1fs}^{-1}V_{1u}\hat{J_{u}}\right) M\Phi u_t\\
+  &\qquad +\left(V_{1fs}V_{fs}V_{1fs}^{-1}V_{1u}C_{u}+V_{1fs}C_{fs}\right)u_{t}\\
+  &=
+  V_{1fs} J_{fs} V_{1fs}^{-1}\bar{x}_{t}^{1} \\
+  &\qquad+\left(
+    V_{1u}M\Phi - V_{1fs}J_{fs}V_{1fs}^{-1}V_{1u}M + V_{1fs}C_{fs}
+  \right) u_t
+\end{aligned}$$
+
+---
+
+## まとめ
+
+$n_{1}=n_{fs}$ かつ $\det V_{1fs}\neq0$ とする. このとき, $Ex_{t+1} = Ax_t + Bu_t$ の nonexplosive 解は一意に定まる.
+
+外生変数 が $u_{t+1}=\Phi u_{t}$ に従うとすれば, $x_{t}$, $t=0,1,\dots$
+, は次式で与えられる. 
+
+$$\begin{aligned}
+  x_{t+1}^{1} 
+  & =
+    V_{1fs}J_{fs}V_{1fs}^{-1}x_{t}^{1} +     
+    \left[
+      V_{1fs}C_{fs}-V_{1fs}J_{fs}V_{1fs}^{-1}V_{1u}M + 
+      V_{1u}M\Phi
+    \right] u_{t} \\
+  x_{t}^{2} 
+  & =
+    V_{2fs}V_{1fs}^{-1}x_{t}^{1} + 
+    \left(
+      V_{2u}-V_{2fs}V_{1fs}^{-1}V_{1u}
+    \right) Mu_{t}.\\
+  x_{0}^{1} & :\ \text{given}.
+\end{aligned}$$
+
+
+ただし $M$は
+$$\mathrm{vec}(M)=\left[\left(\Phi^{\top}\otimes\hat{J}_{u}\right)-I\right]^{-1}\mathrm{vec}\left(D_{u}\right)$$
+
