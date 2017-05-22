@@ -182,7 +182,7 @@ y_{t+1}^{b}
 \end{bmatrix}-\begin{bmatrix}J_{fu}^{-1}C_{fu}\\
 C_{b}
 \end{bmatrix}u_{t}\\
- &amp; =:\hat{J_u} y_{t+1}^{u}-C_{u}u_{t}.
+ &amp; =:\hat{J_u} y_{t+1}^{u}-C_{u}u_{t}. 
 \end{aligned}$$`
 
 ---
@@ -215,7 +215,7 @@ N y_{t+1}^{b} - C_{b} u_{t}$$`
 `$$\begin{aligned}
 y_{t}^{b} &amp; =N\left(N y_{t+2}^{b}-C_{b}u_{t+1}\right)-C_{b}u_{t} \\
  &amp; =N^{n_{b}}y_{t+n_{b}}^{b}-\sum_{k=0}^{n_{b}-1}N^{k}C_{b}u_{t+k} \\
- &amp; =-\sum_{k=0}^{n_{b}-1}N^{k}C_{b}u_{t+k}
+ &amp; =-\sum_{k=0}^{n_{b}-1}N^{k}C_{b}u_{t+k} 
 \end{aligned}$$`
 
 ---
@@ -224,7 +224,7 @@ y_{t}^{b} &amp; =N\left(N y_{t+2}^{b}-C_{b}u_{t+1}\right)-C_{b}u_{t} \\
 
 不安定有限固有値と無限大固有値をまとめて
 
-`$$y_{t}^{u} = -\sum_{k=0}^{\infty}\hat{J_u}^{-k-1}C_{u}u_{t+k}$$`
+`$$y_{t}^{u} = -\sum_{k=0}^{\infty}\hat{J_u}^{k}C_{u}u_{t+k}$$`
 
 としてやってもよいが, `\(C_{b} u_{t}\)` 成分のショックは発散的であって `\(y_t^b\)` が定まる
 
@@ -247,7 +247,7 @@ y_{t}^{b} &amp; =N\left(N y_{t+2}^{b}-C_{b}u_{t+1}\right)-C_{b}u_{t} \\
    &amp; =:\left[\begin{array}{c|c}
   V_{1fs} &amp; V_{1u}\\
   \hline V_{2fs} &amp; V_{2u}
-  \end{array}\right]\begin{bmatrix}y_{0}^{fs}\\
+  \end{array}\right]\begin{bmatrix}y_{0}^{fs} \\
   \bar{y}_{0}^{u}
   \end{bmatrix}
 \end{aligned}$$`
