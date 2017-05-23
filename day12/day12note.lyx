@@ -1,0 +1,832 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\begin_preamble
+
+
+\usepackage{listings}
+\usepackage{courier}
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{frame=single}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language japanese
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language french
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+例題
+\end_layout
+
+\begin_layout Subtitle
+経済動学 2017q1
+\end_layout
+
+\begin_layout Author
+mail@
+\series bold
+kenjisato
+\series default
+.jp
+\end_layout
+
+\begin_layout Date
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+relax
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+問題
+\end_layout
+
+\begin_layout Standard
+Gary Hansen (1985) によるRBCモデルの決定論バージョンをシミュレーションせよ.
+ 記号法やパラメータは Miao (pp.
+ 26–31) を参考にしている.
+ モデル: 
+\begin_inset Formula 
+\begin{align}
+ & \max\sum_{t=0}^{\infty}\beta^{t}\left[\log C_{t}+\chi\log\left(1-N_{t}\right)\right]\nonumber \\
+ & \text{subject to}\nonumber \\
+ & \qquad C_{t}+K_{t+1}-(1-\delta)K_{t}=z_{t}K_{t}^{\alpha}N_{t}^{1-\alpha}\label{eq:const}\\
+ & \qquad\log z_{t+1}=\rho\log z_{t}+e_{t}\label{eq:const2}\\
+ & \qquad K_{0},z_{0}:\text{ given.}\nonumber 
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Klein の手法で分析可能な線形方程式を作るためには, 次のステップを実行すればよい.
+ 
+\end_layout
+
+\begin_layout Paragraph
+[1.
+ 手計算] 
+\end_layout
+
+\begin_layout Standard
+Lagrange 関数を作り, 均衡経路 
+\begin_inset Formula $\{(C_{t},N_{t},K_{t})\}_{t=0}^{\infty}$
+\end_inset
+
+が満たすべき条件 (1階条件) を求めよ.
+\end_layout
+
+\begin_layout Paragraph
+[2.
+ 数値計算]
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $e_{t}\equiv0$
+\end_inset
+
+ として, [1] で得た1階条件を満たす定常状態 
+\begin_inset Formula $(\bar{C},\bar{N},\bar{K})$
+\end_inset
+
+ および, 
+\begin_inset Formula $\bar{z}$
+\end_inset
+
+ を求めよ.
+ ただし, パラメータは次のように与える:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\alpha=0.33,\quad\beta=0.99,\quad\delta=0.023
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\chi=1.75,\quad\rho=0.95.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+[3.
+ 数値計算 or シンボリック計算 or 手計算]
+\end_layout
+
+\begin_layout Standard
+[1] で得た1階条件を [2] で得た定常状態の周りで線形化 (あるいは対数線形化) し, 線形システム方程式を導出せよ.
+ 線形化に必要な微分を行うには数値微分を用いる方法と, シンボリック計算あるいは手計算による方法がある.
+ いずれを用いてもよい.
+\end_layout
+
+\begin_layout Paragraph
+[4.
+ 数値計算] 
+\end_layout
+
+\begin_layout Standard
+[3] で得た線形システムに Klein の方法を適用する.
+ ただし, 外生変数 
+\begin_inset Formula $e$
+\end_inset
+
+ を次のようにおく.
+ 
+\begin_inset Formula 
+\[
+e_{0}=0,\ e_{1}=0.01,\ \dots,\ e_{10}=0.01,\ e_{11}=0,\ e_{12}=0,\ \dots
+\]
+
+\end_inset
+
+このとき, 
+\begin_inset Formula $C_{t},N_{t},K_{t},z_{t}$
+\end_inset
+
+ の時間発展をシミュレーションせよ.
+ 
+\end_layout
+
+\begin_layout Subsection*
+解説
+\end_layout
+
+\begin_layout Paragraph
+1.
+ FoC の導出
+\end_layout
+
+\begin_layout Standard
+Lagrange 関数
+\begin_inset Formula 
+\begin{multline*}
+\mathcal{L}=\sum_{t=0}^{\infty}\Bigl\{\beta^{t}\left[\log C_{t}+\chi\log\left(1-N_{t}\right)\right]-\lambda_{t}\left(C_{t}+K_{t+1}-(1-\delta)K_{t}-z_{t}K_{t}^{\alpha}N_{t}^{1-\alpha}\right)\\
+-\mu_{t}\left(\log z_{t+1}-\rho\log z_{t}-e_{t}\right)\Bigr\}.
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\mathcal{L}}{\partial C_{t}}=\beta^{t}\left[\frac{1}{C_{t}}-\lambda_{t}\right]=0\Longleftrightarrow\lambda_{t}=\frac{1}{C_{t}}.\label{eq:lam}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial\mathcal{L}}{\partial K_{t+1}} & =-\beta^{t}\lambda_{t}+\beta^{t+1}\lambda_{t+1}\left[(1-\delta)+\alpha z_{t+1}K_{t+1}^{\alpha-1}N_{t+1}^{1-\alpha}\right]=0,\\
+\Longleftrightarrow & \lambda_{t}=\beta\lambda_{t+1}\left[(1-\delta)+\alpha z_{t+1}K_{t+1}^{\alpha-1}N_{t+1}^{1-\alpha}\right].
+\end{align*}
+
+\end_inset
+
+式 (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:lam"
+
+\end_inset
+
+) より,
+\begin_inset Formula 
+\begin{align}
+C_{t+1} & =\beta C_{t}\left[1-\delta+\alpha z_{t+1}K_{t+1}^{\alpha-1}N_{t+1}^{1-\alpha}\right].\label{eq:FoC1}
+\end{align}
+
+\end_inset
+
+
+\begin_inset Formula $N$
+\end_inset
+
+ について偏微分すると.
+\begin_inset Formula 
+\[
+\frac{\partial\mathcal{L}}{\partial N_{t}}=\beta^{t}\left[\left(-\frac{\chi}{1-N_{t}}\right)+(1-\alpha)\lambda_{t}z_{t}K_{t}^{\alpha}N_{t}^{-\alpha}\right]=0,
+\]
+
+\end_inset
+
+すなわち,
+\begin_inset Formula 
+\begin{equation}
+\chi C_{t}=(1-\alpha)z_{t}K_{t}^{\alpha}N_{t}^{-\alpha}(1-N_{t}).\label{eq:FoC2}
+\end{equation}
+
+\end_inset
+
+均衡条件は, (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:FoC1"
+
+\end_inset
+
+), (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:FoC2"
+
+\end_inset
+
+) および (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:const"
+
+\end_inset
+
+), (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:const2"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Paragraph
+2.
+ 定常状態
+\end_layout
+
+\begin_layout Standard
+定常状態が満たすべき方程式は
+\begin_inset Formula 
+\begin{align}
+\bar{C} & =\beta\bar{C}\left[1-\delta+\alpha\bar{z}\bar{K}^{\alpha-1}\bar{N}^{1-\alpha}\right]\label{eq:7}\\
+\chi\bar{C} & =(1-\alpha)\bar{z}\bar{K}^{\alpha}\bar{N}^{-\alpha}(1-\bar{N})\label{eq:8}\\
+\bar{C}+\bar{K}-(1-\delta)\bar{K} & =\bar{z}\bar{K}^{\alpha}\bar{N}^{1-\alpha}\label{eq:9}\\
+\log\bar{z} & =\rho\log\bar{z}\label{eq:10}
+\end{align}
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:10"
+
+\end_inset
+
+) より
+\begin_inset Formula 
+\[
+\bar{z}=1.
+\]
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:7"
+
+\end_inset
+
+), (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:8"
+
+\end_inset
+
+), (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:9"
+
+\end_inset
+
+) を整理すると
+\begin_inset Formula 
+\begin{align}
+\beta\left[1-\delta+\alpha\bar{K}^{\alpha-1}\bar{N}^{1-\alpha}\right] & =1\label{eq:11}\\
+(1-\alpha)\bar{K}^{\alpha}\bar{N}^{-\alpha}(1-\bar{N}) & =\chi\bar{C}\label{eq:12}\\
+\bar{C}+\delta\bar{K} & =\bar{K}^{\alpha}\bar{N}^{1-\alpha}.\label{eq:13}
+\end{align}
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:11"
+
+\end_inset
+
+) より,
+\begin_inset Formula 
+\begin{equation}
+\bar{K}^{\alpha-1}\bar{N}^{1-\alpha}=\left(\frac{\bar{N}}{\bar{K}}\right)^{1-\alpha}=\frac{1-\beta+\beta\delta}{\alpha\beta}=:q_{0},\label{eq:13-0}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\bar{N}=\left(\frac{1-\beta+\beta\delta}{\alpha\beta}\right)^{\frac{1}{1-\alpha}}\bar{K}=q_{0}^{\frac{1}{1-\alpha}}=:q_{1}\bar{K}.\label{eq:14}
+\end{equation}
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:13"
+
+\end_inset
+
+), (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:14"
+
+\end_inset
+
+) より
+\begin_inset Formula 
+\begin{align*}
+\bar{C}+\delta\bar{K} & =\left(\bar{K}^{\alpha-1}\bar{N}^{1-\alpha}\right)\bar{K}=q_{0}\bar{K}.
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $\bar{C}$
+\end_inset
+
+ について解くと, 
+\begin_inset Formula 
+\begin{equation}
+\bar{C}=(q_{0}-\delta)\bar{K}=:q_{2}\bar{K}.\label{eq:15}
+\end{equation}
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:12"
+
+\end_inset
+
+), (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:14"
+
+\end_inset
+
+), (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:15"
+
+\end_inset
+
+) より
+\begin_inset Formula 
+\[
+(1-\alpha)q_{1}^{-\alpha}(1-q_{1}\bar{K})=\chi q_{2}\bar{K}.
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\bar{K}=\frac{(1-\alpha)q_{1}^{-\alpha}}{(1-\alpha)q_{1}^{1-\alpha}+\chi q_{2}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3.
+ 線形化
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\hat{K}_{t}:=dK_{t}/\bar{K}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{z}_{t}:=dz_{t}/\bar{z}$
+\end_inset
+
+ , 
+\begin_inset Formula $\hat{C}_{t}:=dC_{t}/\bar{C}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{N}_{t}:=dN_{t}/\bar{N}$
+\end_inset
+
+とおいて, 
+\begin_inset Formula $\hat{K}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{z}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{C}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{N}$
+\end_inset
+
+に関する線形システムを導出しよう.
+ (対数線形化)
+\end_layout
+
+\begin_layout Standard
+式 (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:FoC1"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+C_{t+1}=\beta C_{t}\left[1-\delta+\alpha z_{t+1}K_{t+1}^{\alpha-1}N_{t+1}^{1-\alpha}\right]
+\]
+
+\end_inset
+
+の対数を取った上で線形化する.
+ 
+\begin_inset Formula 
+\[
+\log C_{t+1}=\log\beta+\log C_{t}+\log\left[1-\delta+\alpha z_{t+1}K_{t+1}^{\alpha-1}N_{t+1}^{1-\alpha}\right]
+\]
+
+\end_inset
+
+ 全微分して, (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:13-0"
+
+\end_inset
+
+) を使って整理すると, 
+\begin_inset Formula 
+\begin{align*}
+\frac{dC_{t+1}}{\bar{C}} & =\frac{dC_{t}}{\bar{C}}+\frac{\alpha}{1-\delta+\alpha\bar{z}\bar{K}^{\alpha-1}\bar{N}^{1-\alpha}}\Bigl[\bar{K}^{\alpha-1}\bar{N}^{1-\alpha}dz_{t+1}\\
+ & \qquad+(\alpha-1)\bar{z}\bar{K}^{\alpha-2}\bar{N}^{1-\alpha}dK_{t+1}+(1-\alpha)\bar{z}\bar{K}^{\alpha-1}\bar{N}^{-\alpha}dN_{t+1}\Bigr]\\
+\hat{C}_{t+1} & =\hat{C}_{t}+\frac{\alpha q_{0}}{1-\delta+\alpha q_{0}}\left[\hat{z}_{t+1}+(\alpha-1)\hat{K}_{t+1}+(1-\alpha)\hat{N}_{t+1}\right].
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\alpha(\alpha-1)q_{0}\hat{K}_{t+1}+\alpha q_{0}\hat{z}_{t+1}+\alpha(1-\alpha)q_{0}\hat{N}_{t+1}-(1-\delta+\alpha q_{0})\hat{C}_{t+1}=-(1-\delta+\alpha q_{0})\hat{C}_{t}.
+\end{equation}
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:FoC2"
+
+\end_inset
+
+) を対数線形化する.
+ 
+\begin_inset Formula 
+\[
+\log\chi+\log C_{t}=\log(1-\alpha)+\log z_{t}+\alpha\log K_{t}-\alpha\log N_{t}+\log(1-N_{t}).
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\frac{dC_{t}}{\bar{C}} & =\frac{dz_{t}}{\bar{z}}+\alpha\frac{dK_{t}}{\bar{K}}-\alpha\frac{dN_{t}}{\bar{N}}-\frac{dN_{t}}{1-\bar{N}}\\
+\hat{C}_{t} & =\hat{z}_{t}+\alpha\hat{K}_{t}-\frac{\alpha+(1-\alpha)\bar{N}}{1-\bar{N}}\hat{N}_{t}.
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+0=\alpha\hat{K}_{t}+\hat{z}_{t}-\frac{\alpha+(1-\alpha)\bar{N}}{1-\bar{N}}\hat{N}_{t}-\hat{C}_{t}
+\end{equation}
+
+\end_inset
+
+式 (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:const"
+
+\end_inset
+
+) を対数線形化する.
+ 
+\begin_inset Formula 
+\[
+\log\left[C_{t}+K_{t+1}-(1-\delta)K_{t}\right]=\log z_{t}+\alpha\log K_{t}+(1-\alpha)\log N_{t}.
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{dC_{t}+dK_{t+1}-(1-\delta)dK_{t}}{\bar{C}+\bar{K}-(1-\delta)\bar{K}}=\frac{dz_{t}}{\bar{z}}+\alpha\frac{dK_{t}}{\bar{K}}+(1-\alpha)\frac{dN_{t}}{\bar{N}}.
+\]
+
+\end_inset
+
+
+\begin_inset Formula $\bar{C}+\delta\bar{K}=q_{0}\bar{K}$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{C}=q_{2}\bar{K}$
+\end_inset
+
+ を使って整理すると
+\begin_inset Formula 
+\[
+\frac{dC_{t}+dK_{t+1}-(1-\delta)dK_{t}}{q_{0}\bar{K}}=\frac{dz_{t}}{\bar{z}}+\alpha\frac{dK_{t}}{\bar{K}}+(1-\alpha)\frac{dN_{t}}{\bar{N}}.
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{q_{2}}{q_{0}}\hat{C}_{t}+\frac{1}{q_{0}}\hat{K}_{t+1}-\frac{1-\delta}{q_{0}}\hat{K}_{t}=\hat{z}_{t}+\alpha\hat{K}_{t}+(1-\alpha)\hat{N}_{t}.
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\hat{K}_{t+1}=\left(\alpha q_{0}+1-\delta\right)\hat{K}_{t}+q_{0}\hat{z}_{t}+(1-\alpha)q_{0}\hat{N}_{t}-q_{2}\hat{C}_{t}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+最後に, 
+\begin_inset Formula 
+\[
+\log z_{t+1}=\rho\log z_{t}+e_{t}
+\]
+
+\end_inset
+
+から
+\begin_inset Formula 
+\begin{equation}
+\hat{z}_{t+1}=\rho\hat{z}_{t}+de_{t}=\rho\hat{z}_{t}+e_{t}.
+\end{equation}
+
+\end_inset
+
+まとめると,
+\begin_inset Formula 
+\begin{multline*}
+\begin{bmatrix}\alpha(\alpha-1)q_{0} & \alpha q_{0} & \alpha(1-\alpha)q_{0} & -(1-\delta+\alpha q_{0})\\
+0 & 0 & 0 & 0\\
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 0
+\end{bmatrix}\begin{bmatrix}\hat{K}_{t+1}\\
+\hat{z}_{t+1}\\
+\hat{N}_{t+1}\\
+\hat{C}_{t+1}
+\end{bmatrix}\\
+=\begin{bmatrix}0 & 0 & 0 & -(1-\delta+\alpha q_{0})\\
+\alpha & 1 & \frac{-\alpha-(1-\alpha)\bar{N}}{1-\bar{N}} & -1\\
+\alpha q_{0}+1-\delta & q_{0} & (1-\alpha)q_{0} & -q_{2}\\
+0 & \rho & 0 & 0
+\end{bmatrix}\begin{bmatrix}\hat{K}_{t}\\
+\hat{z}_{t}\\
+\hat{N}_{t}\\
+\hat{C}_{t}
+\end{bmatrix}+\begin{bmatrix}0\\
+0\\
+0\\
+1
+\end{bmatrix}e_{t}.
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+4.
+ 分析
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $(E,A)$
+\end_inset
+
+ をQZ分解すると, 有限固有値
+\begin_inset Formula 
+\[
+\text{sp}(E,A)=\{0.95000000,0.95144553,1.06164880\}
+\]
+
+\end_inset
+
+と, 1つの無限大固有値が見つかる.
+ したがって, 
+\begin_inset Formula 
+\[
+n_{s}=2,\ n_{u}=2
+\]
+
+\end_inset
+
+である.
+ 先決変数は
+\begin_inset Formula $\hat{K}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{z}$
+\end_inset
+
+ の2つなので, 
+\begin_inset Formula 
+\[
+n_{1}=n_{s}.
+\]
+
+\end_inset
+
+さらに, 
+\begin_inset Formula 
+\[
+Z_{1s}=\begin{bmatrix}-0.85926076 & -0.02110806\\
+0.00000000 & 0.77147414
+\end{bmatrix}
+\]
+
+\end_inset
+
+は正則なので, Blanchard-Kahn の条件は満たされている.
+ 解の公式は 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\Omega_{x} & =Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}\\
+\Omega_{u} & =Z_{1s}S_{ss}^{-1}\left[(T_{ss}Z_{1s}^{-1}Z_{1u}-T_{su})T_{uu}^{-1}C_{u}+C_{s}\right]\\
+\Omega_{y} & =Z_{1u}-Z_{1s}S_{ss}^{-1}S_{su}+Z_{1s}S_{ss}^{-1}(T_{su}-T_{ss}Z_{1s}^{-1}Z_{1u})T_{uu}^{-1}S_{uu}.
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Psi_{x} & =Z_{2s}Z_{1s}^{-1}\\
+\Psi_{y} & =Z_{2u}-Z_{2s}Z_{1s}^{-1}Z_{1u}
+\end{align*}
+
+\end_inset
+
+を用いて, 
+\begin_inset Formula 
+\begin{align*}
+x_{t+1}^{1} & =\Omega_{x}x_{t}^{1}+\Omega_{u}u_{t}+\Omega_{y}y_{t+1}^{u}\\
+x_{t}^{2} & =\Psi_{x}x_{t}^{1}+\Psi_{y}y_{t}^{u}
+\end{align*}
+
+\end_inset
+
+と表現できるので, 
+\begin_inset Formula $y_{t}^{u}$
+\end_inset
+
+ を計算すればシステムの軌道が決定できる.
+ 
+\end_layout
+
+\end_body
+\end_document
