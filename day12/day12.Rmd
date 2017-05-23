@@ -1,0 +1,483 @@
+---
+title: "Day 12: Solution method by QZ form"
+author: "佐藤 健治"
+date: '2017-05-25'
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    css: ../asset/remark-css/style.css
+    lib_dir: libs
+    nature:
+      countIncrementalSlides: no
+      highlightLines: yes
+      highlightStyle: github
+subtitle: 経済動学 (2017Q1)
+---
+
+```{r setup, include=FALSE}
+source("../R/utils.R")
+knitr::opts_chunk$set(
+  fig.align = "center"
+)
+
+include_graphics = function(name, ...){
+  knitr::include_graphics(file.path("fig", name), ...)
+}
+library(tidyverse)
+```
+
+
+## 宿題 / Homework Assignment
+
+Reminder: HW08
+
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+> Due 2017-05-28 18:00.
+> Hand in by Pull Request.
+
+
+---
+
+## Weierstrass form の復習
+
+行列のペア $(E,A)$ が与えられたとき, 正則行列 $V$, $W$ により
+$$\begin{aligned}
+  W^{-1}AV
+  &=
+  \begin{bmatrix}
+   J  & \\
+      & I
+  \end{bmatrix}
+  =
+  \left[\begin{smallmatrix}
+    \star & \star  &        &       &   &        &   \\
+          & \ddots & \ddots &       &   &        &   \\
+          &        & \star  & \star &   &        &   \\ 
+          &        &        & \star &   &        &   \\
+          &        &        &       & 1 &        &   \\
+          &        &        &       &   & \ddots &   \\ 
+          &        &        &       &   &        & 1 \\ 
+  \end{smallmatrix}\right]
+  \\
+  W^{-1}EV
+  &=
+  \begin{bmatrix}
+   I &  \\
+     & N
+  \end{bmatrix}
+  =
+  \left[\begin{smallmatrix}
+    1 &        &   &   &        &        &   \\
+      & \ddots &   &   &        &        &   \\
+      &        & 1 &   &        &        &   \\ 
+      &        &   & 0 & 1      &        &   \\
+      &        &   &   & \ddots & \ddots &   \\
+      &        &   &   &        & 0      & 1 \\ 
+      &        &   &   &        &        & 0 \\ 
+  \end{smallmatrix}\right]
+\end{aligned}$$
+
+---
+
+## Weierstrass form から QZ分解
+
+$W^{-1}AV$, $W^{-1}EV$ のいずれも上三角行列になっていることに注意しよう.
+
+Schur分解のときに確認したように, **上三角化によって不安定固有値から forward-lookingサブシステムを作れれば問題が解ける。これは $E \neq I$ の場合でも同様**
+
+Schur 分解を行列ペアに対して拡張することで, 一般化Schur分解あるいはQZ分解と呼ばれる標準化の方法が得られる.
+
+ユニタリ変換による標準化は数値的に望ましい性質を持つので, 実用的にはQZ分解を利用したシステム解析法がもっとも使いやすい. 
+
+
+---
+
+
+## QZ分解 
+
+.theorem[
+任意の正方行列のペア $E,A\in\mathbb{F}^{n\times n}$ に対して, 適当なユニタリ行列 $Q$, $Z$
+を選べば 
+$$Q^{*}AZ=T,\qquad Q^{*}EZ=S$$
+が上三角行列になるようにできる. ペンシル $(E,A)$ がレギュラーであれば, $T$ と $S$ の対角成分の比が $(E,A)$
+の有限固有値の集合と一致する. すなわち 
+$$\mathrm{sp}(E,A)=\left\{ \frac{t_{ii}}{s_{ii}}\ \mid\ s_{ii}\neq0,\ i=1,\dots,n\right\}$$
+]
+
+---
+
+### 証明
+
+Golub and Van Loan (2013) にしたがう。
+
+$\{E_{k}\}$ を $E$ に収束する正則行列の列とする. $AE_{k}^{-1}$ を Schur 分解するユニタリ行列を $Q_{k}$
+とすれば,
+
+$$Q_{k}^{*}\left(AE_{k}^{-1}\right)Q_{k}=R_{k}$$
+
+は上三角行列である. $E_{k}^{-1}Q_{k}$ にQR分解 (Hermite $\times$ Upper Triangular) をほどこして, 
+
+$$E_{k}^{-1}Q_{k}=Z_{k}S_{k}^{-1}$$ 
+
+$S_{k}^{-1}$ は上三角行列で, $Z_{k}$ はユニタリ行列.  
+
+---
+
+#### cont'd
+
+したがって
+
+$$Q_{k}^{*}AZ_{k}=R_{k}S_{k}$$
+
+を得る. 
+
+正則な上三角行列の逆行列もまた上三角行列なので, $S_{k}$ は上三角行列. したがって, $R_{k}S_{k}$ は上三角行列である. 
+
+$$T_{k}:=R_{k}S_{k}$$ 
+
+とする. 
+
+---
+
+#### cont'd
+
+$E_{k}^{-1}Q_{k}=Z_{k}S_{k}^{-1}$ に右から $S_{k}$, 左から $E_{k}$を掛けて
+
+$$Q_{k}S_{k}=E_{k}Z_{k}$$
+
+さらに左から $Q_{k}^{-k}=Q_{k}^{*}$ を掛けて
+
+$$S_{k}=Q_{k}^{*}E_{k}Z_{k}$$
+
+を得る. $|\det Q_{k}|=|\det Z_{k}|=1$ が成り立つので, $Q_{k}$, $Z_{k}$ は $\mathbb{F}^{n\times n}$
+の有界な点列である. ボルツァーノ・ワイエルシュトラスの定理により, $\{(Q_{k},Z_{k})\}$ は収束する部分列 $\{(Q_{k_{i}},Z_{k_{i}})\}_{i}$
+を持つ. 
+
+---
+
+#### cont'd
+
+極限を $(Q,Z)$ とすれば
+$$\begin{aligned}
+\lim_{i\to\infty}Q_{k_{i}}^{*}A_{k_{i}}Z_{k_{i}} & =Q^{*}AZ=T=\lim_{i\to\infty}T_{k_{i}}\\
+\lim_{i\to\infty}Q_{k_{i}}^{*}E_{k_{i}}Z_{k_{i}} & =Q^{*}EZ=S=\lim_{i\to\infty}S_{k_{i}}
+\end{aligned}$$
+が成り立つ. $T$, $S$ が上三角行列であることは明らか. $Q$, $Z$ がユニタリであることは, 
+$$I=Q_{k_{i}}^{*}Q_{k_{i}}\to Q^{*}Q,\quad I=Z_{k_{i}}^{*}Z_{k_{i}}\to Z^{*}Z$$
+から分かる. 
+
+
+---
+
+#### cont'd
+
+有限固有値に関する性質は, 
+$$\begin{aligned}
+|\det(\lambda E-A)| & =|\det(\lambda QSZ^{*}-QTZ^{*})|\\
+ & =|\det Q\cdot\det(\lambda S-T)\cdot\det Z^{*}|\\
+ & =|\det(\lambda S-T)|\\
+ & =\prod|\lambda s_{ii}-t_{ii}|
+\end{aligned}$$
+から従う. 
+
+---
+
+## R Code: Example in QZ Package
+
+```{r}
+(A <- QZ::exAB2$A)
+(E <- QZ::exAB2$B)
+```
+
+---
+
+class: small
+
+### R Code: QZ::qz() in QZ Package
+
+```{r}
+(ret <- QZ::qz(A, B))
+```
+
+---
+
+### R Code: 確認
+
+`QZ::qz()` が実QZ分解を計算していることに注意する
+
+```{r}
+all.equal(t(ret$Q) %*% A %*% ret$Z, ret$S) 
+all.equal(t(ret$Q) %*% E %*% ret$Z, ret$T) 
+```
+
+---
+
+### R Code: Reordering
+
+固有値
+
+```{r}
+abs(ret$ALPHA / ret$BETA)
+```
+
+現れる順番を並べ替えるには, `QZ::qz.dtgsen()` を使う
+
+```{r}
+ord <- abs(ret$ALPHA / ret$BETA) <= 4.001
+ret2 <- QZ::qz.dtgsen(ret$S, ret$T, ret$Q, ret$Z, select = ord)
+abs(ret2$ALPHA / ret2$BETA)
+```
+
+---
+
+## Klein (2000) の決定論版
+
+$(E,A)$ をレギュラーとする. ここではシステム 
+
+$$Ex_{t+1}=Ax_{t}+Bu_{t},\quad x\in\mathbb{R}^{n},\quad u\in\mathbb{R}^{m}$$
+
+に対する解公式をQZ分解を用いて導出する
+
+これまでと同様, $x_{0}=(x_{0}^{1},x_{0}^{2})\in\mathbb{R}^{n_{1}}\times\mathbb{R}^{n_{2}}$
+には初期条件 $x_{0}^{1}=\bar{x}_{0}^{1}$ が与えられている. 幾何数列の発散スピードを超えない $(x_{t})_{t\ge0}$
+を実行可能な解とする. 
+
+---
+
+### つづき
+
+$(E,A)$ の 実QZ分解
+$$\begin{aligned}
+Q^{*}EZ & =S=\begin{bmatrix}
+S_{ss} & S_{su}\\
+0 & S_{uu}
+\end{bmatrix},\\
+Q^{*}AZ & =T=\begin{bmatrix}T_{ss} & T_{su}\\
+0 & T_{uu}
+\end{bmatrix}
+\end{aligned}$$
+
+
+$$S_{ss}\in\mathbb{R}^{n_{s}\times n_{s}},\ S_{su}\in\mathbb{R}^{n_{s}\times n_{u}},\ S_{uu}\in\mathbb{R}^{n_{u}\times n_{u}}$$
+
+$$T_{ss}\in\mathbb{R}^{n_{s}\times n_{s}},\ T_{su}\in\mathbb{R}^{n_{s}\times n_{u}},\ T_{uu}\in\mathbb{R}^{n_{u}\times n_{u}}$$
+
+---
+
+### つづき
+
+左上ブロックが安定な有限固有値に対応するようにする
+
+したがって, 
+
+* $S_{ss}$ は正則である. 
+* $(E,A)$ がレギュラーなので $T_{uu}$ は必ず正則になる.
+
+
+---
+
+## 変数変換
+
+これまでと同様に
+
+$$\begin{bmatrix}
+y_{t}^{s}\\
+y_{t}^{u}
+\end{bmatrix}
+=
+Z^{*}
+\begin{bmatrix}
+x_{t}^{1}\\
+x_{t}^{2}
+\end{bmatrix} \in\mathbb{R}^{n_{s}}\times\mathbb{R}^{n_{u}}$$
+
+と変数変換すると,
+$$\begin{bmatrix}S_{ss} & S_{su}\\
+0 & S_{uu}
+\end{bmatrix}\begin{bmatrix}y_{t+1}^{s}\\
+y_{t+1}^{u}
+\end{bmatrix}=\begin{bmatrix}T_{ss} & T_{su}\\
+0 & T_{uu}
+\end{bmatrix}\begin{bmatrix}y_{t}^{s}\\
+y_{t}^{u}
+\end{bmatrix}+Q^{*}Bu_{t}$$
+
+---
+
+#### つづき
+
+ただし, 
+$$Z=\begin{bmatrix}Z_{1s} & Z_{1u}\\
+Z_{2s} & Z_{2u}
+\end{bmatrix}$$
+
+$$Q^{*}B=\begin{bmatrix}C_{s}\\
+C_{u}
+\end{bmatrix}$$
+
+としておこう. $T_{uu}$, $S_{uu}$ は上三角行列なので, $T_{uu}^{-1}$ および $T_{uu}^{-1}S_{uu}$
+も上三角行列になる. 
+
+$S_{uu}$ , $T_{uu}$ の定義から, $T_{uu}^{-1}S_{uu}$ は絶対値が1以下の固有値のみをもつ行列である.
+
+---
+
+## バックワードサブシステム
+
+$$y_{t}^{u}=(T_{uu}^{-1}S_{uu})y_{t+1}^{u}-T_{uu}^{-1}C_{u}u_{t}$$
+
+が $y_{t}^{u}$ を決定する. 
+
+発散スピードに対する仮定から
+
+$$y_{t}^{u}=-\sum_{k=0}^{\infty}\left(T_{uu}^{-1}S_{uu}\right)^{k}T_{uu}^{-1}C_{u}u_{t+k}$$
+
+---
+
+## 初期値の決定
+
+未知数の決定は線形方程式
+
+$$\begin{bmatrix}Z_{1s} & 0\\
+Z_{2s} & -I
+\end{bmatrix}\begin{bmatrix}y_{0}^{s}\\
+x_{0}^{2}
+\end{bmatrix}=\begin{bmatrix}I & -Z_{1u}\\
+0 & -Z_{2u}
+\end{bmatrix}\begin{bmatrix}\bar{x}_{0}^{1}\\
+\bar{y}_{0}^{u}
+\end{bmatrix}$$
+
+によることもこれまでと同じ. 
+
+** $Z_{1s}$ が正則な正方行列であるときに $t=0$ 時点の変数を一意に定めることができる** 
+
+---
+
+## 再帰公式
+
+再帰方程式を導出するにあたって, $u_{t+1}=\Phi u_{t}$ を仮定する. (のちほどこの仮定を外す)
+
+$y_{t}^{u}=Mu_{t}$ とすると $M$ はシルベスタ方程式
+$$\begin{aligned}
+M & -T_{uu}^{-1}S_{uu}M\Phi=-T_{uu}^{-1}C_{u}
+\end{aligned}$$
+を満たす
+
+Backward-looking システムの方程式より
+
+$$\begin{aligned}
+y_{t+1}^{s} & =S_{ss}^{-1}T_{ss}y_{t}^{s}-S_{ss}^{-1}S_{su}y_{t+1}^{u}+S_{ss}^{-1}T_{su}y_{t}^{u}+S_{ss}^{-1}C_{s}u_{t}\\
+ & =S_{ss}^{-1}T_{ss}y_{t}^{s}-\left(S_{ss}^{-1}S_{su}M\Phi-S_{ss}^{-1}T_{su}M-S_{ss}^{-1}C_{s}\right)u_{t}.\nonumber 
+\end{aligned}$$
+
+---
+
+### $h$
+
+変数変換の公式 $y_{t}^{s}=Z_{1s}^{-1}\left(x_{t}^{1}-Z_{1u}y_{t}^{u}\right)$ を使ってさらに計算を進めると,
+$$\begin{aligned}
+x_{t+1}^{1}
+&= Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}x_{t}^{1}+Lu_{t}\\
+&=: h(x_t^1, u_t)
+\end{aligned}$$
+
+を得る. ただし,
+$$\begin{aligned}
+L
+&=-Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}Z_{1u}M\\
+&\qquad +Z_{1s}S_{ss}^{-1}\left(T_{su}M-S_{su}M\Phi+C_{s}\right)+Z_{1u}M\Phi\end{aligned}$$
+
+---
+
+### $g$
+
+続いて, $x_{t}^{2}$ に関する方程式を導出しよう. 変数変換の定義より
+$$Z_{2s}y_{t}^{s}-x_{t}^{2}=-Z_{2u}y_{t}^{u},\quad y_{t}^{s}=Z_{1s}^{-1}\left(x_{t}^{1}-Z_{1u}y_{t}^{u}\right)$$
+が成り立つので, 
+$$\begin{aligned}
+x_{t}^{2} & =Z_{2s}y_{t}^{s}+Z_{2u}y_{t}^{u}\\
+ & =Z_{2s}Z_{1s}^{-1}\left(x_{t}^{1}-Z_{1u}y_{t}^{u}\right)+Z_{2u}y_{t}^{u}\\
+ & =Z_{2s}Z_{1s}^{-1}x_{t}^{1}+(Z_{2u}-Z_{2s}Z_{1s}^{-1}Z_{1u})Mu_{t}\\
+ & =: g(x_t^1, u_t)
+\end{aligned}$$
+したがって, 次の公式を得た. 
+
+---
+
+## Klein (2000) の主要結果
+
+$Ex_{t+1} = Ax_t + Bu_t$ をQZ分解を用いて解くと, 解は
+$$\begin{aligned}
+x_{t+1}^{1} & =Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}x_{t}^{1}+Lu_{t},\\
+x_{t}^{2} & =Z_{2s}Z_{1s}^{-1}x_{t}^{1}+(Z_{2u}-Z_{2s}Z_{1s}^{-1}Z_{1u})Mu_{t}
+\end{aligned}$$
+によって表される. ただし, $x_{0}^{1}$ は所与, $S$, $T$, $Z$, $M$, $C$ やその分解は上で与えたもの
+
+$$\begin{aligned}
+L & =-Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}Z_{1u}M \\
+&\qquad +Z_{1s}S_{ss}^{-1}\left(T_{su}M-S_{su}M\Phi+C_{s}\right)+Z_{1u}M\Phi,\\
+M & =\mathrm{vec}^{-1}\left(\left(\Phi^{\top}\otimes S_{uu}-I\otimes T_{uu}\right)^{-1}\mathrm{vec}(C_{u})\right)
+\end{aligned}$$
+
+
+---
+
+
+## QZ解法の一般公式
+
+一般の $u$ に対する公式は次のように表現できる. $t=0,1,\dots$ に対して, 
+$$\begin{aligned}
+x_{t+1}^{1} & =\Omega_{x}x_{t}^{1}+\Omega_{u}u_{t}+\Omega_{y}y_{t+1}^{u}\\
+x_{t}^{2} & =\Psi_{x}x_{t}^{1}+\Psi_{y}y_{t}^{u}
+\end{aligned}$$
+
+ただし, $x_{0}^{1}$ は所与であり, $y_{t}^{u}$ は決定性の条件から定まる.
+行列, $\Omega_{x}$, $\Omega_{u}$, $\Omega_{y}$, $\Psi_{x}$, $\Psi_{y}$
+を導出しよう. 
+
+---
+
+### 練習問題
+
+係数行列は次のようになる。証明せよ。
+
+$$\begin{aligned}
+\Omega_{x} & =Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}\\
+\Omega_{u} & =Z_{1s}S_{ss}^{-1}\left[(T_{ss}Z_{1s}^{-1}Z_{1u}-T_{su})T_{uu}^{-1}C_{u}+C_{s}\right]\\
+\Omega_{y} & =Z_{1u}-Z_{1s}S_{ss}^{-1}S_{su}+Z_{1s}S_{ss}^{-1}(T_{su}-T_{ss}Z_{1s}^{-1}Z_{1u})T_{uu}^{-1}S_{uu}\\
+\Psi_{x} & =Z_{2s}Z_{1s}^{-1}\\
+\Psi_{y} & =Z_{2u}-Z_{2s}Z_{1s}^{-1}Z_{1u}
+\end{aligned}$$
+
+---
+
+## 入力項の処理
+
+ここまで, Blanchard and Khan および Klein にしたがってショック項を取り扱ってきた。しかし, **実用上は AR ショックを先決変数に含めるのが普通** である
+
+$$\begin{aligned}
+  u_{t+1}  &= \Phi u_t\\
+  Ex_{t+1} &= Ax_t + Bu_t
+\end{aligned}$$
+
+を
+
+$$\begin{aligned}
+  \begin{bmatrix}
+    I & \\
+      & E
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{t+1} \\ x_{t+1}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \Phi & \\
+    B    & A
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{t} \\ x_{t}
+  \end{bmatrix}
+\end{aligned}$$

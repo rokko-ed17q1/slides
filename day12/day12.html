@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Day 12: Solution method by QZ form</title>
+    <meta charset="utf-8">
+    <meta name="author" content="佐藤 健治" />
+    <meta name="date" content="2017-05-25" />
+    <link rel="stylesheet" href="../asset/remark-css/style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Day 12: Solution method by QZ form
+## 経済動学 (2017Q1)
+### 佐藤 健治
+### 2017-05-25
+
+---
+
+
+
+
+
+## 宿題 / Homework Assignment
+
+Reminder: HW08
+
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+&gt; Due 2017-05-28 18:00.
+&gt; Hand in by Pull Request.
+
+
+---
+
+## Weierstrass form の復習
+
+行列のペア `\((E,A)\)` が与えられたとき, 正則行列 `\(V\)`, `\(W\)` により
+`$$\begin{aligned}
+  W^{-1}AV
+  &amp;=
+  \begin{bmatrix}
+   J  &amp; \\
+      &amp; I
+  \end{bmatrix}
+  =
+  \left[\begin{smallmatrix}
+    \star &amp; \star  &amp;        &amp;       &amp;   &amp;        &amp;   \\
+          &amp; \ddots &amp; \ddots &amp;       &amp;   &amp;        &amp;   \\
+          &amp;        &amp; \star  &amp; \star &amp;   &amp;        &amp;   \\ 
+          &amp;        &amp;        &amp; \star &amp;   &amp;        &amp;   \\
+          &amp;        &amp;        &amp;       &amp; 1 &amp;        &amp;   \\
+          &amp;        &amp;        &amp;       &amp;   &amp; \ddots &amp;   \\ 
+          &amp;        &amp;        &amp;       &amp;   &amp;        &amp; 1 \\ 
+  \end{smallmatrix}\right]
+  \\
+  W^{-1}EV
+  &amp;=
+  \begin{bmatrix}
+   I &amp;  \\
+     &amp; N
+  \end{bmatrix}
+  =
+  \left[\begin{smallmatrix}
+    1 &amp;        &amp;   &amp;   &amp;        &amp;        &amp;   \\
+      &amp; \ddots &amp;   &amp;   &amp;        &amp;        &amp;   \\
+      &amp;        &amp; 1 &amp;   &amp;        &amp;        &amp;   \\ 
+      &amp;        &amp;   &amp; 0 &amp; 1      &amp;        &amp;   \\
+      &amp;        &amp;   &amp;   &amp; \ddots &amp; \ddots &amp;   \\
+      &amp;        &amp;   &amp;   &amp;        &amp; 0      &amp; 1 \\ 
+      &amp;        &amp;   &amp;   &amp;        &amp;        &amp; 0 \\ 
+  \end{smallmatrix}\right]
+\end{aligned}$$`
+
+---
+
+## Weierstrass form から QZ分解
+
+`\(W^{-1}AV\)`, `\(W^{-1}EV\)` のいずれも上三角行列になっていることに注意しよう.
+
+Schur分解のときに確認したように, **上三角化によって不安定固有値から forward-lookingサブシステムを作れれば問題が解ける。これは `\(E \neq I\)` の場合でも同様**
+
+Schur 分解を行列ペアに対して拡張することで, 一般化Schur分解あるいはQZ分解と呼ばれる標準化の方法が得られる.
+
+ユニタリ変換による標準化は数値的に望ましい性質を持つので, 実用的にはQZ分解を利用したシステム解析法がもっとも使いやすい. 
+
+
+---
+
+
+## QZ分解 
+
+.theorem[
+任意の正方行列のペア `\(E,A\in\mathbb{F}^{n\times n}\)` に対して, 適当なユニタリ行列 `\(Q\)`, `\(Z\)`
+を選べば 
+`$$Q^{*}AZ=T,\qquad Q^{*}EZ=S$$`
+が上三角行列になるようにできる. ペンシル `\((E,A)\)` がレギュラーであれば, `\(T\)` と `\(S\)` の対角成分の比が `\((E,A)\)`
+の有限固有値の集合と一致する. すなわち 
+`$$\mathrm{sp}(E,A)=\left\{ \frac{t_{ii}}{s_{ii}}\ \mid\ s_{ii}\neq0,\ i=1,\dots,n\right\}$$`
+]
+
+---
+
+### 証明
+
+Golub and Van Loan (2013) にしたがう。
+
+`\(\{E_{k}\}\)` を `\(E\)` に収束する正則行列の列とする. `\(AE_{k}^{-1}\)` を Schur 分解するユニタリ行列を `\(Q_{k}\)`
+とすれば,
+
+`$$Q_{k}^{*}\left(AE_{k}^{-1}\right)Q_{k}=R_{k}$$`
+
+は上三角行列である. `\(E_{k}^{-1}Q_{k}\)` にQR分解 (Hermite `\(\times\)` Upper Triangular) をほどこして, 
+
+`$$E_{k}^{-1}Q_{k}=Z_{k}S_{k}^{-1}$$` 
+
+`\(S_{k}^{-1}\)` は上三角行列で, `\(Z_{k}\)` はユニタリ行列.  
+
+---
+
+#### cont'd
+
+したがって
+
+`$$Q_{k}^{*}AZ_{k}=R_{k}S_{k}$$`
+
+を得る. 
+
+正則な上三角行列の逆行列もまた上三角行列なので, `\(S_{k}\)` は上三角行列. したがって, `\(R_{k}S_{k}\)` は上三角行列である. 
+
+`$$T_{k}:=R_{k}S_{k}$$` 
+
+とする. 
+
+---
+
+#### cont'd
+
+`\(E_{k}^{-1}Q_{k}=Z_{k}S_{k}^{-1}\)` に右から `\(S_{k}\)`, 左から `\(E_{k}\)`を掛けて
+
+`$$Q_{k}S_{k}=E_{k}Z_{k}$$`
+
+さらに左から `\(Q_{k}^{-k}=Q_{k}^{*}\)` を掛けて
+
+`$$S_{k}=Q_{k}^{*}E_{k}Z_{k}$$`
+
+を得る. `\(|\det Q_{k}|=|\det Z_{k}|=1\)` が成り立つので, `\(Q_{k}\)`, `\(Z_{k}\)` は `\(\mathbb{F}^{n\times n}\)`
+の有界な点列である. ボルツァーノ・ワイエルシュトラスの定理により, `\(\{(Q_{k},Z_{k})\}\)` は収束する部分列 `\(\{(Q_{k_{i}},Z_{k_{i}})\}_{i}\)`
+を持つ. 
+
+---
+
+#### cont'd
+
+極限を `\((Q,Z)\)` とすれば
+`$$\begin{aligned}
+\lim_{i\to\infty}Q_{k_{i}}^{*}A_{k_{i}}Z_{k_{i}} &amp; =Q^{*}AZ=T=\lim_{i\to\infty}T_{k_{i}}\\
+\lim_{i\to\infty}Q_{k_{i}}^{*}E_{k_{i}}Z_{k_{i}} &amp; =Q^{*}EZ=S=\lim_{i\to\infty}S_{k_{i}}
+\end{aligned}$$`
+が成り立つ. `\(T\)`, `\(S\)` が上三角行列であることは明らか. `\(Q\)`, `\(Z\)` がユニタリであることは, 
+`$$I=Q_{k_{i}}^{*}Q_{k_{i}}\to Q^{*}Q,\quad I=Z_{k_{i}}^{*}Z_{k_{i}}\to Z^{*}Z$$`
+から分かる. 
+
+
+---
+
+#### cont'd
+
+有限固有値に関する性質は, 
+`$$\begin{aligned}
+|\det(\lambda E-A)| &amp; =|\det(\lambda QSZ^{*}-QTZ^{*})|\\
+ &amp; =|\det Q\cdot\det(\lambda S-T)\cdot\det Z^{*}|\\
+ &amp; =|\det(\lambda S-T)|\\
+ &amp; =\prod|\lambda s_{ii}-t_{ii}|
+\end{aligned}$$`
+から従う. 
+
+---
+
+## R Code: Example in QZ Package
+
+
+```r
+(A &lt;- QZ::exAB2$A)
+```
+
+```
+##      [,1] [,2]  [,3] [,4]
+## [1,]  3.9 12.5 -34.5 -0.5
+## [2,]  4.3 21.5 -47.5  7.5
+## [3,]  4.3 21.5 -43.5  3.5
+## [4,]  4.4 26.0 -46.0  6.0
+```
+
+```r
+(E &lt;- QZ::exAB2$B)
+```
+
+```
+##      [,1] [,2] [,3] [,4]
+## [1,]    1    2   -3    1
+## [2,]    1    3   -5    4
+## [3,]    1    3   -4    3
+## [4,]    1    3   -4    4
+```
+
+---
+
+class: small
+
+### R Code: QZ::qz() in QZ Package
+
+
+```r
+(ret &lt;- QZ::qz(A, B))
+```
+
+```
+## ALPHA:
+## [1] 3.801+0.000i 3.030+4.040i 1.563-2.084i 4.000+0.000i
+## 
+## BETA:
+## [1] 1.900 1.010 0.521 1.000
+## S:
+##       [,1]   [,2]    [,3]    [,4]
+## [1,] 3.801 31.326 -61.485 -66.836
+## [2,] 0.000  3.351   7.074   6.692
+## [3,] 0.000 -1.192   1.410   4.379
+## [4,] 0.000  0.000   0.000   4.000
+## 
+## T:
+##      [,1]   [,2]    [,3]   [,4]
+## [1,]  1.9 -1.078 -5.6252 -9.987
+## [2,]  0.0  1.176  0.0000  1.751
+## [3,]  0.0  0.000  0.4474  1.090
+## [4,]  0.0  0.000  0.0000  1.000
+## 
+## Q:
+##        [,1]     [,2]    [,3]       [,4]
+## [1,] 0.4642  0.81159  0.3547  1.665e-16
+## [2,] 0.5002 -0.06975 -0.4950 -7.071e-01
+## [3,] 0.5002 -0.06975 -0.4950  7.071e-01
+## [4,] 0.5331 -0.57585  0.6198  3.331e-16
+## 
+## Z:
+##          [,1]     [,2]     [,3]       [,4]
+## [1,] 0.996056  0.08183 -0.03428  0.000e+00
+## [2,] 0.005692 -0.44454 -0.89574 -1.665e-16
+## [3,] 0.062609 -0.63075  0.31343  7.071e-01
+## [4,] 0.062609 -0.63075  0.31343 -7.071e-01
+```
+
+---
+
+### R Code: 確認
+
+`QZ::qz()` が実QZ分解を計算していることに注意する
+
+
+```r
+all.equal(t(ret$Q) %*% A %*% ret$Z, ret$S) 
+```
+
+```
+## [1] TRUE
+```
+
+```r
+all.equal(t(ret$Q) %*% E %*% ret$Z, ret$T) 
+```
+
+```
+## [1] TRUE
+```
+
+---
+
+### R Code: Reordering
+
+固有値
+
+
+```r
+abs(ret$ALPHA / ret$BETA)
+```
+
+```
+## [1] 2 5 5 4
+```
+
+現れる順番を並べ替えるには, `QZ::qz.dtgsen()` を使う
+
+
+```r
+ord &lt;- abs(ret$ALPHA / ret$BETA) &lt;= 4.001
+ret2 &lt;- QZ::qz.dtgsen(ret$S, ret$T, ret$Q, ret$Z, select = ord)
+abs(ret2$ALPHA / ret2$BETA)
+```
+
+```
+## [1] 2 4 5 5
+```
+
+---
+
+## Klein (2000) の決定論版
+
+`\((E,A)\)` をレギュラーとする. ここではシステム 
+
+`$$Ex_{t+1}=Ax_{t}+Bu_{t},\quad x\in\mathbb{R}^{n},\quad u\in\mathbb{R}^{m}$$`
+
+に対する解公式をQZ分解を用いて導出する
+
+これまでと同様, `\(x_{0}=(x_{0}^{1},x_{0}^{2})\in\mathbb{R}^{n_{1}}\times\mathbb{R}^{n_{2}}\)`
+には初期条件 `\(x_{0}^{1}=\bar{x}_{0}^{1}\)` が与えられている. 幾何数列の発散スピードを超えない `\((x_{t})_{t\ge0}\)`
+を実行可能な解とする. 
+
+---
+
+### つづき
+
+`\((E,A)\)` の 実QZ分解
+`$$\begin{aligned}
+Q^{*}EZ &amp; =S=\begin{bmatrix}
+S_{ss} &amp; S_{su}\\
+0 &amp; S_{uu}
+\end{bmatrix},\\
+Q^{*}AZ &amp; =T=\begin{bmatrix}T_{ss} &amp; T_{su}\\
+0 &amp; T_{uu}
+\end{bmatrix}
+\end{aligned}$$`
+
+
+`$$S_{ss}\in\mathbb{R}^{n_{s}\times n_{s}},\ S_{su}\in\mathbb{R}^{n_{s}\times n_{u}},\ S_{uu}\in\mathbb{R}^{n_{u}\times n_{u}}$$`
+
+`$$T_{ss}\in\mathbb{R}^{n_{s}\times n_{s}},\ T_{su}\in\mathbb{R}^{n_{s}\times n_{u}},\ T_{uu}\in\mathbb{R}^{n_{u}\times n_{u}}$$`
+
+---
+
+### つづき
+
+左上ブロックが安定な有限固有値に対応するようにする
+
+したがって, 
+
+* `\(S_{ss}\)` は正則である. 
+* `\((E,A)\)` がレギュラーなので `\(T_{uu}\)` は必ず正則になる.
+
+
+---
+
+## 変数変換
+
+これまでと同様に
+
+`$$\begin{bmatrix}
+y_{t}^{s}\\
+y_{t}^{u}
+\end{bmatrix}
+=
+Z^{*}
+\begin{bmatrix}
+x_{t}^{1}\\
+x_{t}^{2}
+\end{bmatrix} \in\mathbb{R}^{n_{s}}\times\mathbb{R}^{n_{u}}$$`
+
+と変数変換すると,
+`$$\begin{bmatrix}S_{ss} &amp; S_{su}\\
+0 &amp; S_{uu}
+\end{bmatrix}\begin{bmatrix}y_{t+1}^{s}\\
+y_{t+1}^{u}
+\end{bmatrix}=\begin{bmatrix}T_{ss} &amp; T_{su}\\
+0 &amp; T_{uu}
+\end{bmatrix}\begin{bmatrix}y_{t}^{s}\\
+y_{t}^{u}
+\end{bmatrix}+Q^{*}Bu_{t}$$`
+
+---
+
+#### つづき
+
+ただし, 
+`$$Z=\begin{bmatrix}Z_{1s} &amp; Z_{1u}\\
+Z_{2s} &amp; Z_{2u}
+\end{bmatrix}$$`
+
+`$$Q^{*}B=\begin{bmatrix}C_{s}\\
+C_{u}
+\end{bmatrix}$$`
+
+としておこう. `\(T_{uu}\)`, `\(S_{uu}\)` は上三角行列なので, `\(T_{uu}^{-1}\)` および `\(T_{uu}^{-1}S_{uu}\)`
+も上三角行列になる. 
+
+`\(S_{uu}\)` , `\(T_{uu}\)` の定義から, `\(T_{uu}^{-1}S_{uu}\)` は絶対値が1以下の固有値のみをもつ行列である.
+
+---
+
+## バックワードサブシステム
+
+`$$y_{t}^{u}=(T_{uu}^{-1}S_{uu})y_{t+1}^{u}-T_{uu}^{-1}C_{u}u_{t}$$`
+
+が `\(y_{t}^{u}\)` を決定する. 
+
+発散スピードに対する仮定から
+
+`$$y_{t}^{u}=-\sum_{k=0}^{\infty}\left(T_{uu}^{-1}S_{uu}\right)^{k}T_{uu}^{-1}C_{u}u_{t+k}$$`
+
+---
+
+## 初期値の決定
+
+未知数の決定は線形方程式
+
+`$$\begin{bmatrix}Z_{1s} &amp; 0\\
+Z_{2s} &amp; -I
+\end{bmatrix}\begin{bmatrix}y_{0}^{s}\\
+x_{0}^{2}
+\end{bmatrix}=\begin{bmatrix}I &amp; -Z_{1u}\\
+0 &amp; -Z_{2u}
+\end{bmatrix}\begin{bmatrix}\bar{x}_{0}^{1}\\
+\bar{y}_{0}^{u}
+\end{bmatrix}$$`
+
+によることもこれまでと同じ. 
+
+** `\(Z_{1s}\)` が正則な正方行列であるときに `\(t=0\)` 時点の変数を一意に定めることができる** 
+
+---
+
+## 再帰公式
+
+再帰方程式を導出するにあたって, `\(u_{t+1}=\Phi u_{t}\)` を仮定する. (のちほどこの仮定を外す)
+
+`\(y_{t}^{u}=Mu_{t}\)` とすると `\(M\)` はシルベスタ方程式
+`$$\begin{aligned}
+M &amp; -T_{uu}^{-1}S_{uu}M\Phi=-T_{uu}^{-1}C_{u}
+\end{aligned}$$`
+を満たす
+
+Backward-looking システムの方程式より
+
+`$$\begin{aligned}
+y_{t+1}^{s} &amp; =S_{ss}^{-1}T_{ss}y_{t}^{s}-S_{ss}^{-1}S_{su}y_{t+1}^{u}+S_{ss}^{-1}T_{su}y_{t}^{u}+S_{ss}^{-1}C_{s}u_{t}\\
+ &amp; =S_{ss}^{-1}T_{ss}y_{t}^{s}-\left(S_{ss}^{-1}S_{su}M\Phi-S_{ss}^{-1}T_{su}M-S_{ss}^{-1}C_{s}\right)u_{t}.\nonumber 
+\end{aligned}$$`
+
+---
+
+### `\(h\)`
+
+変数変換の公式 `\(y_{t}^{s}=Z_{1s}^{-1}\left(x_{t}^{1}-Z_{1u}y_{t}^{u}\right)\)` を使ってさらに計算を進めると,
+`$$\begin{aligned}
+x_{t+1}^{1}
+&amp;= Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}x_{t}^{1}+Lu_{t}\\
+&amp;=: h(x_t^1, u_t)
+\end{aligned}$$`
+
+を得る. ただし,
+`$$\begin{aligned}
+L
+&amp;=-Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}Z_{1u}M\\
+&amp;\qquad +Z_{1s}S_{ss}^{-1}\left(T_{su}M-S_{su}M\Phi+C_{s}\right)+Z_{1u}M\Phi\end{aligned}$$`
+
+---
+
+### `\(g\)`
+
+続いて, `\(x_{t}^{2}\)` に関する方程式を導出しよう. 変数変換の定義より
+`$$Z_{2s}y_{t}^{s}-x_{t}^{2}=-Z_{2u}y_{t}^{u},\quad y_{t}^{s}=Z_{1s}^{-1}\left(x_{t}^{1}-Z_{1u}y_{t}^{u}\right)$$`
+が成り立つので, 
+`$$\begin{aligned}
+x_{t}^{2} &amp; =Z_{2s}y_{t}^{s}+Z_{2u}y_{t}^{u}\\
+ &amp; =Z_{2s}Z_{1s}^{-1}\left(x_{t}^{1}-Z_{1u}y_{t}^{u}\right)+Z_{2u}y_{t}^{u}\\
+ &amp; =Z_{2s}Z_{1s}^{-1}x_{t}^{1}+(Z_{2u}-Z_{2s}Z_{1s}^{-1}Z_{1u})Mu_{t}\\
+ &amp; =: g(x_t^1, u_t)
+\end{aligned}$$`
+したがって, 次の公式を得た. 
+
+---
+
+## Klein (2000) の主要結果
+
+`\(Ex_{t+1} = Ax_t + Bu_t\)` をQZ分解を用いて解くと, 解は
+`$$\begin{aligned}
+x_{t+1}^{1} &amp; =Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}x_{t}^{1}+Lu_{t},\\
+x_{t}^{2} &amp; =Z_{2s}Z_{1s}^{-1}x_{t}^{1}+(Z_{2u}-Z_{2s}Z_{1s}^{-1}Z_{1u})Mu_{t}
+\end{aligned}$$`
+によって表される. ただし, `\(x_{0}^{1}\)` は所与, `\(S\)`, `\(T\)`, `\(Z\)`, `\(M\)`, `\(C\)` やその分解は上で与えたもの
+
+`$$\begin{aligned}
+L &amp; =-Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}Z_{1u}M \\
+&amp;\qquad +Z_{1s}S_{ss}^{-1}\left(T_{su}M-S_{su}M\Phi+C_{s}\right)+Z_{1u}M\Phi,\\
+M &amp; =\mathrm{vec}^{-1}\left(\left(\Phi^{\top}\otimes S_{uu}-I\otimes T_{uu}\right)^{-1}\mathrm{vec}(C_{u})\right)
+\end{aligned}$$`
+
+
+---
+
+
+## QZ解法の一般公式
+
+一般の `\(u\)` に対する公式は次のように表現できる. `\(t=0,1,\dots\)` に対して, 
+`$$\begin{aligned}
+x_{t+1}^{1} &amp; =\Omega_{x}x_{t}^{1}+\Omega_{u}u_{t}+\Omega_{y}y_{t+1}^{u}\\
+x_{t}^{2} &amp; =\Psi_{x}x_{t}^{1}+\Psi_{y}y_{t}^{u}
+\end{aligned}$$`
+
+ただし, `\(x_{0}^{1}\)` は所与であり, `\(y_{t}^{u}\)` は決定性の条件から定まる.
+行列, `\(\Omega_{x}\)`, `\(\Omega_{u}\)`, `\(\Omega_{y}\)`, `\(\Psi_{x}\)`, `\(\Psi_{y}\)`
+を導出しよう. 
+
+---
+
+### 練習問題
+
+係数行列は次のようになる。証明せよ。
+
+`$$\begin{aligned}
+\Omega_{x} &amp; =Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}\\
+\Omega_{u} &amp; =Z_{1s}S_{ss}^{-1}\left[(T_{ss}Z_{1s}^{-1}Z_{1u}-T_{su})T_{uu}^{-1}C_{u}+C_{s}\right]\\
+\Omega_{y} &amp; =Z_{1u}-Z_{1s}S_{ss}^{-1}S_{su}+Z_{1s}S_{ss}^{-1}(T_{su}-T_{ss}Z_{1s}^{-1}Z_{1u})T_{uu}^{-1}S_{uu}\\
+\Psi_{x} &amp; =Z_{2s}Z_{1s}^{-1}\\
+\Psi_{y} &amp; =Z_{2u}-Z_{2s}Z_{1s}^{-1}Z_{1u}
+\end{aligned}$$`
+
+---
+
+## 入力項の処理
+
+ここまで, Blanchard and Khan および Klein にしたがってショック項を取り扱ってきた。しかし, **実用上は AR ショックを先決変数に含めるのが普通** である
+
+`$$\begin{aligned}
+  u_{t+1}  &amp;= \Phi u_t\\
+  Ex_{t+1} &amp;= Ax_t + Bu_t
+\end{aligned}$$`
+
+を
+
+`$$\begin{aligned}
+  \begin{bmatrix}
+    I &amp; \\
+      &amp; E
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{t+1} \\ x_{t+1}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \Phi &amp; \\
+    B    &amp; A
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{t} \\ x_{t}
+  \end{bmatrix}
+\end{aligned}$$`
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"countIncrementalSlides": false,
+"highlightLines": true,
+"highlightStyle": "github"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {window.dispatchEvent(new Event('resize'));});</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
