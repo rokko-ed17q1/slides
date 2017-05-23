@@ -1,0 +1,607 @@
+---
+title: "Day 09: Blanchard and Kahn 1980"
+author: "佐藤 健治"
+date: '2017-05-11'
+output:
+  xaringan::moon_reader:
+    css: ../asset/remark-css/style.css
+    lib_dir: libs
+    nature:
+      countIncrementalSlides: no
+      highlightLines: yes
+      highlightStyle: github
+subtitle: 経済動学 (2017Q1)
+---
+
+```{r setup, include=FALSE}
+source("../R/utils.R")
+knitr::opts_chunk$set(
+  fig.align = "center"
+)
+
+include_graphics = function(name, ...){
+  knitr::include_graphics(file.path("fig", name), ...)
+}
+library(tidyverse)
+```
+
+
+## 宿題 / Homework Assignment
+
+Reminder:  HW07 on first LRE simulation
+
+Visit https://github.com/rokko-ed17q1/hw-portal
+
+> Due 2017-05-15 18:00.
+> Hand in by Pull Request.
+> Read the handout for details!
+
+
+---
+
+## Model
+
+Deterministic (perfect-foresight) version of BK economy. 
+
+$$x_{t+1}=Ax_{t}+Bu_{t},\quad t=0,1,\dots$$
+
+* $x$: endogenous variables
+* $u$: exogenous shocks
+* $A, B$: comformable, constant matrices
+
+---
+
+## Predetermined / Non-predetermined
+
+* $x_t^1$: Predetermined variables
+    * stocks etc.
+    * **Initial conditions given. $x_0^1 = \bar{x}_0^1$**
+* $x_t^2$: Nonpredetermined variables
+    * prices etc.
+    * Initial conditions unknown.
+
+$$x_{t}=
+\begin{bmatrix}
+  x_{t}^{1}\\
+  x_{t}^{2}
+\end{bmatrix} \in 
+\mathbb R^{n_1} \times \mathbb R^{n_2}$$
+
+**BK and Klein assume this particular ordering of endogenous variables.**
+(This is innocuous.)
+
+---
+
+## Solution
+
+A solution of the model is the policy function $(g, h)$ such that
+
+$$\begin{aligned}
+x_t^2 &= g(x_t^1, (u_\tau)_{\tau \ge t}) \\
+x_{t+1}^1 &= h(x_t^1, x_t^2, (u_\tau)_{\tau \ge t})
+\end{aligned}$$
+
+In general, there are infinitely many solutions to the LRE model. 
+
+---
+
+## Growth rate condition
+
+We restrict equilibria so that both exogenous input and endogenous variables 
+grow at most as fast as polynomial.
+
+高々多項式のオーダーで成長する経路のみを均衡とする
+
+Expectations never explode. This is similar to transversality condition.
+
+$$\lim_{T\to\infty}\rho^{T}\|x_{T}\|=0$$
+
+---
+
+## Determinacy
+
+**Determinacy, 決定性**
+
+For any $u$ growing at most as fast as polynomial, there is a *unique* trajectory of $x$
+that grows at most as fast as polynomial. 
+
+**Indeterminacy, 不決定性**
+
+For some $u$, there are more than one bounded trajectory of $x$. 
+
+---
+
+## Jordan form
+
+$$\begin{bmatrix}x_{t+1}^{1}\\
+x_{t+1}^{2}
+\end{bmatrix}=\begin{bmatrix}A_{11} & A_{12}\\
+A_{21} & A_{22}
+\end{bmatrix}\begin{bmatrix}x_{t}^{1}\\
+x_{t}^{2}
+\end{bmatrix}+\begin{bmatrix}B_{1}\\
+B_{2}
+\end{bmatrix}u_{t}$$
+
+
+$$\begin{bmatrix}A_{11} & A_{12}\\
+A_{21} & A_{22}
+\end{bmatrix}=P\begin{bmatrix}J_{s} & 0\\
+0 & J_{u}
+\end{bmatrix}P^{-1}$$
+
+$$\Downarrow$$
+
+$$P^{-1}\begin{bmatrix}x_{t+1}^{1}\\
+x_{t+1}^{2}
+\end{bmatrix}=\begin{bmatrix}J_{s} & 0\\
+0 & J_{u}
+\end{bmatrix}P^{-1}\begin{bmatrix}x_{t}^{1}\\
+x_{t}^{2}
+\end{bmatrix}+P^{-1}\begin{bmatrix}B_{1}\\
+B_{2}
+\end{bmatrix}u_{t}$$
+
+
+---
+
+## Jordan form
+
+$$\begin{bmatrix}y_{t+1}^{s}\\
+  y_{t+1}^{u}
+  \end{bmatrix}=\begin{bmatrix}J_{s} & 0\\
+  0 & J_{u}
+  \end{bmatrix}\begin{bmatrix}y_{t}^{s}\\
+  y_{t}^{u}
+  \end{bmatrix}+\begin{bmatrix}C_{s}\\
+  C_{u}
+  \end{bmatrix}u_{t}$$
+
+を得る. ただし, 
+
+$y:=P^{-1}x$, $C:=P^{-1}B$
+
+$$y^{s}\in\mathbb{R}^{n_{s}},\ y^{u}\in\mathbb{R}^{n_{u}}$$
+
+* $J_s$ is weakly stable
+* $J_u$ unstable
+
+
+---
+
+## Stable-Unstable decomposition
+
+
+Stable subsystem
+
+$$y_{t+1}^s = J_s y_t^s + C_s u_t$$
+
+Unstable subsystem
+
+$$y_{t+1}^u = J_u y_t^u + C_u u_t$$
+
+**QUIZ. $J_u$ is always invertible. Why?**
+
+---
+
+## Forward-Backward decomposition
+
+Backward-looking subsystem
+
+$$y_{t+1}^s = J_s y_t^s + C_s u_t$$
+
+Forward-looking subsystem
+
+$$y_t^u = J_u^{-1} y_{t+1}^u - J_u^{-1} C_u u_t$$
+
+* By construction, the eigenvalues of $J_s$ lie on or inside of the unit circle. 
+* **Show that the eigenvalues of $J_u^{-1}$ lie inside of the unit circle.**
+
+
+
+---
+
+## Forward-looking subsystem
+
+Show that 
+
+$$\begin{aligned}
+y_{t}^{u} & =
+-\sum_{k=0}^{\infty}J_{u}^{-k-1}C_{u}u_{t+k}.
+\end{aligned}$$
+ 
+In particular,
+
+$$y_0^u = \bar y_0^u := -\sum_{k=0}^{\infty}J_{u}^{-k-1}C_{u}u_{k}$$
+
+---
+
+## Initial values
+
+By construction,
+
+$$\begin{bmatrix}
+x_{t}^{1}\\
+x_{t}^{2}
+\end{bmatrix}
+=
+P
+\begin{bmatrix}y_{t}^{s}\\
+y_{t}^{u}
+\end{bmatrix}
+=
+\begin{bmatrix}
+P_{1s} & P_{1u}\\
+P_{2s} & P_{2u}
+\end{bmatrix}
+\begin{bmatrix}
+y_{t}^{s}\\
+y_{t}^{u}
+\end{bmatrix}$$
+
+For $t = 0$,
+
+$$\begin{bmatrix}
+\bar{x}_{0}^{1}\\
+x_{t}^{2}
+\end{bmatrix}
+=
+\begin{bmatrix}
+P_{1s} & P_{1u}\\
+P_{2s} & P_{2u}
+\end{bmatrix}
+\begin{bmatrix}
+y_{0}^{s}\\
+\bar{y}_{0}^{u}
+\end{bmatrix}$$
+
+$$y_0^u = \bar y_0^u := -\sum_{k=0}^{\infty}J_{u}^{-k-1}C_{u}u_{k}$$
+
+---
+
+## Initial values and (in)determinacy
+
+Rearranging terms, we obtain 
+
+$$\begin{bmatrix}P_{1s} & 0\\
+  P_{2s} & -I_{n_{2}}
+  \end{bmatrix}\begin{bmatrix}y_{0}^{s}\\
+  x_{0}^{2}
+  \end{bmatrix}=\begin{bmatrix}I_{n_{1}} & -P_{1u}\\
+  0 & -P_{2u}
+  \end{bmatrix}\begin{bmatrix}\bar{x}_{0}^{1}\\
+  \bar{y}_{0}^{u}
+  \end{bmatrix}$$
+
+If $\left[\begin{smallmatrix}P_{1s} & 0 \\ P_{2s} & - I_{n_2}\end{smallmatrix}\right]$ is 
+
+* wide rectangular $\Rightarrow$ multiple solutions (indeterminacy)
+* long rectangular $\Rightarrow$ no solution (non-existence),
+* square but singular $\Rightarrow$ multiple solutions (indeterminacy)
+* square and nonsingular $\Rightarrow$ unique solution (determinacy)
+
+
+---
+
+## Numbers of stable eigenvalues and predetermined variables
+
+Since $P_{1s}$ maps $\mathbb R^{n_s}$ into $\mathbb R^{n_1}$, 
+$P_{1s}$ is square if and only if $n_s = n_1$.
+
+The number of eigenvalues less than or equal to one in absolute value must be 
+identical to the number of predetermined variables.
+
+
+
+---
+
+## Non-singularity (Exercise)
+
+Let $P_{1s}$ is a square matrix. The matrix 
+$$\begin{bmatrix}
+  P_{1s} & 0\\
+  P_{2s} & -I_{n_{2}}
+\end{bmatrix}$$
+is invertible if and only if $P_{1s}$ is invertible. Moreover,
+
+$$\begin{bmatrix}
+  P_{1s} & 0\\
+  P_{2s} & -I_{n_{2}}
+\end{bmatrix}^{-1}=\begin{bmatrix}P_{1s}^{-1} & 0\\
+P_{2s}P_{1s}^{-1} & -I
+\end{bmatrix}$$
+
+---
+
+## Initial values under determinacy
+
+$$\begin{aligned}
+\begin{bmatrix}y_{0}^{s}\\
+x_{0}^{2}
+\end{bmatrix} & =\begin{bmatrix}P_{1s}^{-1} & 0\\
+P_{2s}P_{1s}^{-1} & -I
+\end{bmatrix}\begin{bmatrix}I & -P_{1u}\\
+0 & -P_{2u}
+\end{bmatrix}\begin{bmatrix}\bar{x}_{0}^{1}\\
+\bar{y}_{0}^{u}
+\end{bmatrix}\\
+ & =\begin{bmatrix}P_{1s}^{-1} & -P_{1s}^{-1}P_{1u}\\
+P_{2s}P_{1s}^{-1} & P_{2u}-P_{2s}P_{1s}^{-1}P_{1u}
+\end{bmatrix}\begin{bmatrix}\bar{x}_{0}^{1}\\
+\bar{y}_{0}^{u}
+\end{bmatrix}
+\end{aligned}$$
+
+---
+
+## Trajectory under determinacy
+
+$$\begin{aligned}
+\begin{bmatrix}y_{t}^{s}\\
+x_{t}^{2}
+\end{bmatrix} & =\begin{bmatrix}P_{1s}^{-1} & -P_{1s}^{-1}P_{1u}\\
+P_{2s}P_{1s}^{-1} & P_{2u}-P_{2s}P_{1s}^{-1}P_{1u}
+\end{bmatrix}\begin{bmatrix}x_{t}^{1}\\
+y_{t}^{u}
+\end{bmatrix}
+\end{aligned}$$
+
+この公式を用いて，解 $(g, h)$ を計算する
+
+---
+
+## The solution under determinacy
+
+$$\begin{aligned}
+x_t^2
+&=
+P_{2s}P_{1s}^{-1} x_t^1 + (P_{2u}-P_{2s}P_{1s}^{-1}P_{1u}) y_t^u\\
+&= 
+P_{2s}P_{1s}^{-1} x_t^1 - (P_{2u}-P_{2s}P_{1s}^{-1}P_{1u}) 
+\sum_{k=0}^{\infty}J_{u}^{-k-1}C_{u}u_{t+k}\\
+&=:
+g(x_t^1, (u_\tau)_{\tau \ge t})\\
+\\
+x_{t+1}^1 
+&=
+A_{11} x_t^1 + A_{12} x_t^2 + B_1 u_t\\
+&=
+A_{11} x_t^1 + A_{12} g(x_t^1, (u_\tau)_{\tau \ge t}) + B_1 u_t\\
+&=:
+h(x_t^1, x_t^2, (u_\tau)_{\tau \ge t})
+\end{aligned}$$
+
+---
+
+## VAR shocks
+
+Suppose now that the shocks follow the state space model.
+
+$$u_{t+1} = \Phi u_t$$
+
+with stable $\Phi$.
+
+$$\begin{aligned}
+y_t^u 
+&= -\sum_{k=0}^{\infty}J_{u}^{-k-1}C_{u}u_{t+k}\\
+&= \left(
+  -\sum_{k=0}^{\infty}J_{u}^{-k-1}C_{u} \Phi^k
+\right)
+u_t\\
+&=: Mu_t
+\end{aligned}$$
+
+---
+
+## The solution under VAR shocks
+
+We obtain the following formula.
+
+$$\begin{aligned}
+x_t^2
+&=
+P_{2s}P_{1s}^{-1} x_t^1 + (P_{2u}-P_{2s}P_{1s}^{-1}P_{1u}) M u_t\\
+&= 
+g(x_t^1, u_t)\\
+\\
+x_{t+1}^1 
+&=
+A_{11} x_t^1 + A_{12} x_t^2 + B_1 u_t\\
+&=
+A_{11} x_t^1 + A_{12} g(x_t^1, u_t) + B_1 u_t\\
+&=:
+h(x_t^1, x_t^2, u_t)
+\end{aligned}$$
+
+---
+
+## Solve for $M$ (Exercise)
+
+Prove that $M$ satisfies
+
+$$\operatorname{vec}(M)
+=
+\left[
+(\Phi^\top \otimes J_u) - I
+\right]^{-1} \operatorname{vec}(J_u^{-1} C_u)$$
+
+
+
+---
+
+## Schur decomposition
+
+$$x_{t+1}=Ax_{t}+Bu_{t},\quad t=0,1,\dots$$
+
+Since there is no stable way to find Jordan canonical form computationally,
+the above algorithm is not compuationally stable. 
+
+For any square matrix $A$, there are a block triangular $T$ and 
+unitary $Q$ such that 
+
+$$AQ = TQ,\quad y:=Q^*x$$
+
+---
+
+## System "decompostion"
+
+Transformed system
+
+$$\begin{bmatrix}
+  y_{t+1}^s\\
+  y_{t+1}^u
+\end{bmatrix}
+=
+\begin{bmatrix}
+  T_{ss} & T_{su}\\
+  0 & T_{uu}
+\end{bmatrix}
+\begin{bmatrix}
+  y_{t}^s\\
+  y_{t}^u
+\end{bmatrix}
++
+\begin{bmatrix}
+  C_s\\ C_u
+\end{bmatrix} u_t$$
+
+Unstable subsystem  
+$$y_{t+1}^u = T_{uu} y_t^u + C_u u_t$$
+
+
+---
+
+## Determinacy
+
+Similar to BK analysis
+
+$$y_0^u = \bar y_0^u := -\sum_{k=0}^{\infty}T_{uu}^{-k-1}C_{u}u_{k}$$
+and
+
+$$\begin{bmatrix}Q_{1s} & 0\\
+  Q_{2s} & -I_{n_{2}}
+  \end{bmatrix}\begin{bmatrix}y_{0}^{s}\\
+  x_{0}^{2}
+  \end{bmatrix}=\begin{bmatrix}I_{n_{1}} & -Q_{1u}\\
+  0 & -Q_{2u}
+  \end{bmatrix}\begin{bmatrix}\bar{x}_{0}^{1}\\
+  \bar{y}_{0}^{u}
+  \end{bmatrix}$$
+  
+The model is determinate if $Q_{1s}$ is square and nonsingular.
+
+---
+
+## Under determinacy condition
+
+We solve for the unknown
+
+$$\begin{aligned}
+\begin{bmatrix}y_{t}^{s}\\
+x_{t}^{2}
+\end{bmatrix} 
+&=
+\begin{bmatrix}
+Q_{1s}^{-1} & -Q_{1s}^{-1}Q_{1u}\\
+Q_{2s}Q_{1s}^{-1} & Q_{2u}-Q_{2s}Q_{1s}^{-1}Q_{1u}
+\end{bmatrix}\begin{bmatrix}x_{t}^{1}\\
+y_{t}^{u}
+\end{bmatrix}
+\end{aligned}$$
+
+
+---
+
+### $g: (x_t^1, u) \mapsto x_t^2$
+
+$$\begin{aligned}
+x_t^2
+&=
+Q_{2s}Q_{1s}^{-1} x_t^1 
++
+(Q_{2u}-Q_{2s}Q_{1s}^{-1}Q_{1u}) y_t^u\\
+&=
+g\left(
+  x_t^1, (u_\tau)_{\tau \ge t}
+\right)
+\end{aligned}$$
+
+### $h: (x_t^1, x_t^2, u) \mapsto x_{t+1}^1$
+
+$$\begin{aligned}
+x_{t+1}^1
+&=
+A_{11} x_t^1 + A_{12} x_t^2 + B_1 u_t\\
+&=
+h(x_t^1, x_t^2, (u_\tau)_{\tau \ge t})
+\end{aligned}$$
+
+**Splitting off the unstable subsystem is enough for BK analysis to work.**
+
+
+---
+
+## Appendix: Solve Sylvester Equation in R
+
+Matrix equation
+
+$$AX + XB = C$$
+
+is called the Sylvester Equation, where $X$ is the unknown.
+
+$$A \in \mathbb R^{m \times m}, \ B \in \mathbb R^{n \times n},
+\ C, X \in \mathbb R^{m \times n}$$
+
+The solution is given by
+
+$$\operatorname{vec}(X) = 
+\left[
+  I_n \otimes A + B^\top \otimes I_m
+\right]^{-1} \operatorname{vec}(C)$$
+
+---
+
+## Appendix: Solve Sylvester Equation in R
+
+There seems to be no built-in function for 
+the solver but you can code it easily: 
+
+```{r, eval = FALSE}
+sylvester <- function(A, B, C) {
+  na <- dim(A)[1]
+  nb <- dim(B)[1]
+  vecC <- matrix(C, ncol = 1)
+  X <- solve(diag(nb) %x% A + t(B) %x% diag(na), vecC)
+  dim(X) <- dim(C)
+  X
+}
+```
+
+---
+
+## Appendix: Solve Sylvester Equation in R with RCpp
+
+You can use Armadillo C++ Library via RcppArmadillo to code 
+the solver. And this is very very easy.
+
+```{c++, eval = FALSE}
+#include <RcppArmadillo.h>
+// [[Rcpp::depends(RcppArmadillo)]]
+
+// [[Rcpp::export]]
+arma::mat sylvester(arma::mat a, arma::mat b, arma::mat c) {
+  return syl(a, b, -c);
+}
+
+```
+
+RCpp solution worked 9.5x faster than the pure R solution on my computer. Since you solve this equation only once, however, the performance gain would be negligible. 
+
+---
+
+## Appendix: Why use C++?
+
+Simulation of dynamic models cannot be vectorized well because computation of variables at time $t+1$ depends on those at time $t$. It's impossible to eliminate all the `for` loops.  
+
+Since loops in interpreted languages like R/Python/Matlab are typically slow, you can benefit from learning compiled language like C++. I would recommend you to learn it once you have learned basic components of R. Using C++ from within R is easy thanks to RCpp package.
+
