@@ -421,7 +421,7 @@ reference "eq:11"
 
 \begin_inset Formula 
 \begin{equation}
-\bar{N}=\left(\frac{1-\beta+\beta\delta}{\alpha\beta}\right)^{\frac{1}{1-\alpha}}\bar{K}=q_{0}^{\frac{1}{1-\alpha}}=:q_{1}\bar{K}.\label{eq:14}
+\bar{N}=\left(\frac{1-\beta+\beta\delta}{\alpha\beta}\right)^{\frac{1}{1-\alpha}}\bar{K}=q_{0}^{\frac{1}{1-\alpha}}\bar{K}=:q_{1}\bar{K}.\label{eq:14}
 \end{equation}
 
 \end_inset
@@ -814,7 +814,7 @@ Z_{1s}=\begin{bmatrix}-0.85926076 & -0.02110806\\
 を用いて, 
 \begin_inset Formula 
 \begin{align*}
-x_{t+1}^{1} & =\Omega_{x}x_{t}^{1}+\Omega_{u}u_{t}+\Omega_{y}y_{t+1}^{u}\\
+x_{t+1}^{1} & =\Omega_{x}x_{t}^{1}+\Omega_{u}e_{t}+\Omega_{y}y_{t+1}^{u}\\
 x_{t}^{2} & =\Psi_{x}x_{t}^{1}+\Psi_{y}y_{t}^{u}
 \end{align*}
 

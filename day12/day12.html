@@ -213,7 +213,7 @@ class: small
 
 
 ```r
-(ret &lt;- QZ::qz(A, B))
+(ret &lt;- QZ::qz(A, E))
 ```
 
 ```
@@ -553,6 +553,205 @@ x_{t}^{2} &amp; =\Psi_{x}x_{t}^{1}+\Psi_{y}y_{t}^{u}
   \begin{bmatrix}
     u_{t} \\ x_{t}
   \end{bmatrix}
+\end{aligned}$$`
+
+
+---
+
+### 入力項の処理
+
+`$$\begin{aligned}
+  \begin{bmatrix}
+    I &amp; \\
+      &amp; E
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{t+1} \\ x_{t+1}^1 \\ x_{t+1}^2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \Phi &amp; \\
+    B    &amp; A
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{t} \\ x_{t}^1 \\ x_{t}^2
+  \end{bmatrix}
+\end{aligned}$$`
+
+`$$\downarrow$$`
+
+`$$\begin{aligned}
+  \tilde{\!E} 
+  \begin{bmatrix}
+    \tilde{\!x}^1_{t+1} \\ x_{t+1}^2
+  \end{bmatrix}
+  =
+  \tilde{\!A}
+  \begin{bmatrix}
+    \tilde{\!x}^1_{t} \\ x_{t}^2
+  \end{bmatrix}
+\end{aligned}$$`
+
+---
+
+### 入力項の処理: AR ショックの解
+
+`\(x\)` の定義を適切に扱えば `\(Ex_{t+1} = Ax_t\)` の解法を使ってARショックのケースを解くことができる 
+
+`$$\begin{aligned}
+x_{t+1}^{1} &amp;= h(x_t^1) = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}x_{t}^{1}\\
+x_{t}^{2} &amp;= g(x_t^1) = Z_{2s}Z_{1s}^{-1}x_{t}^{1}
+\end{aligned}$$`
+
+
+---
+
+## Impulse Response
+
+`\(\Phi = 0\)`, `\(u_0 = 1\)` として以下のモデルをとけばよい
+
+`$$\begin{aligned}
+  \begin{bmatrix}
+    I &amp; \\
+      &amp; E
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_{t+1} \\ x_{t+1}^1 \\ x_{t+1}^2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    0    &amp; \\
+    B    &amp; A
+  \end{bmatrix}
+  \begin{bmatrix}
+    u_t \\ x_{t}^1 \\ x_{t}^2
+  \end{bmatrix}
+\end{aligned}$$`
+
+---
+
+## 確率モデル
+
+`$$E \mathbb E_t[x_{t+1}]=Ax_{t}+Bu_{t}$$`
+
+* `\(E, A, B\)`: constant matrices
+* `\(\mathbb E_t\)`: conditional expectations operator
+
+
+モデルの解は
+
+`$$\begin{aligned}
+  x_{t+1}^1 &amp;= h\left(x_t^1, 
+    (\mathbb E_t [u_\tau])_{\tau \ge t} \right) + \epsilon_{t+1}\\
+  x_t^2 &amp;= g\left(x_t^1, 
+     (\mathbb E_t [u_\tau])_{\tau \ge t} \right) 
+\end{aligned}$$`
+
+と表される。ただし, `\(\epsilon\)` は予測誤差
+
+`$$\mathbb E_t [\epsilon_{t+1}] = 0$$`
+
+
+---
+
+### 先決変数
+
+Klein (2000) による先決変数（backward-looking variable）の定義を確認しておく
+
+`\(x^1\)` が先決変数であるとは
+
+* `\(x^1_0 = \bar x^1_0\)` almost surely
+* `\(\mathbb E_t x_{t+1}^1 = x_{t+1}^1 + \epsilon_{t+1}\)`, すなわち
+  `\(\mathbb E_{t} \epsilon_{t+1} = 0\)`
+  
+`\(t\)`期では予測できない誤差を除いて，  `\(t+1\)`期の値を決めることができる変数が先決変数
+
+分散共分散行列 `\(\mathbb E_t \epsilon_{t+1}\epsilon_{t+1}^\top\)` は positive semidefinite ( 決定論的な成分を含んでいてもよい `\(\epsilon_{t+1, i} = 0\)` a.s.)
+
+
+---
+
+### 条件付き期待値
+
+LREモデルの解法を学ぶ上では次のことを理解していればよい
+
+`\(X\)` を確率変数として
+
+* `\(\mathbb E_t\)` は通常の期待値と同様に線形である
+* `\(\mathbb E_t X\)` も確率変数である。 `\(\mathbb E_t X\)` は典型的には
+  `\(x^1_t\)` などの `\(t\)` 期までに確定している変数で表現できる
+* `\(\mathbb E_t x_t = x_t\)`
+* 次の公式が使える `\(\mathbb E_t \mathbb E_{t+1} X = \mathbb E_t X\)`
+
+
+---
+
+## 解こうとするモデル
+
+形式的には
+
+`$$\begin{aligned}
+  \begin{bmatrix}
+    I &amp; \\
+      &amp; E
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mathbb E_t u_{t+1} \\ \mathbb E_t x_{t+1}^1 \\ \mathbb E_t x_{t+1}^2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \Phi    &amp; \\
+    B    &amp; A
+  \end{bmatrix}
+  \begin{bmatrix}
+    \mathbb E_t u_t \\ \mathbb E_t x_{t}^1 \\ \mathbb E_t x_{t}^2
+  \end{bmatrix}
+\end{aligned}$$`
+
+あるいは `\(x_t^1\)` が `\(u_t\)` を含んでいると考えれば
+
+`$$\begin{aligned}
+  E
+  \begin{bmatrix}
+    \mathbb E_t x_{t+1}^1 \\ \mathbb E_t x_{t+1}^2
+  \end{bmatrix}
+  =
+  A
+  \begin{bmatrix}
+   \mathbb E_t x_{t}^1 \\ \mathbb E_t x_{t}^2
+  \end{bmatrix}
+\end{aligned}$$`
+
+というモデルを解けばいい
+
+---
+
+
+#### 解
+
+決定論のケースの記法をそのまま使って解を次のように書ける
+
+`$$\begin{aligned}
+\mathbb E_t x_{t+1}^{1} &amp;= h(\mathbb E_t x_t^1) = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1} \mathbb E_t x_{t}^{1}\\
+\mathbb E_t x_{t}^{2} &amp;= g(\mathbb E_t x_t^1) = Z_{2s}Z_{1s}^{-1} \mathbb E_t x_{t}^{1}
+\end{aligned}$$`
+
+冗長な `\(\mathbb E_t\)` を除去して
+
+`$$\begin{aligned}
+\mathbb E_t x_{t+1}^{1} &amp;= h(x_t^1) 
+  = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1} x_{t}^{1}\\
+x_{t}^{2} &amp;= g(x_t^1) 
+  = Z_{2s}Z_{1s}^{-1} x_{t}^{1}
+\end{aligned}$$`
+
+先決変数の定義から
+
+`$$\begin{aligned}
+x_{t+1}^{1} &amp;= h(x_t^1) + \epsilon_{t+1}
+  = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1} x_{t}^{1} + \epsilon_{t+1}\\
+x_{t}^{2} &amp;= g(x_t^1) 
+  = Z_{2s}Z_{1s}^{-1} x_{t}^{1}
 \end{aligned}$$`
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
