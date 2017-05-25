@@ -116,7 +116,7 @@ $\{E_{k}\}$ を $E$ に収束する正則行列の列とする. $AE_{k}^{-1}$ �
 
 $$Q_{k}^{*}\left(AE_{k}^{-1}\right)Q_{k}=R_{k}$$
 
-は上三角行列である. $E_{k}^{-1}Q_{k}$ にQR分解 (Hermite $\times$ Upper Triangular) をほどこして, 
+は上三角行列である. $E_{k}^{-1}Q_{k}$ にQR分解 (Unitary $\times$ Upper Triangular) をほどこして, 
 
 $$E_{k}^{-1}Q_{k}=Z_{k}S_{k}^{-1}$$ 
 
@@ -716,7 +716,7 @@ $(\tilde{\!E}, \tilde{\!A})$ に対するQZ分解を用いて
 
 $$\begin{aligned}
 \mathbb E_t\ \tilde{\!x}^1_{t} &= h(\tilde{\!x}^1_{t}) 
-  = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1} x_{t}^{1}\\
+  = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1} \tilde{\!x}^1_{t}\\
 x_{t}^{2} &= g(\tilde{\!x}^1_{t}) 
   = Z_{2s}Z_{1s}^{-1} \tilde{\!x}^1_{t}
 \end{aligned}$$
