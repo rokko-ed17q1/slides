@@ -630,6 +630,13 @@ x_{t}^{2} &amp;= g(x_t^1) = Z_{2s}Z_{1s}^{-1}x_{t}^{1}
 
 ---
 
+class: center, middle
+ # Stochastic Model 
+
+
+
+---
+
 ## 確率モデル
 
 `$$E \mathbb E_t[x_{t+1}]=Ax_{t}+Bu_{t}$$`
@@ -642,14 +649,14 @@ x_{t}^{2} &amp;= g(x_t^1) = Z_{2s}Z_{1s}^{-1}x_{t}^{1}
 
 `$$\begin{aligned}
   x_{t+1}^1 &amp;= h\left(x_t^1, 
-    (\mathbb E_t [u_\tau])_{\tau \ge t} \right) + \epsilon_{t+1}\\
+    (\mathbb E_t [u_\tau])_{\tau \ge t} \right) + \xi_{t+1}\\
   x_t^2 &amp;= g\left(x_t^1, 
      (\mathbb E_t [u_\tau])_{\tau \ge t} \right) 
 \end{aligned}$$`
 
-と表される。ただし, `\(\epsilon\)` は予測誤差
+と表される。ただし, `\(\xi\)` は予測誤差
 
-`$$\mathbb E_t [\epsilon_{t+1}] = 0$$`
+`$$\mathbb E_t [\xi_{t+1}] = 0$$`
 
 
 ---
@@ -661,12 +668,12 @@ Klein (2000) による先決変数（backward-looking variable）の定義を確
 `\(x^1\)` が先決変数であるとは
 
 * `\(x^1_0 = \bar x^1_0\)` almost surely
-* `\(\mathbb E_t x_{t+1}^1 = x_{t+1}^1 + \epsilon_{t+1}\)`, すなわち
-  `\(\mathbb E_{t} \epsilon_{t+1} = 0\)`
+* `\(\mathbb E_t x_{t+1}^1 = x_{t+1}^1 + \xi_{t+1}\)`, すなわち
+  `\(\mathbb E_{t} \xi_{t+1} = 0\)`
   
 `\(t\)`期では予測できない誤差を除いて，  `\(t+1\)`期の値を決めることができる変数が先決変数
 
-分散共分散行列 `\(\mathbb E_t \epsilon_{t+1}\epsilon_{t+1}^\top\)` は positive semidefinite ( 決定論的な成分を含んでいてもよい `\(\epsilon_{t+1, i} = 0\)` a.s.)
+分散共分散行列 `\(\mathbb E_t \xi_{t+1}\xi_{t+1}^\top\)` は positive semidefinite ( 決定論的な成分を含んでいてもよい `\(\xi_{t+1, i} = 0\)` a.s.)
 
 
 ---
@@ -684,9 +691,60 @@ LREモデルの解法を学ぶ上では次のことを理解していればよ�
 * 次の公式が使える `\(\mathbb E_t \mathbb E_{t+1} X = \mathbb E_t X\)`
 
 
+決定論のケースと同じ `\(g\)` と `\(h\)` がモデルの解になっている
+
 ---
 
-## 解こうとするモデル
+### 解法の概略
+
+`\(\mathbb E_t\)` 条件付きの解を次のように書ける
+
+`$$\begin{aligned}
+\mathbb E_t x_{t+1}^{1} &amp;= h(\mathbb E_t x_t^1) = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1} \mathbb E_t x_{t}^{1}\\
+\mathbb E_t x_{t}^{2} &amp;= g(\mathbb E_t x_t^1) = Z_{2s}Z_{1s}^{-1} \mathbb E_t x_{t}^{1}
+\end{aligned}$$`
+
+冗長な `\(\mathbb E_t\)` を除去して
+
+`$$\begin{aligned}
+\mathbb E_t x_{t+1}^{1} &amp;= h(x_t^1) 
+  = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1} x_{t}^{1}\\
+x_{t}^{2} &amp;= g(x_t^1) 
+  = Z_{2s}Z_{1s}^{-1} x_{t}^{1}
+\end{aligned}$$`
+
+先決変数の定義から
+
+`$$\begin{aligned}
+x_{t+1}^{1} &amp;= h(x_t^1) + \xi_{t+1}
+  = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1} x_{t}^{1} + \xi_{t+1}\\
+x_{t}^{2} &amp;= g(x_t^1) 
+  = Z_{2s}Z_{1s}^{-1} x_{t}^{1}
+\end{aligned}$$`
+
+---
+
+## 典型的な想定
+
+`$$\begin{aligned}
+E \mathbb E_t[x_{t+1}]
+  &amp;= Ax_{t}+Bu_{t}\\
+u_{t+1} &amp;= \Phi u_t + \epsilon_{t+1}
+\end{aligned}$$`
+
+`\(\epsilon_{t+1}\)` は確率過程
+
+* `\(\mathbb E_t \epsilon_{t+1} = 0\)`, a.s.
+* `\(\mathbb E_t \epsilon_{t+1}\epsilon_{t+1} = \Sigma\)`, a.s.
+
+
+**通常の意味の先決変数 ( `\(x^1_t\)`) は `\(\mathbb E_t\)`- 条件付きの期待が実現するものとする**
+
+
+---
+
+### 解こうとするモデル
+
 
 形式的には
 
@@ -711,14 +769,16 @@ LREモデルの解法を学ぶ上では次のことを理解していればよ�
 あるいは `\(x_t^1\)` が `\(u_t\)` を含んでいると考えれば
 
 `$$\begin{aligned}
-  E
+  \tilde{\!E} 
   \begin{bmatrix}
-    \mathbb E_t x_{t+1}^1 \\ \mathbb E_t x_{t+1}^2
+    \mathbb E_t\ \tilde{\!x}^1_{t+1} \\ 
+    \mathbb E_t x_{t+1}^2
   \end{bmatrix}
   =
-  A
+  \tilde{\!A}
   \begin{bmatrix}
-   \mathbb E_t x_{t}^1 \\ \mathbb E_t x_{t}^2
+    \mathbb E_t \ \tilde{\!x}^1_{t} \\ 
+    \mathbb E_t x_{t}^2
   \end{bmatrix}
 \end{aligned}$$`
 
@@ -726,33 +786,75 @@ LREモデルの解法を学ぶ上では次のことを理解していればよ�
 
 ---
 
+## 解
 
-#### 解
-
-決定論のケースの記法をそのまま使って解を次のように書ける
-
-`$$\begin{aligned}
-\mathbb E_t x_{t+1}^{1} &amp;= h(\mathbb E_t x_t^1) = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1} \mathbb E_t x_{t}^{1}\\
-\mathbb E_t x_{t}^{2} &amp;= g(\mathbb E_t x_t^1) = Z_{2s}Z_{1s}^{-1} \mathbb E_t x_{t}^{1}
-\end{aligned}$$`
-
-冗長な `\(\mathbb E_t\)` を除去して
+`\((\tilde{\!E}, \tilde{\!A})\)` に対するQZ分解を用いて
 
 `$$\begin{aligned}
-\mathbb E_t x_{t+1}^{1} &amp;= h(x_t^1) 
+\mathbb E_t\ \tilde{\!x}^1_{t} &amp;= h(\tilde{\!x}^1_{t}) 
   = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1} x_{t}^{1}\\
-x_{t}^{2} &amp;= g(x_t^1) 
-  = Z_{2s}Z_{1s}^{-1} x_{t}^{1}
+x_{t}^{2} &amp;= g(\tilde{\!x}^1_{t}) 
+  = Z_{2s}Z_{1s}^{-1} \tilde{\!x}^1_{t}
 \end{aligned}$$`
 
-先決変数の定義から
+`$$\downarrow$$`
 
 `$$\begin{aligned}
-x_{t+1}^{1} &amp;= h(x_t^1) + \epsilon_{t+1}
-  = Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1} x_{t}^{1} + \epsilon_{t+1}\\
-x_{t}^{2} &amp;= g(x_t^1) 
-  = Z_{2s}Z_{1s}^{-1} x_{t}^{1}
+  \begin{bmatrix}
+    u_{t+1} \\
+    x_{t+1}^1
+  \end{bmatrix}
+  =
+  Z_{1s}S_{ss}^{-1}T_{ss}Z_{1s}^{-1}
+  \begin{bmatrix}
+    u_{t} \\
+    x_{t}^1
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+    I \\
+    0
+  \end{bmatrix}
+  \epsilon_{t+1}
 \end{aligned}$$`
+
+
+---
+
+## Example: Neoclassical Growth Model
+
+Euler Equation: 
+`$$c_t^{-\gamma} 
+  = \beta \mathbb E_t \left[
+    c_{t+1}^{-\gamma}
+    \left(
+      \alpha A_{t+1} k_{t+1}^{\alpha - 1}
+    +1 - \delta
+    \right)
+  \right]$$`
+  
+Capital Accumulation (National Income Identity): 
+
+`$$c_t + k_{t + 1}
+  = A_t k_t ^ \alpha + (1 - \delta) k_t$$`
+  
+Productivity Shock: 
+  
+`$$\log A_{t+1}
+  = \rho \log A_t + \sigma \epsilon_{t+1}$$`
+
+
+---
+
+## Example: Analysis Strategy
+
+1. Solve for a non-stochastic ( `\(\epsilon\equiv 0\)`) steady state: `\((\bar A, \bar k, \bar c)\)`
+2. Linearize around `\((\bar A, \bar k, \bar c)\)` to get a linearized system.
+3. Use Klein's method to compute the linear policy functions.
+
+Then compute higher order approximations if necessary (Perturbation Method would be the next step).
+
+* Schmitt-Grohé and Uribe (2004)
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
